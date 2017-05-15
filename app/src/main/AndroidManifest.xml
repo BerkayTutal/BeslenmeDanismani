@@ -19,7 +19,8 @@
         <activity
             android:name=".BaseDrawerActivity"
             android:label="@string/title_activity_base_drawer" />
-        <activity android:name=".HomepageActivity"></activity>
+        <activity android:name=".HomepageActivity" />
+        <activity android:name=".AllListingsActivity"></activity>
     </application>
 
 </manifest>
