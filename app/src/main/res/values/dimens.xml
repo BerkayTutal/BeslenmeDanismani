@@ -8,8 +8,12 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <!-- Custom Dimens -->
+
+    <dimen name="listingHeight">100dp</dimen>
+    <dimen name="homeListingHeight">400dp</dimen>
     <dimen name="listingImageWidth">82dp</dimen>
     <dimen name="listingImageHeight">82dp</dimen>
 
-    <dimen name="listingTextMarginBottom">3dp</dimen>
+    <dimen name="listingTextMarginBottom">2dp</dimen>
+
 </resources>
