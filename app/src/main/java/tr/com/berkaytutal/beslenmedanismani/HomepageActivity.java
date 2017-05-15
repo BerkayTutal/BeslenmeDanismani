@@ -15,8 +15,8 @@ public class HomepageActivity extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
 
-        Intent i = new Intent(this,AllListingsActivity.class);
-        startActivity(i);
+//        Intent i = new Intent(this,AllListingsActivity.class);
+//        startActivity(i);
 
 
         ListView programList = (ListView) findViewById(R.id.homeFirstList);
@@ -29,7 +29,7 @@ public class HomepageActivity extends BaseDrawerActivity {
         arr.add(1);
 
 
-        ProgramListingAdapter pla = new ProgramListingAdapter(this,arr);
+        ProgramListingAdapter pla = new ProgramListingAdapter(this,arr,PublicVariables.TYPE_HOMEPAGE_LISTING);
         programList.setAdapter(pla);
 
         programList2.setAdapter(pla);
