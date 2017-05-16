@@ -12,7 +12,7 @@ public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefr
     private ListView listView;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-
+//AwesomeSlidingUpPanel Sayfası: https://github.com/umano/AndroidSlidingUpPanel
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
