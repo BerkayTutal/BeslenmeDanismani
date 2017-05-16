@@ -1,12 +1,9 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class HomepageActivity extends BaseDrawerActivity {
 
@@ -29,7 +26,7 @@ public class HomepageActivity extends BaseDrawerActivity {
         arr.add(1);
 
 
-        ProgramListingAdapter pla = new ProgramListingAdapter(this,arr,PublicVariables.TYPE_HOMEPAGE_LISTING);
+        ProgramListingAdapter pla = new ProgramListingAdapter(this,arr,PublicVariables.TYPE_LISTINGS_HOMEPAGE);
         programList.setAdapter(pla);
 
         programList2.setAdapter(pla);

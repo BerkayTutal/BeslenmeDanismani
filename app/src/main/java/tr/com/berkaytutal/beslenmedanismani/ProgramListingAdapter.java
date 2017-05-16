@@ -3,7 +3,6 @@ package tr.com.berkaytutal.beslenmedanismani;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +61,7 @@ public class ProgramListingAdapter extends BaseAdapter {
         final View listeElemani = li.inflate(R.layout.listing_adapter_program,null);
 
 
-       if(type == PublicVariables.TYPE_ALL_LISTINGS){
+       if(type == PublicVariables.TYPE_LISTINGS_ALL){
            listeElemani.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {
@@ -70,7 +69,7 @@ public class ProgramListingAdapter extends BaseAdapter {
                }
            });
        }
-       else if(type == PublicVariables.TYPE_HOMEPAGE_LISTING){
+       else if(type == PublicVariables.TYPE_LISTINGS_HOMEPAGE){
            listeElemani.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {

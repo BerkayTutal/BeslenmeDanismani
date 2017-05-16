@@ -5,6 +5,6 @@ package tr.com.berkaytutal.beslenmedanismani;
  */
 
 public interface PublicVariables {
-    int TYPE_ALL_LISTINGS = 1;
-    int TYPE_HOMEPAGE_LISTING = 2;
+    int TYPE_LISTINGS_ALL = 1;
+    int TYPE_LISTINGS_HOMEPAGE  = 2;
 }
