@@ -15,5 +15,6 @@
     <dimen name="listingImageHeight">82dp</dimen>
 
     <dimen name="listingTextMarginBottom">2dp</dimen>
+    <dimen name="filterLinearLayoutsHeight">48dp</dimen>
 
 </resources>

@@ -7,12 +7,14 @@ package tr.com.berkaytutal.beslenmedanismani.Utils;
 public class SearchPreferences {
 
     private String query;
+    private String trainerQuery;
     private String category;
     private String hardnessLevel;
     private String sortBy;
 
-    public SearchPreferences(String query, String category, String hardnessLevel, String sortBy) {
+    public SearchPreferences(String query, String trainerQuery, String category, String hardnessLevel, String sortBy) {
         this.query = query;
+        this.trainerQuery = trainerQuery;
         this.category = category;
         this.hardnessLevel = hardnessLevel;
         this.sortBy = sortBy;
@@ -48,5 +50,13 @@ public class SearchPreferences {
 
     public void setSortBy(String sortBy) {
         this.sortBy = sortBy;
+    }
+
+    public String getTrainerQuery() {
+        return trainerQuery;
+    }
+
+    public void setTrainerQuery(String trainerQuery) {
+        this.trainerQuery = trainerQuery;
     }
 }

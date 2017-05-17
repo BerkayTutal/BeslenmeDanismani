@@ -19,7 +19,11 @@
     <string name="title_activity_settings">Settings</string>
 
     <!--Filter page strings-->
-
+    <string name="searchQuery">Search Query:</string>
+    <string name="trainerQuery">Trainer Query:</string>
+    <string name="categorySearchSelection">Category:</string>
+    <string name="hardnessSearchSelection">Hardness:</string>
+    <string name="sortBySelection">Sort By:</string>
     <string name="buttonCancel">Cancel</string>
     <string name="buttonApply">Apply</string>
 
