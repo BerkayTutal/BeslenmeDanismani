@@ -26,6 +26,13 @@
     <string name="sortBySelection">Sort By:</string>
     <string name="buttonCancel">Cancel</string>
     <string name="buttonApply">Apply</string>
+    <string name="all">All</string>
+    <array name="sortBy">
+        <item>Latest</item>
+        <item>Price</item>
+        <item>Title</item>
+        <item>Trainer</item>
+    </array>
 
     <!-- Strings related to Settings -->
 

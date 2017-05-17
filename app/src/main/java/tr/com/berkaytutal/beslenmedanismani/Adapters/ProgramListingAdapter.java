@@ -1,4 +1,4 @@
-package tr.com.berkaytutal.beslenmedanismani;
+package tr.com.berkaytutal.beslenmedanismani.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import tr.com.berkaytutal.beslenmedanismani.AllListingsActivity;
+import tr.com.berkaytutal.beslenmedanismani.R;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
 
 /**

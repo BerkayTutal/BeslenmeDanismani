@@ -50,20 +50,7 @@ public class BaseDrawerActivity extends AppCompatActivity
 
 
         filterButton = (FloatingActionButton) findViewById(R.id.fab);
-        filterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                Intent intent = new Intent(getApplicationContext(),SearchFilterActivity.class);
-                startActivity(intent);
-//                overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
-
-
-
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -143,6 +130,45 @@ public class BaseDrawerActivity extends AppCompatActivity
             filterButton.setVisibility(View.VISIBLE);
         } else {
             filterButton.setVisibility(View.GONE);
+        }
+
+    }
+
+    protected void setFilterButtonListener(int type){
+        if(type == PublicVariables.FILTER_BUTTON_TYPE_PROGRAM)
+        {
+            filterButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent = new Intent(getApplicationContext(),SearchFilterActivity.class);
+                    startActivity(intent);
+//                overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
+
+
+
+                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+        }
+        else if(type == PublicVariables.FILTER_BUTTON_TYPE_USER){
+            filterButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    //TODO buraya özel searchfilter eklenecek
+
+                    Intent intent = new Intent(getApplicationContext(),SearchFilterActivity.class);
+                    startActivity(intent);
+//                overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
+
+
+
+                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
         }
 
     }

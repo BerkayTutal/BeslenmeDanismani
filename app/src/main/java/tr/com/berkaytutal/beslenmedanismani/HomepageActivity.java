@@ -1,10 +1,13 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import tr.com.berkaytutal.beslenmedanismani.Adapters.ProgramListingAdapter;
+import tr.com.berkaytutal.beslenmedanismani.Adapters.UserListingAdapter;
 import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
 
@@ -15,7 +18,7 @@ public class HomepageActivity extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
 
-//        Intent i = new Intent(this,AllListingsActivity.class);
+//        Intent i = new Intent(this,AllUsersActivity.class);
 //        startActivity(i);
 
 
@@ -32,7 +35,9 @@ public class HomepageActivity extends BaseDrawerActivity {
         ProgramListingAdapter pla = new ProgramListingAdapter(this,arr, PublicVariables.TYPE_LISTINGS_HOMEPAGE);
         programList.setAdapter(pla);
 
-        programList2.setAdapter(pla);
+        UserListingAdapter ula = new UserListingAdapter(this,arr,PublicVariables.TYPE_LISTINGS_HOMEPAGE);
+
+        programList2.setAdapter(ula);
 
 
 

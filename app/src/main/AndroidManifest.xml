@@ -21,6 +21,7 @@
             android:label="@string/title_activity_base_drawer" />
         <activity android:name=".HomepageActivity" />
         <activity android:name=".AllListingsActivity" />
+        <activity android:name=".AllUsersActivity" />
         <activity android:name=".SearchFilterActivity"></activity>
     </application>
 

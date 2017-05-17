@@ -9,11 +9,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import tr.com.berkaytutal.beslenmedanismani.Adapters.ProgramListingAdapter;
+import tr.com.berkaytutal.beslenmedanismani.Adapters.UserListingAdapter;
 import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
 
-public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
+public class AllUsersActivity extends BaseDrawerActivity implements SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
 
     private ListView listView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -23,7 +23,8 @@ public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_listings);
         setFilterButtonVisibility(true);
-        setFilterButtonListener(PublicVariables.FILTER_BUTTON_TYPE_PROGRAM);
+        setFilterButtonListener(PublicVariables.FILTER_BUTTON_TYPE_USER);
+
         searchView.setVisibility(View.VISIBLE);
 //        searchView.setIconified(false);
 
@@ -69,21 +70,10 @@ public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefr
         arr.add(1);
         arr.add(1);
         arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
 
-        ProgramListingAdapter pla = new ProgramListingAdapter(this, arr, PublicVariables.TYPE_LISTINGS_ALL);
-        listView.setAdapter(pla);
+
+        UserListingAdapter ula = new UserListingAdapter(this, arr, PublicVariables.TYPE_LISTINGS_ALL);
+        listView.setAdapter(ula);
 
     }
 

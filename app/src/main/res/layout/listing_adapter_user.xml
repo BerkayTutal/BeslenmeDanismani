@@ -8,12 +8,13 @@
     android:padding="8dp">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/trainerImageSmall"
         android:layout_width="@dimen/listingImageWidth"
         android:layout_height="@dimen/listingImageHeight"
         app:srcCompat="@android:color/darker_gray"
         android:layout_gravity="center_vertical"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginRight="10dp"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,9 +26,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/listingTextMarginBottom"
-            android:text="Title"
+            android:text="Name Surname"
             android:textColor="@color/primary_text"
-            android:textSize="16sp" />
+            android:textSize="18sp"
+            android:id="@+id/trainerNameText"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,20 +38,23 @@
             android:layout_marginBottom="@dimen/listingTextMarginBottom"
             android:text="Hardness"
             android:textColor="@color/secondary_text" />
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_gravity="right"
+    android:gravity="center_vertical">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_star"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trainer"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/trainerStarsText"/>
+</LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginBottom="@dimen/listingTextMarginBottom"
-            android:text="Category"
-            android:textColor="@color/secondary_text" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="Trainer"
-            android:textColor="@color/colorAccent" />
     </LinearLayout>
 </LinearLayout>

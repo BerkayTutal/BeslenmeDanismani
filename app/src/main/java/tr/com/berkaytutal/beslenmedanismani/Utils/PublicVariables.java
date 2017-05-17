@@ -7,4 +7,10 @@ package tr.com.berkaytutal.beslenmedanismani.Utils;
 public interface PublicVariables {
     int TYPE_LISTINGS_ALL = 1;
     int TYPE_LISTINGS_HOMEPAGE  = 2;
+
+
+
+
+    int FILTER_BUTTON_TYPE_PROGRAM = 1;
+    int FILTER_BUTTON_TYPE_USER = 2;
 }
