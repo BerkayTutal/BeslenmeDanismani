@@ -5,6 +5,9 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
+import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
+
 public class HomepageActivity extends BaseDrawerActivity {
 
     @Override
@@ -26,7 +29,7 @@ public class HomepageActivity extends BaseDrawerActivity {
         arr.add(1);
 
 
-        ProgramListingAdapter pla = new ProgramListingAdapter(this,arr,PublicVariables.TYPE_LISTINGS_HOMEPAGE);
+        ProgramListingAdapter pla = new ProgramListingAdapter(this,arr, PublicVariables.TYPE_LISTINGS_HOMEPAGE);
         programList.setAdapter(pla);
 
         programList2.setAdapter(pla);

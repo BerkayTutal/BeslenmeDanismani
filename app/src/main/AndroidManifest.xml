@@ -17,10 +17,11 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity
-            android:name=".BaseDrawerActivity"
+            android:name=".Utils.BaseDrawerActivity"
             android:label="@string/title_activity_base_drawer" />
         <activity android:name=".HomepageActivity" />
-        <activity android:name=".AllListingsActivity"></activity>
+        <activity android:name=".AllListingsActivity" />
+        <activity android:name=".SearchFilterActivity"></activity>
     </application>
 
 </manifest>

@@ -1,12 +1,9 @@
-package tr.com.berkaytutal.beslenmedanismani;
+package tr.com.berkaytutal.beslenmedanismani.Utils;
 
-import android.app.SearchManager;
-import android.content.Context;
-import android.os.Bundle;
+import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -19,21 +16,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewStub;
 
+import tr.com.berkaytutal.beslenmedanismani.R;
+import tr.com.berkaytutal.beslenmedanismani.SearchFilterActivity;
+
 public class BaseDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    private FloatingActionButton fab;
+    protected FloatingActionButton filterButton;
+    protected SearchView searchView;
 
 
     @Override
-    public void setContentView(@LayoutRes int layoutID){
+    public void setContentView(@LayoutRes int layoutID) {
         super.setContentView(R.layout.activity_base_drawer);
         onCreateDrawer(layoutID);
+
+        searchView = (SearchView) findViewById(R.id.searchView);
     }
-    protected void onCreateDrawer(@LayoutRes int layoutID){
 
-
+    protected void onCreateDrawer(@LayoutRes int layoutID) {
 
 
         ViewStub stub = (ViewStub) this.findViewById(R.id.myViewStub);
@@ -47,10 +49,15 @@ public class BaseDrawerActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        filterButton = (FloatingActionButton) findViewById(R.id.fab);
+        filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Intent intent = new Intent(getApplicationContext(),SearchFilterActivity.class);
+                startActivity(intent);
+
+
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -88,8 +95,6 @@ public class BaseDrawerActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-
 
 
         // Handle action bar item clicks here. The action bar will
@@ -131,15 +136,15 @@ public class BaseDrawerActivity extends AppCompatActivity
         return true;
     }
 
-    protected void setFilterButtonVisibility(boolean visibility){
-        if(visibility){
-            fab.setVisibility(View.VISIBLE);
-        }
-        else{
-            fab.setVisibility(View.GONE);
+    protected void setFilterButtonVisibility(boolean visibility) {
+        if (visibility) {
+            filterButton.setVisibility(View.VISIBLE);
+        } else {
+            filterButton.setVisibility(View.GONE);
         }
 
     }
 
 
 }
+

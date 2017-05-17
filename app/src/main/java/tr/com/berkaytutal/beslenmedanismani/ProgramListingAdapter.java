@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
+
 /**
  * Created by berka on 15.05.2017.
  */

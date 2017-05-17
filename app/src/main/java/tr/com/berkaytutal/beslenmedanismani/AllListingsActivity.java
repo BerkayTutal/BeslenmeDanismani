@@ -1,13 +1,19 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.SearchView;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefreshLayout.OnRefreshListener{
+import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
+import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
+
+public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
 
     private ListView listView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -17,8 +23,10 @@ public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_listings);
         setFilterButtonVisibility(true);
+        searchView.setVisibility(View.VISIBLE);
+//        searchView.setIconified(false);
 
-
+        searchView.setOnQueryTextListener(this);
 
 
 
@@ -71,7 +79,7 @@ public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefr
         arr.add(1);
         arr.add(1);
 
-        ProgramListingAdapter pla = new ProgramListingAdapter(this,arr,PublicVariables.TYPE_LISTINGS_ALL);
+        ProgramListingAdapter pla = new ProgramListingAdapter(this, arr, PublicVariables.TYPE_LISTINGS_ALL);
         listView.setAdapter(pla);
 
     }
@@ -85,6 +93,15 @@ public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefr
     }
 
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
 
+        Toast.makeText(this,query,Toast.LENGTH_SHORT).show();
+        return false;
+    }
 
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
 }

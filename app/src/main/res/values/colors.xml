@@ -15,4 +15,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="gradientStart">#bababa</color>
     <color name="gradientEnd">#949494</color>
+
+    <color name="colorGreen">#00701a</color>
+    <color name="colorRedDark">#b71c1c</color>
 </resources>

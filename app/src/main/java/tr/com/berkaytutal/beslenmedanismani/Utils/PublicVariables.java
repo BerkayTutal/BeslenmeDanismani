@@ -1,4 +1,4 @@
-package tr.com.berkaytutal.beslenmedanismani;
+package tr.com.berkaytutal.beslenmedanismani.Utils;
 
 /**
  * Created by berka on 15.05.2017.
