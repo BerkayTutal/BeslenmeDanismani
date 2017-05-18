@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">Beslenme Danismani</string>
+    <string name="app_name">TrainR</string>
     <string name="title_activity_main">MainActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
 
     <string name="action_settings">Settings</string>
     <array name="testArray">
@@ -33,6 +34,17 @@
         <item>Title</item>
         <item>Trainer</item>
     </array>
+
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="birthday">Birthday</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="passwordAgain">Password (again)</string>
+    <string name="login">LOGIN</string>
+    <string name="register">REGISTER</string>
+    <string name="createnewAccount">Create New Account</string>
+    <string name="continueWithoutLogin">Continue without login</string>
 
     <!-- Strings related to Settings -->
 
@@ -105,4 +117,6 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+
+
 </resources>

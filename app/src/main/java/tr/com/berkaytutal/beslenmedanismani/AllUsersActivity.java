@@ -25,6 +25,8 @@ public class AllUsersActivity extends BaseDrawerActivity implements SwipeRefresh
         setFilterButtonVisibility(true);
         setFilterButtonListener(PublicVariables.FILTER_BUTTON_TYPE_USER);
 
+        
+
         searchView.setVisibility(View.VISIBLE);
 //        searchView.setIconified(false);
 

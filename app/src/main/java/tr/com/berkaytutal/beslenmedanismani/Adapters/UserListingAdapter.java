@@ -82,6 +82,7 @@ public class UserListingAdapter extends BaseAdapter {
 
                     Intent intent = new Intent(view.getContext(),AllUsersActivity.class);
                     view.getContext().startActivity(intent);
+
                 }
             });
         }

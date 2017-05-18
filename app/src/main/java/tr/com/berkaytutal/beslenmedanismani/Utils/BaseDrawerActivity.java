@@ -15,7 +15,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewStub;
+import android.widget.Toast;
 
+import tr.com.berkaytutal.beslenmedanismani.LoginActivity;
 import tr.com.berkaytutal.beslenmedanismani.R;
 import tr.com.berkaytutal.beslenmedanismani.SearchFilterActivity;
 
@@ -93,7 +95,10 @@ public class BaseDrawerActivity extends AppCompatActivity
 
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.appBarProfileButton) {
+            Toast.makeText(getApplicationContext(),"Profiiiiil",Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
             return true;
         }
 

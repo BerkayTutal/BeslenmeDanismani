@@ -29,12 +29,13 @@
                 android:iconifiedByDefault="false"
                 android:queryHint="Search"
                 android:visibility="gone"
+                android:layout_gravity="right"
 
 
                 />
+
+
         </android.support.v7.widget.Toolbar>
-
-
 
 
     </android.support.design.widget.AppBarLayout>
@@ -51,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_filter_list"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_filter_list" />
 
 </android.support.design.widget.CoordinatorLayout>

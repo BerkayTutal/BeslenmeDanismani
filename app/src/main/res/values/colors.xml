@@ -12,6 +12,7 @@
 
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDarker">#25307b</color>
     <color name="colorAccent">#FF4081</color>
     <color name="gradientStart">#bababa</color>
     <color name="gradientEnd">#949494</color>

@@ -22,7 +22,9 @@
         <activity android:name=".HomepageActivity" />
         <activity android:name=".AllListingsActivity" />
         <activity android:name=".AllUsersActivity" />
-        <activity android:name=".SearchFilterActivity"></activity>
+        <activity android:name=".SearchFilterActivity" />
+        <activity android:name=".UserProfileActivity" />
+        <activity android:name=".RegisterActivity"></activity>
     </application>
 
 </manifest>
