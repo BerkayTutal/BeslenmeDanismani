@@ -7,13 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import tr.com.berkaytutal.beslenmedanismani.AllListingsActivity;
 import tr.com.berkaytutal.beslenmedanismani.R;
+import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
+import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
+import tr.com.berkaytutal.beslenmedanismani.Utils.UserPOJO;
 
 /**
  * Created by berka on 15.05.2017.
@@ -22,28 +27,19 @@ import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
 public class ProgramListingAdapter extends BaseAdapter {
 
 
-
     private LayoutInflater li;
-    private ArrayList<Integer> list;
+    private ArrayList<ProgramPOJO> list;
     View.OnClickListener onClickListener;
-    private int type;
     private Context context;
 
 
-
-
-    public ProgramListingAdapter(Activity activity, ArrayList<Integer> arrayList) {
+    public ProgramListingAdapter(Activity activity, ArrayList<ProgramPOJO> arrayList) {
         this.context = activity.getApplicationContext();
 
         li = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         list = arrayList;
     }
 
-    public ProgramListingAdapter(Activity activity, ArrayList<Integer> arrayList, int type) {
-
-        this(activity,arrayList);
-        this.type = type;
-    }
 
     @Override
     public int getCount() {
@@ -62,28 +58,33 @@ public class ProgramListingAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
-        final View listeElemani = li.inflate(R.layout.listing_adapter_program,null);
+        final View listeElemani = li.inflate(R.layout.listing_adapter_program, null);
+        ProgramPOJO programPOJO = list.get(i);
+
+        ImageView image = (ImageView) listeElemani.findViewById(R.id.listingImage);
+        TextView title = (TextView) listeElemani.findViewById(R.id.listingTitle);
+        TextView difficulty = (TextView) listeElemani.findViewById(R.id.listingDifficulty);
+        TextView category = (TextView) listeElemani.findViewById(R.id.listingCategory);
+        TextView trainerName = (TextView) listeElemani.findViewById(R.id.listingProgramTrainer);
+
+        title.setText(programPOJO.getProgramTitle());
+        difficulty.setText(programPOJO.getDifficulty());
+        category.setText(programPOJO.getProgramSpec());
+        UserPOJO trainer = ((GlobalVariables)context.getApplicationContext()).getUserByID(programPOJO.getTrainerID());
+        trainerName.setText(trainer.getName() + " " + trainer.getSurname());
 
 
-       if(type == PublicVariables.TYPE_LISTINGS_ALL){
-           listeElemani.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View view) {
-                   Toast.makeText(view.getContext(),"TYPE 1",Toast.LENGTH_SHORT).show();
-               }
-           });
-       }
-       else if(type == PublicVariables.TYPE_LISTINGS_HOMEPAGE){
-           listeElemani.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View view) {
-                   Toast.makeText(view.getContext(), i +"" ,Toast.LENGTH_SHORT).show();
 
-                   Intent intent = new Intent(view.getContext(),AllListingsActivity.class);
-                   view.getContext().startActivity(intent);
-               }
-           });
-       }
+
+        listeElemani.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), i + "", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(view.getContext(), AllListingsActivity.class);
+                view.getContext().startActivity(intent);
+            }
+        });
 
 
         return listeElemani;

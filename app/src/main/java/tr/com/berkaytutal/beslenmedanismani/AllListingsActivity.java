@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 import tr.com.berkaytutal.beslenmedanismani.Adapters.ProgramListingAdapter;
 import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
+import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
+import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
 
 public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
@@ -44,45 +46,9 @@ public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefr
 //        swipeRefreshLayout.setRefreshing(true);
 
 
-        ArrayList arr = new ArrayList();
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
+        ArrayList<ProgramPOJO> allPrograms = ((GlobalVariables)getApplicationContext()).getAllPrograms();
 
-        ProgramListingAdapter pla = new ProgramListingAdapter(this, arr, PublicVariables.TYPE_LISTINGS_ALL);
+        ProgramListingAdapter pla = new ProgramListingAdapter(this, allPrograms);
         listView.setAdapter(pla);
 
     }

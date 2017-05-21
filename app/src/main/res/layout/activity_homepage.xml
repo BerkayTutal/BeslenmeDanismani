@@ -16,8 +16,16 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="@dimen/homeListingHeight"
-            android:id="@+id/homeFirstList"></ListView>
+            android:id="@+id/homeProgramsList"></ListView>
 
+
+    <Button
+        android:id="@+id/homepageSeeAllListingsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/allListingsButton"
+        android:background="@color/colorAccent"
+        android:textColor="#fff"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -28,7 +36,15 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="@dimen/homeListingHeight"
-        android:id="@+id/homeFirstList2"></ListView>
-    </LinearLayout>
+        android:id="@+id/homeTrainersList"></ListView>
+
+    <Button
+        android:id="@+id/homepageSeeAllTrainersButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/allTrainersButton"
+        android:background="@color/colorAccent"
+        android:textColor="#fff"/>
+</LinearLayout>
 
 </ScrollView>

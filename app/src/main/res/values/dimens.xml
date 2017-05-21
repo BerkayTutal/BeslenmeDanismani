@@ -6,11 +6,12 @@
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="layoutPadding">10dp</dimen>
 
     <!-- Custom Dimens -->
 
     <dimen name="listingHeight">100dp</dimen>
-    <dimen name="homeListingHeight">400dp</dimen>
+    <dimen name="homeListingHeight">300dp</dimen>
     <dimen name="listingImageWidth">82dp</dimen>
     <dimen name="listingImageHeight">82dp</dimen>
 

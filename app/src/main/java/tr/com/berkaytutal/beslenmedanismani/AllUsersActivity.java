@@ -11,7 +11,9 @@ import java.util.ArrayList;
 
 import tr.com.berkaytutal.beslenmedanismani.Adapters.UserListingAdapter;
 import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
+import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
+import tr.com.berkaytutal.beslenmedanismani.Utils.UserPOJO;
 
 public class AllUsersActivity extends BaseDrawerActivity implements SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
 
@@ -25,6 +27,7 @@ public class AllUsersActivity extends BaseDrawerActivity implements SwipeRefresh
         setFilterButtonVisibility(true);
         setFilterButtonListener(PublicVariables.FILTER_BUTTON_TYPE_USER);
 
+        ArrayList<UserPOJO> allUsers = ((GlobalVariables)getApplicationContext()).getAllUsers();
         
 
         searchView.setVisibility(View.VISIBLE);
@@ -35,6 +38,8 @@ public class AllUsersActivity extends BaseDrawerActivity implements SwipeRefresh
 
 
         listView = (ListView) findViewById(R.id.allProgramsListView);
+
+
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 
 
@@ -47,34 +52,7 @@ public class AllUsersActivity extends BaseDrawerActivity implements SwipeRefresh
 //        swipeRefreshLayout.setRefreshing(true);
 
 
-        ArrayList arr = new ArrayList();
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-        arr.add(1);
-
-
-        UserListingAdapter ula = new UserListingAdapter(this, arr, PublicVariables.TYPE_LISTINGS_ALL);
+        UserListingAdapter ula = new UserListingAdapter(this, allUsers);
         listView.setAdapter(ula);
 
     }

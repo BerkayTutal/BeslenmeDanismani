@@ -13,4 +13,9 @@ public interface PublicVariables {
 
     int FILTER_BUTTON_TYPE_PROGRAM = 1;
     int FILTER_BUTTON_TYPE_USER = 2;
+
+
+    int homepageListingCount = 3;
+    String allProgramsURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/getAllPrograms/";
+    String allUsersURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/getAllTrainers/";
 }

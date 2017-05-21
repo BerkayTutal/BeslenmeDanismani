@@ -35,6 +35,9 @@
         <item>Trainer</item>
     </array>
 
+    <string name="allListingsButton">See All Programs</string>
+    <string name="allTrainersButton">See All Trainers</string>
+
     <string name="name">Name</string>
     <string name="surname">Surname</string>
     <string name="birthday">Birthday</string>
