@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
@@ -57,9 +58,11 @@ public class SplashScreen extends AppCompatActivity {
                 try {
                     JSONObject jobj = (JSONObject) jsonArray.get(i);
                     String diff = jobj.getString("programDiff");
-                    byte[] imageByte = Base64.decode(jobj.getString("programPhoto"), Base64.DEFAULT);
 
+                    byte[] imageByte = Base64.decode(jobj.getString("programPhoto"), Base64.DEFAULT);
                     Bitmap photo = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+
+
                     String programSpec = jobj.getString("programSpec");
                     String programTitle = jobj.getString("programTittle");
                     int programID = jobj.getInt("program_ID");

@@ -67,6 +67,7 @@ public class ProgramListingAdapter extends BaseAdapter {
         TextView category = (TextView) listeElemani.findViewById(R.id.listingCategory);
         TextView trainerName = (TextView) listeElemani.findViewById(R.id.listingProgramTrainer);
 
+        image.setImageBitmap(programPOJO.getProgramPhoto());
         title.setText(programPOJO.getProgramTitle());
         difficulty.setText(programPOJO.getDifficulty());
         category.setText(programPOJO.getProgramSpec());
