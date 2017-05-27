@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
 
             JSONParser jsonParser = new JSONParser();
-            jsonObject = jsonParser.getJSONObjectFromUrl(PublicVariables.deneme+email+"/"+PasswordHashingMD5.md5(password));
+            jsonObject = jsonParser.getJSONObjectFromUrl(PublicVariables.loginURL+email+"/"+PasswordHashingMD5.md5(password));
             if(jsonObject==null){
                 return "wrongLogin";
             }else {

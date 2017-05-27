@@ -18,4 +18,5 @@ public interface PublicVariables {
     int homepageListingCount = 3;
     String allProgramsURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/getAllPrograms/";
     String allUsersURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/getAllTrainers/";
+    String loginURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/";
 }
