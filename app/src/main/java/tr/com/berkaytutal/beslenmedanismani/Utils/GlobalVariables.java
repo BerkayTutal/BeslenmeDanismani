@@ -12,6 +12,15 @@ public class GlobalVariables extends Application {
 
     private ArrayList<ProgramPOJO> allPrograms;
     private ArrayList<UserPOJO> allUsers;
+    private UserDataPOJO userDataPOJO;
+
+    public void setUserDataPOJO(UserDataPOJO userDataPOJO){
+        this.userDataPOJO=userDataPOJO;
+    }
+
+    public UserDataPOJO getUserDataPOJO(){
+        return  userDataPOJO;
+    }
 
     public ArrayList<ProgramPOJO> getAllPrograms() {
         return allPrograms;

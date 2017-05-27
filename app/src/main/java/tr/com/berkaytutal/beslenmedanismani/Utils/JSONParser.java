@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLConnection;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -18,10 +20,13 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
+import static android.content.ContentValues.TAG;
+
 public class JSONParser {
 
     static InputStream is = null;
     static JSONArray jObj = null;
+    static JSONObject jsonObject=null;
     static String json = "";
 
     // constructor
@@ -29,6 +34,37 @@ public class JSONParser {
 
     }
 
+    public JSONObject getJSONObjectFromUrl(String ul){
+        try {
+            URL url = new URL(ul);
+            URLConnection connection = url.openConnection();
+            //connection.addRequestProperty("Referer", "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=%22mixorg.com%22&rsz=8");
+
+            String line;
+            StringBuilder builder = new StringBuilder();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+                System.out.println(builder.toString());
+            }
+            json = builder.toString();
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error converting result " + e.toString());
+        }
+
+        // try parse the string to a JSON object
+        try {
+            jsonObject = new JSONObject(json);
+        } catch (JSONException e) {
+            Log.e(TAG, "Error parsing json data " + e.toString());
+        } catch (Exception e) {
+
+        }
+        // return JSON String
+        return jsonObject;
+
+    }
     public JSONArray getJSONFromUrl(String url) {
 
         // Making HTTP request

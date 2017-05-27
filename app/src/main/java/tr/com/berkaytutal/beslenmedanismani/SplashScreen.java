@@ -11,8 +11,6 @@ import android.util.Base64;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.sql.Blob;
 import java.util.ArrayList;
 
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
@@ -31,7 +29,7 @@ public class SplashScreen extends AppCompatActivity {
 
         //TODO adaptörlerdeki type'lar gereksiz
 
-        MyAsyncClass asy = new MyAsyncClass();
+       MyAsyncClass asy = new MyAsyncClass();
         asy.execute("test");
 
 

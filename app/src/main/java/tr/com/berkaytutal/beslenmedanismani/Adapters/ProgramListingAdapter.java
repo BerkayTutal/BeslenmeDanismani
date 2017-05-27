@@ -56,7 +56,7 @@ public class ProgramListingAdapter extends BaseAdapter {
         return i;
     }
 
-    @Override  
+    @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
         final View listeElemani = li.inflate(R.layout.listing_adapter_program, null);
         ProgramPOJO programPOJO = list.get(i);

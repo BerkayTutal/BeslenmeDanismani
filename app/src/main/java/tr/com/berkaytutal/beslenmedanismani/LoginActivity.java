@@ -1,6 +1,7 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +9,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
+import tr.com.berkaytutal.beslenmedanismani.Utils.JSONParser;
+import tr.com.berkaytutal.beslenmedanismani.Utils.PasswordHashingMD5;
+import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
+import tr.com.berkaytutal.beslenmedanismani.Utils.UserDataPOJO;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -51,6 +62,10 @@ public class LoginActivity extends AppCompatActivity {
                 if (isMainLogin) {
                     Toast.makeText(getApplicationContext(), "main login", Toast.LENGTH_SHORT).show();
                 }
+
+                MyLoginAsync loginAsync = new MyLoginAsync();
+                loginAsync.execute("test2");
+
             }
         });
 
@@ -83,5 +98,51 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    class MyLoginAsync extends AsyncTask{
+        JSONObject jsonObject;
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            if (o.toString()=="wrongLogin"){
+                Toast.makeText(getApplicationContext(), "Wrong Email or Password !", Toast.LENGTH_SHORT).show();
+            }else{
+                //Giris basarili...
+            }
+        }
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+
+            JSONParser jsonParser = new JSONParser();
+            jsonObject = jsonParser.getJSONObjectFromUrl(PublicVariables.deneme+email+"/"+PasswordHashingMD5.md5(password));
+            if(jsonObject==null){
+                return "wrongLogin";
+            }else {
+
+
+                try {
+                    String user_id = jsonObject.getString("user_ID");
+                    String name = jsonObject.getString("name");
+                    String surname = jsonObject.getString("surname");
+                    String email = jsonObject.getString("email");
+                    String sex = jsonObject.getString("sex");
+                    String birthday = jsonObject.getString("birthday");
+                    String tall = jsonObject.getString("tall");
+                    String weight = jsonObject.getString("weight");
+                    String muscleRate = jsonObject.getString("muscleRate");
+                    String fatRate = jsonObject.getString("fatRate");
+                    String waterRate = jsonObject.getString("waterRate");
+
+                    UserDataPOJO userDataPOJO = new UserDataPOJO(user_id,name,surname,email,sex,birthday,tall,weight,muscleRate,fatRate,waterRate);
+                    ((GlobalVariables) getApplicationContext()).setUserDataPOJO(userDataPOJO);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return null;
+        }
+    }
 
 }
