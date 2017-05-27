@@ -58,11 +58,12 @@ public class UserListingAdapter extends BaseAdapter {
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
         final View listeElemani = li.inflate(R.layout.listing_adapter_user, null);
-        UserPOJO user = list.get(i);
+        final UserPOJO user = list.get(i);
 
         ImageView image = (ImageView) listeElemani.findViewById(R.id.trainerListingImage);
         TextView trainerName = (TextView) listeElemani.findViewById(R.id.trainerNameText);
         trainerName.setText(user.getName() + " " + user.getSurname());
+        image.setImageBitmap(user.getPhoto());
 
 
         listeElemani.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +71,7 @@ public class UserListingAdapter extends BaseAdapter {
             public void onClick(View view) {
 
                 Intent intent = new Intent(view.getContext(), TrainerDetailPage.class);
+                intent.putExtra("userID",user.getUserID());
                 view.getContext().startActivity(intent);
 
             }

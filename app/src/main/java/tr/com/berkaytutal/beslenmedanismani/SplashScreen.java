@@ -88,6 +88,8 @@ public class SplashScreen extends AppCompatActivity {
                 UserPOJO user;
                 try {
                     JSONObject jobj = (JSONObject) jsonArray.get(i);
+
+
                     byte[] imageByte = Base64.decode(jobj.getString("photo"), Base64.DEFAULT);
                     Bitmap photo = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
 

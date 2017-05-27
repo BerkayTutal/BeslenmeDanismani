@@ -21,6 +21,20 @@ public class GlobalVariables extends Application {
         this.allPrograms = allPrograms;
     }
 
+    public ArrayList<ProgramPOJO> getProgramsByTrainerID(int trainerID){
+        ArrayList<ProgramPOJO> programs = new ArrayList<>();
+
+        for (ProgramPOJO program : allPrograms) {
+            if(program.getTrainerID() == trainerID){
+                programs.add(program);
+            }
+
+        }
+        return programs;
+
+
+    }
+
     public ProgramPOJO getProgramByID(int programID){
         for (ProgramPOJO program: allPrograms) {
 
