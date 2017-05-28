@@ -1,6 +1,8 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -48,6 +50,31 @@ public class LoginActivity extends AppCompatActivity {
 
 
         isMainLogin = getIntent().getBooleanExtra("isMainLogin", false);
+        UserDataPOJO userDataPOJO = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
+        if (userDataPOJO != null && !isMainLogin) {
+
+            Intent i = new Intent(this, ProfileActivity.class);
+            startActivity(i);
+            finish();
+
+
+        }
+        if(isMainLogin){
+
+
+            SharedPreferences userDetails = this.getSharedPreferences("userdetails", MODE_PRIVATE);
+            String userEmail = userDetails.getString("userEmail", "");
+            String userPass = userDetails.getString("userPass", "");
+
+            if(!userEmail.equals("") && !userPass.equals("")){
+                email = userEmail;
+                password = userPass;
+                MyLoginAsync loginAsync = new MyLoginAsync();
+                loginAsync.execute("test1");
+            }
+
+
+        }
         //TODO burada da herhangi bir yerden erişmiş olacak, eğer login olduysa profil sayfasına yönlenecek, olmadysa login sayfası gelecek ve login olunca profil sayfasına gidecek
 
 
@@ -76,9 +103,9 @@ public class LoginActivity extends AppCompatActivity {
 
                 email = emailEditText.getText().toString();
                 password = passwordEditText.getText().toString();
-                Intent i = new Intent(view.getContext(),RegisterActivity.class);
-                i.putExtra("email",email);
-                i.putExtra("password",password);
+                Intent i = new Intent(view.getContext(), RegisterActivity.class);
+                i.putExtra("email", email);
+                i.putExtra("password", password);
                 startActivity(i);
 
             }
@@ -98,16 +125,29 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    class MyLoginAsync extends AsyncTask{
+    class MyLoginAsync extends AsyncTask {
         JSONObject jsonObject;
 
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
-            if (o.toString()=="wrongLogin"){
+            if (o.toString().equals("wrongLogin")) {
                 Toast.makeText(getApplicationContext(), "Wrong Email or Password !", Toast.LENGTH_SHORT).show();
-            }else{
+            } else {
                 //Giris basarili...
+
+                SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", MODE_PRIVATE);
+                SharedPreferences.Editor edit = userDetails.edit();
+                edit.clear();
+                edit.putString("userEmail", email);
+                edit.putString("userPass", password);
+                edit.commit();
+                Toast.makeText(getApplicationContext(), "Login details are saved..", Toast.LENGTH_LONG).show();
+
+
+                Intent i = new Intent(getApplicationContext(), HomepageActivity.class);
+                startActivity(i);
+                finish();
             }
         }
 
@@ -115,10 +155,10 @@ public class LoginActivity extends AppCompatActivity {
         protected Object doInBackground(Object[] objects) {
 
             JSONParser jsonParser = new JSONParser();
-            jsonObject = jsonParser.getJSONObjectFromUrl(PublicVariables.loginURL+email+"/"+PasswordHashingMD5.md5(password));
-            if(jsonObject==null){
+            jsonObject = jsonParser.getJSONObjectFromUrl(PublicVariables.loginURL + email + "/" + PasswordHashingMD5.md5(password));
+            if (jsonObject == null) {
                 return "wrongLogin";
-            }else {
+            } else {
 
 
                 try {
@@ -134,14 +174,14 @@ public class LoginActivity extends AppCompatActivity {
                     String fatRate = jsonObject.getString("fatRate");
                     String waterRate = jsonObject.getString("waterRate");
 
-                    UserDataPOJO userDataPOJO = new UserDataPOJO(user_id,name,surname,email,sex,birthday,tall,weight,muscleRate,fatRate,waterRate);
+                    UserDataPOJO userDataPOJO = new UserDataPOJO(user_id, name, surname, email, sex, birthday, tall, weight, muscleRate, fatRate, waterRate);
                     ((GlobalVariables) getApplicationContext()).setUserDataPOJO(userDataPOJO);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
 
-            return null;
+            return "success";
         }
     }
 

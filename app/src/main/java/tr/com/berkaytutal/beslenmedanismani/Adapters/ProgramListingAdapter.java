@@ -17,8 +17,7 @@ import tr.com.berkaytutal.beslenmedanismani.AllListingsActivity;
 import tr.com.berkaytutal.beslenmedanismani.R;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
-import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
-import tr.com.berkaytutal.beslenmedanismani.Utils.UserPOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.TrainerPOJO;
 
 /**
  * Created by berka on 15.05.2017.
@@ -71,7 +70,7 @@ public class ProgramListingAdapter extends BaseAdapter {
         title.setText(programPOJO.getProgramTitle());
         difficulty.setText(programPOJO.getDifficulty());
         category.setText(programPOJO.getProgramSpec());
-        UserPOJO trainer = ((GlobalVariables)context.getApplicationContext()).getUserByID(programPOJO.getTrainerID());
+        TrainerPOJO trainer = ((GlobalVariables)context.getApplicationContext()).getUserByID(programPOJO.getTrainerID());
         trainerName.setText(trainer.getName() + " " + trainer.getSurname());
 
 

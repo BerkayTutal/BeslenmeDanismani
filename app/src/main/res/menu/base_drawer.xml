@@ -10,6 +10,14 @@
         android:title="Profile"
         tools:ignore="AppCompatResource"
         android:id="@+id/appBarProfileButton"/>
+    <item
+        android:icon="@drawable/logout"
+        android:orderInCategory="101"
+        app:showAsAction="always"
+        android:title="Profile"
+        tools:ignore="AppCompatResource"
+        android:id="@+id/appBarLogoutButton"
+        android:visible="false"/>
 
 
 </menu>

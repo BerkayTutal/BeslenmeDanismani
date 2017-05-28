@@ -9,16 +9,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import tr.com.berkaytutal.beslenmedanismani.AllListingsActivity;
-import tr.com.berkaytutal.beslenmedanismani.AllUsersActivity;
 import tr.com.berkaytutal.beslenmedanismani.R;
 import tr.com.berkaytutal.beslenmedanismani.TrainerDetailPage;
-import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
-import tr.com.berkaytutal.beslenmedanismani.Utils.UserPOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.TrainerPOJO;
 
 /**
  * Created by berka on 15.05.2017.
@@ -28,11 +24,11 @@ public class UserListingAdapter extends BaseAdapter {
 
 
     private LayoutInflater li;
-    private ArrayList<UserPOJO> list;
+    private ArrayList<TrainerPOJO> list;
     private Context context;
 
 
-    public UserListingAdapter(Activity activity, ArrayList<UserPOJO> arrayList) {
+    public UserListingAdapter(Activity activity, ArrayList<TrainerPOJO> arrayList) {
         this.context = activity.getApplicationContext();
 
         li = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -58,7 +54,7 @@ public class UserListingAdapter extends BaseAdapter {
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
         final View listeElemani = li.inflate(R.layout.listing_adapter_user, null);
-        final UserPOJO user = list.get(i);
+        final TrainerPOJO user = list.get(i);
 
         ImageView image = (ImageView) listeElemani.findViewById(R.id.trainerListingImage);
         TextView trainerName = (TextView) listeElemani.findViewById(R.id.trainerNameText);

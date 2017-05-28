@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class GlobalVariables extends Application {
 
     private ArrayList<ProgramPOJO> allPrograms;
-    private ArrayList<UserPOJO> allUsers;
+    private ArrayList<TrainerPOJO> allUsers;
     private UserDataPOJO userDataPOJO;
 
     public void setUserDataPOJO(UserDataPOJO userDataPOJO){
@@ -58,16 +58,16 @@ public class GlobalVariables extends Application {
         return allPrograms.get(index);
     }
 
-    public ArrayList<UserPOJO> getAllUsers() {
+    public ArrayList<TrainerPOJO> getAllUsers() {
         return allUsers;
     }
 
-    public void setAllUsers(ArrayList<UserPOJO> allUsers) {
+    public void setAllUsers(ArrayList<TrainerPOJO> allUsers) {
         this.allUsers = allUsers;
     }
 
-    public UserPOJO getUserByID(int userID){
-        for (UserPOJO user: allUsers) {
+    public TrainerPOJO getUserByID(int userID){
+        for (TrainerPOJO user: allUsers) {
 
             if(user.getUserID() == userID){
                 return user;
@@ -76,7 +76,7 @@ public class GlobalVariables extends Application {
         return null;
     }
 
-    public UserPOJO getUserByIndex(int index){
+    public TrainerPOJO getUserByIndex(int index){
         return allUsers.get(index);
     }
 }

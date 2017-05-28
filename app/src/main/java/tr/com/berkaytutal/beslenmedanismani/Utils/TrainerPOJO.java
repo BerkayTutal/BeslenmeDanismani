@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
  * Created by berka on 21.05.2017.
  */
 
-public class UserPOJO {
+public class TrainerPOJO {
     private String name;
     private String surname;
     private String sex;
@@ -14,7 +14,7 @@ public class UserPOJO {
     private int userID;
     private String birthday;
 
-    public UserPOJO(String name, String surname, String sex, Bitmap photo, int userID, String birthday) {
+    public TrainerPOJO(String name, String surname, String sex, Bitmap photo, int userID, String birthday) {
         this.name = name;
         this.surname = surname;
         this.sex = sex;

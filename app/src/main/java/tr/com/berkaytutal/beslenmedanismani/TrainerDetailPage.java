@@ -1,19 +1,17 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import tr.com.berkaytutal.beslenmedanismani.Adapters.ProgramListingAdapter;
 import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
-import tr.com.berkaytutal.beslenmedanismani.Utils.UserPOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.TrainerPOJO;
 
 public class TrainerDetailPage extends BaseDrawerActivity {
 
@@ -26,7 +24,7 @@ public class TrainerDetailPage extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainer_detail_page);
         int userID = getIntent().getIntExtra("userID",-1);
-        UserPOJO user = ((GlobalVariables)getApplicationContext()).getUserByID(userID);
+        TrainerPOJO user = ((GlobalVariables)getApplicationContext()).getUserByID(userID);
 
         profileImage = (ImageView) findViewById(R.id.trainerProfileImage);
         profileName = (TextView) findViewById(R.id.trainerProfileName);

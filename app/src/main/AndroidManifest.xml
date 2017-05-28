@@ -28,9 +28,8 @@
         <activity android:name=".SearchFilterActivity" />
         <activity android:name=".UserProfileActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".TrainerDetailPage"></activity>
+        <activity android:name=".TrainerDetailPage" />
+        <activity android:name=".ProfileActivity"></activity>
     </application>
-
-
 
 </manifest>

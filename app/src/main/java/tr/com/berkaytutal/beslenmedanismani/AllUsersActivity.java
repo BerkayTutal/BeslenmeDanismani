@@ -13,7 +13,7 @@ import tr.com.berkaytutal.beslenmedanismani.Adapters.UserListingAdapter;
 import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
-import tr.com.berkaytutal.beslenmedanismani.Utils.UserPOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.TrainerPOJO;
 
 public class AllUsersActivity extends BaseDrawerActivity implements SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
 
@@ -27,7 +27,7 @@ public class AllUsersActivity extends BaseDrawerActivity implements SwipeRefresh
         setFilterButtonVisibility(true);
         setFilterButtonListener(PublicVariables.FILTER_BUTTON_TYPE_USER);
 
-        ArrayList<UserPOJO> allUsers = ((GlobalVariables)getApplicationContext()).getAllUsers();
+        ArrayList<TrainerPOJO> allUsers = ((GlobalVariables)getApplicationContext()).getAllUsers();
         
 
         searchView.setVisibility(View.VISIBLE);

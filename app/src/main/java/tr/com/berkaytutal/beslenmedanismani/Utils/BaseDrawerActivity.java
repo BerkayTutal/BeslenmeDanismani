@@ -1,6 +1,7 @@
 package tr.com.berkaytutal.beslenmedanismani.Utils;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.ViewStub;
 import android.widget.Toast;
 
+import tr.com.berkaytutal.beslenmedanismani.HomepageActivity;
 import tr.com.berkaytutal.beslenmedanismani.LoginActivity;
 import tr.com.berkaytutal.beslenmedanismani.R;
 import tr.com.berkaytutal.beslenmedanismani.SearchFilterActivity;
@@ -99,6 +101,22 @@ public class BaseDrawerActivity extends AppCompatActivity
             Toast.makeText(getApplicationContext(),"Profiiiiil",Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);
+            return true;
+        }
+        if (id == R.id.appBarLogoutButton) {
+            Toast.makeText(getApplicationContext(),"Logout Yapıldı",Toast.LENGTH_SHORT).show();
+            SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", MODE_PRIVATE);
+            SharedPreferences.Editor edit = userDetails.edit();
+            edit.clear();
+            edit.putString("userEmail", "");
+            edit.putString("userPass", "");
+            edit.commit();
+
+            ((GlobalVariables)getApplicationContext()).setUserDataPOJO(null);
+
+            Intent i = new Intent(this, HomepageActivity.class);
+            startActivity(i);
+            finish();
             return true;
         }
 

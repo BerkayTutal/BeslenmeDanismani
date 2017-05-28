@@ -17,7 +17,7 @@ import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.JSONParser;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
-import tr.com.berkaytutal.beslenmedanismani.Utils.UserPOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.TrainerPOJO;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -46,9 +46,9 @@ public class SplashScreen extends AppCompatActivity {
             ArrayList<ProgramPOJO> allPrograms = new ArrayList<>();
             JSONParser jsonParser = new JSONParser();
 
-            ArrayList<UserPOJO> allUsers = new ArrayList<>();
+            ArrayList<TrainerPOJO> allUsers = new ArrayList<>();
 
-            jsonArray = jsonParser.getJSONFromUrl(PublicVariables.allProgramsURL);
+            jsonArray = jsonParser.getJSONArrayFromUrl(PublicVariables.allProgramsURL);
             for (int i = 0; i < jsonArray.length(); i++) {
 
 
@@ -79,11 +79,11 @@ public class SplashScreen extends AppCompatActivity {
 
             ((GlobalVariables) getApplicationContext()).setAllPrograms(allPrograms);
 
-            jsonArray = jsonParser.getJSONFromUrl(PublicVariables.allUsersURL);
+            jsonArray = jsonParser.getJSONArrayFromUrl(PublicVariables.allUsersURL);
             for (int i = 0; i < jsonArray.length(); i++) {
 
 
-                UserPOJO user;
+                TrainerPOJO user;
                 try {
                     JSONObject jobj = (JSONObject) jsonArray.get(i);
 
@@ -97,7 +97,7 @@ public class SplashScreen extends AppCompatActivity {
                     String surname = jobj.getString("surname");
                     String sex = jobj.getString("sex");
 
-                    user = new UserPOJO(name, surname, sex, photo, userID, birthday);
+                    user = new TrainerPOJO(name, surname, sex, photo, userID, birthday);
                     allUsers.add(user);
 
                 } catch (JSONException e) {

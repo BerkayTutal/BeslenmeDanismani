@@ -35,6 +35,9 @@
         <item>Trainer</item>
     </array>
 
+    <!--profil detay sayfası değişkenleri-->
+    <string name="myPrograms">My Programs</string>
+
     <string name="allListingsButton">See All Programs</string>
     <string name="allTrainersButton">See All Trainers</string>
 

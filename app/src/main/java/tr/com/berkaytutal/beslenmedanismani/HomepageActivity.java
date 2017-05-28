@@ -1,15 +1,10 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -17,10 +12,9 @@ import tr.com.berkaytutal.beslenmedanismani.Adapters.ProgramListingAdapter;
 import tr.com.berkaytutal.beslenmedanismani.Adapters.UserListingAdapter;
 import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
-import tr.com.berkaytutal.beslenmedanismani.Utils.JSONParser;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
-import tr.com.berkaytutal.beslenmedanismani.Utils.UserPOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.TrainerPOJO;
 
 public class HomepageActivity extends BaseDrawerActivity {
 
@@ -32,10 +26,10 @@ public class HomepageActivity extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
 
-        ArrayList<UserPOJO> allUsers = ((GlobalVariables)getApplicationContext()).getAllUsers();
+        ArrayList<TrainerPOJO> allUsers = ((GlobalVariables)getApplicationContext()).getAllUsers();
         ArrayList<ProgramPOJO> allPrograms = ((GlobalVariables)getApplicationContext()).getAllPrograms();
 
-        ArrayList<UserPOJO> nUsers = new ArrayList<>();
+        ArrayList<TrainerPOJO> nUsers = new ArrayList<>();
         ArrayList<ProgramPOJO> nPrograms = new ArrayList<>();
 
         for (int i = 0;i<PublicVariables.homepageListingCount && (i<allUsers.size() && i<allPrograms.size());i++){

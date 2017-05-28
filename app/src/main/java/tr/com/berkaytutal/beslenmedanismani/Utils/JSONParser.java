@@ -65,7 +65,7 @@ public class JSONParser {
         return jsonObject;
 
     }
-    public JSONArray getJSONFromUrl(String url) {
+    public JSONArray getJSONArrayFromUrl(String url) {
 
         // Making HTTP request
         try {
