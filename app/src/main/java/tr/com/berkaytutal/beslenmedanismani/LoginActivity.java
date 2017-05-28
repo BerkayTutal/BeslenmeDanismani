@@ -3,9 +3,12 @@ package tr.com.berkaytutal.beslenmedanismani;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,9 +19,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.JSONParser;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PasswordHashingMD5;
+import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.UserDataPOJO;
 
@@ -162,7 +168,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 try {
-                    String user_id = jsonObject.getString("user_ID");
+                    int user_id = jsonObject.getInt("user_ID");
                     String name = jsonObject.getString("name");
                     String surname = jsonObject.getString("surname");
                     String email = jsonObject.getString("email");
@@ -173,8 +179,28 @@ public class LoginActivity extends AppCompatActivity {
                     String muscleRate = jsonObject.getString("muscleRate");
                     String fatRate = jsonObject.getString("fatRate");
                     String waterRate = jsonObject.getString("waterRate");
+                    ArrayList<ProgramPOJO> myPrograms = new ArrayList<>();
 
-                    UserDataPOJO userDataPOJO = new UserDataPOJO(user_id, name, surname, email, sex, birthday, tall, weight, muscleRate, fatRate, waterRate);
+                    JSONArray programArray = jsonObject.getJSONArray("userPrograms");
+
+                    for (int j =0; j<programArray.length();j++){
+                        JSONObject program = (JSONObject) programArray.get(j);
+                        String programDiff = program.getString("programDiffName");
+                        byte[] imageByte = Base64.decode(program.getString("programPhoto"), Base64.DEFAULT);
+                        Bitmap programPhoto = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+                        String programSpecName = program.getString("programSpecName");
+                        String programTittle = program.getString("programTittle");
+                        int program_ID = program.getInt("program_ID");
+                        String trainerName = program.getString("trainerName");
+                        String trainerSurname = program.getString("trainerName");
+                        int trainer_id = program.getInt("trainer_ID");
+
+                        ProgramPOJO myProgram = new ProgramPOJO(programDiff,programPhoto,programSpecName,programTittle,program_ID,trainer_id,trainerName,trainerSurname);
+                        myPrograms.add(myProgram);
+                    }
+
+
+                    UserDataPOJO userDataPOJO = new UserDataPOJO(user_id, name, surname, email, sex, birthday, tall, weight, muscleRate, fatRate, waterRate,myPrograms);
                     ((GlobalVariables) getApplicationContext()).setUserDataPOJO(userDataPOJO);
                 } catch (JSONException e) {
                     e.printStackTrace();

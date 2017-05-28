@@ -1,11 +1,14 @@
 package tr.com.berkaytutal.beslenmedanismani.Utils;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
  * Created by MUSTAFA on 27.05.2017.
  */
 
 public class UserDataPOJO {
-    private String user_ID;
+    private int user_ID;
     private String name;
     private String surname;
     private String email;
@@ -16,9 +19,10 @@ public class UserDataPOJO {
     private String muscleRate;
     private String fatRate;
     private String waterRate;
+    private ArrayList<ProgramPOJO> myPrograms;
 
-    public UserDataPOJO(String user_ID, String name, String surname, String email, String sex, String birthday, String tall,
-                    String weight, String muscleRate, String fatRate, String waterRate) {
+    public UserDataPOJO(int user_ID, String name, String surname, String email, String sex, String birthday, String tall,
+                        String weight, String muscleRate, String fatRate, String waterRate, ArrayList<ProgramPOJO> myPrograms) {
 
         this.user_ID = user_ID;
         this.name = name;
@@ -31,19 +35,18 @@ public class UserDataPOJO {
         this.muscleRate = muscleRate;
         this.fatRate = fatRate;
         this.waterRate = waterRate;
+        this.myPrograms = myPrograms;
     }
 
 
 
-    public UserDataPOJO(){
 
-    }
 
-    public String getUser_ID() {
+    public int getUser_ID() {
         return user_ID;
     }
 
-    public void setUser_ID(String user_ID) {
+    public void setUser_ID(int user_ID) {
         this.user_ID = user_ID;
     }
 
@@ -125,5 +128,13 @@ public class UserDataPOJO {
 
     public void setWaterRate(String waterRate) {
         this.waterRate = waterRate;
+    }
+
+    public ArrayList<ProgramPOJO> getMyPrograms() {
+        return myPrograms;
+    }
+
+    public void setMyPrograms(ArrayList<ProgramPOJO> myPrograms) {
+        this.myPrograms = myPrograms;
     }
 }

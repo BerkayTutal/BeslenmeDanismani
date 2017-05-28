@@ -55,20 +55,21 @@ public class SplashScreen extends AppCompatActivity {
                 ProgramPOJO program;
                 try {
                     JSONObject jobj = (JSONObject) jsonArray.get(i);
-                    String diff = jobj.getString("programDiff");
+                    String diff = jobj.getString("programDiffName");
 
                     byte[] imageByte = Base64.decode(jobj.getString("programPhoto"), Base64.DEFAULT);
                     Bitmap photo = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
 
 
-                    String programSpec = jobj.getString("programSpec");
+                    String programSpec = jobj.getString("programSpecName");
                     String programTitle = jobj.getString("programTittle");
                     int programID = jobj.getInt("program_ID");
                     int trainerID = jobj.getInt("trainer_ID");
-                    int userID = jobj.getInt("user_ID");
+                    String trainerName = jobj.getString("trainerName");
+                    String trainerSurname = jobj.getString("trainerSurname");
 
 
-                    program = new ProgramPOJO(diff, photo, programSpec, programTitle, programID, trainerID, userID);
+                    program = new ProgramPOJO(diff, photo, programSpec, programTitle, programID, trainerID,trainerName,trainerSurname);
 
                     allPrograms.add(program);
                 } catch (JSONException e) {

@@ -6,10 +6,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import tr.com.berkaytutal.beslenmedanismani.Adapters.ProgramListingAdapter;
 import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
+import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.UserDataPOJO;
 
 public class ProfileActivity extends BaseDrawerActivity {
@@ -20,7 +25,8 @@ public class ProfileActivity extends BaseDrawerActivity {
     private TextView profileBirthday;
     private ImageView profileGender;
     private UserDataPOJO userDataPOJO;
-
+    private ListView myProgramsListview;
+    private ArrayList<ProgramPOJO> myProgramsArrayList;
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem logoutButton = menu.findItem(R.id.appBarLogoutButton);
@@ -37,6 +43,8 @@ public class ProfileActivity extends BaseDrawerActivity {
 
         userDataPOJO = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
 
+        myProgramsListview = (ListView) findViewById(R.id.myProgramsListviewDetailPage);
+
         profileImage = (ImageView) findViewById(R.id.userProfileImageDetailPage);
         profileName = (TextView) findViewById(R.id.userProfileNameDetailPage);
         profileEmail = (TextView) findViewById(R.id.userMailDetailPage);
@@ -48,12 +56,19 @@ public class ProfileActivity extends BaseDrawerActivity {
         profileEmail.setText(userDataPOJO.getEmail());
         profileBirthday.setText(userDataPOJO.getBirthday());
 
-        if(userDataPOJO.getSex().equals("M")){
-            profileGender.setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.male));
+        if (userDataPOJO.getSex().equals("M")) {
+            profileGender.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.male));
+        } else {
+            profileGender.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.female));
         }
-        else{
-            profileGender.setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.female));
-        }
+
+
+
+        myProgramsArrayList = userDataPOJO.getMyPrograms();
+        ProgramListingAdapter adapter = new ProgramListingAdapter(this, myProgramsArrayList);
+        myProgramsListview.setAdapter(adapter);
+//        myProgramsListview.setMinimumHeight(getResources().getDimensionPixelOffset(R.dimen.homeListingHeight));
+
 
     }
 }

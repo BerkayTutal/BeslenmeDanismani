@@ -12,6 +12,7 @@
 
     <dimen name="listingHeight">100dp</dimen>
     <dimen name="homeListingHeight">300dp</dimen>
+    <dimen name="userProfileListingHeight">200dp</dimen>
     <dimen name="listingImageWidth">82dp</dimen>
     <dimen name="listingImageHeight">82dp</dimen>
 

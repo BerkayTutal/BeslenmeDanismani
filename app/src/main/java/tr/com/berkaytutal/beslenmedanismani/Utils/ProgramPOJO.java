@@ -13,16 +13,20 @@ public class ProgramPOJO {
     private String programTitle;
     private int programID;
     private int trainerID;
-    private int userID;
 
-    public ProgramPOJO(String difficulty, Bitmap programPhoto, String programSpec, String programTitle, int programID, int trainerID, int userID) {
+    private String trainerName;
+    private String trainerSurname;
+
+    public ProgramPOJO(String difficulty, Bitmap programPhoto, String programSpec, String programTitle, int programID, int trainerID, String trainerName, String trainerSurname) {
         this.difficulty = difficulty;
         this.programPhoto = programPhoto;
         this.programSpec = programSpec;
         this.programTitle = programTitle;
         this.programID = programID;
         this.trainerID = trainerID;
-        this.userID = userID;
+
+        this.trainerName = trainerName;
+        this.trainerSurname = trainerSurname;
     }
 
     public String getDifficulty() {
@@ -73,11 +77,20 @@ public class ProgramPOJO {
         this.trainerID = trainerID;
     }
 
-    public int getUserID() {
-        return userID;
+
+    public String getTrainerName() {
+        return trainerName;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setTrainerName(String trainerName) {
+        this.trainerName = trainerName;
+    }
+
+    public String getTrainerSurname() {
+        return trainerSurname;
+    }
+
+    public void setTrainerSurname(String trainerSurname) {
+        this.trainerSurname = trainerSurname;
     }
 }

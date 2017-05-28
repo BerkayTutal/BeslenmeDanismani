@@ -36,6 +36,8 @@ public class TrainerDetailPage extends BaseDrawerActivity {
 
 
         ArrayList<ProgramPOJO> trainerPrograms = ((GlobalVariables)getApplicationContext()).getProgramsByTrainerID(userID);
+
+        //alttaki üç satır test amaçlı sonradan kaldıralım
         trainerPrograms.addAll(trainerPrograms);
         trainerPrograms.addAll(trainerPrograms);
         trainerPrograms.addAll(trainerPrograms);
