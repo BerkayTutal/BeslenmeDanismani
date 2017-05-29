@@ -26,14 +26,18 @@ public class HomepageActivity extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
 
-        ArrayList<TrainerPOJO> allUsers = ((GlobalVariables)getApplicationContext()).getAllUsers();
-        ArrayList<ProgramPOJO> allPrograms = ((GlobalVariables)getApplicationContext()).getAllPrograms();
+        ArrayList<TrainerPOJO> allUsers = ((GlobalVariables) getApplicationContext()).getAllUsers();
+        ArrayList<ProgramPOJO> allPrograms = ((GlobalVariables) getApplicationContext()).getAllPrograms();
 
         ArrayList<TrainerPOJO> nUsers = new ArrayList<>();
         ArrayList<ProgramPOJO> nPrograms = new ArrayList<>();
 
-        for (int i = 0;i<PublicVariables.homepageListingCount && (i<allUsers.size() && i<allPrograms.size());i++){
+        for (int i = 0; i < PublicVariables.homepageListingCount && (i < allUsers.size()); i++) {
             nUsers.add(allUsers.get(i));
+
+        }
+        for (int i = 0; i < PublicVariables.homepageListingCount && (i < allPrograms.size()); i++) {
+
             nPrograms.add(allPrograms.get(i));
         }
 
@@ -65,8 +69,6 @@ public class HomepageActivity extends BaseDrawerActivity {
 
         ListView programsListView = (ListView) findViewById(R.id.homeProgramsList);
         ListView trainersListView = (ListView) findViewById(R.id.homeTrainersList);
-
-
 
 
         ProgramListingAdapter pla = new ProgramListingAdapter(this, nPrograms);

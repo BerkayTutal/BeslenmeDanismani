@@ -26,10 +26,11 @@
         <activity android:name=".AllListingsActivity" />
         <activity android:name=".AllUsersActivity" />
         <activity android:name=".SearchFilterActivity" />
-        <activity android:name=".UserProfileActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".TrainerDetailPage" />
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".ProgramDetailActivity" />
+        <activity android:name=".EditProfileActivity"></activity>
     </application>
 
 </manifest>

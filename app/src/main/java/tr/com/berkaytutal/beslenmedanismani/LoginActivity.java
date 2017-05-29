@@ -1,5 +1,7 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,11 +43,14 @@ public class LoginActivity extends AppCompatActivity {
     private String email;
     private String password;
 
+    public static Activity loginActivity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_login);
+        loginActivity = this;
 
 
         emailEditText = (EditText) findViewById(R.id.emailAddressLoginScreen);
@@ -131,14 +136,20 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+
+
     class MyLoginAsync extends AsyncTask {
         JSONObject jsonObject;
 
+
+
         @Override
         protected void onPostExecute(Object o) {
+
             super.onPostExecute(o);
             if (o.toString().equals("wrongLogin")) {
                 Toast.makeText(getApplicationContext(), "Wrong Email or Password !", Toast.LENGTH_SHORT).show();
+
             } else {
                 //Giris basarili...
 

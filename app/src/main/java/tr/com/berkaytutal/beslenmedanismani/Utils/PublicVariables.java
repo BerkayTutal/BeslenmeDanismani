@@ -19,4 +19,5 @@ public interface PublicVariables {
     String allProgramsURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/getAllPrograms/";
     String allUsersURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/getAllTrainers/";
     String loginURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/";
+    String registerURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/addNewUser";
 }

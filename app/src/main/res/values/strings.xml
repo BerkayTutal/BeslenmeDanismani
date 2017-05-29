@@ -35,22 +35,41 @@
         <item>Trainer</item>
     </array>
 
+    <!--program detay sayfası değişkenleri-->
+
+    <string name="indir">Download</string>
+    <string name="indirildi">In Library!</string>
+    <string name="baslat">Workout!</string>
+    <string name="aboutTrainer">About Trainer</string>
+
     <!--profil detay sayfası değişkenleri-->
     <string name="myPrograms">My Programs</string>
+    <string name="editDetails">Edit Details</string>
+    <string name="updateDetails">Update Details</string>
+
+    <!--trainer detail page-->
+    <string name="trainersPrograms">Trainer\'s Programs</string>
+
 
     <string name="allListingsButton">See All Programs</string>
     <string name="allTrainersButton">See All Trainers</string>
 
+    <!--Register Page-->
     <string name="name">Name</string>
     <string name="surname">Surname</string>
     <string name="birthday">Birthday</string>
+    <string name="gender">Gender</string>
     <string name="email">E-mail</string>
+    <string name="currentpassword">Current Password</string>
     <string name="password">Password</string>
     <string name="passwordAgain">Password (again)</string>
     <string name="login">LOGIN</string>
     <string name="register">REGISTER</string>
     <string name="createnewAccount">Create New Account</string>
     <string name="continueWithoutLogin">Continue without login</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="passwordsMustbeSame">Passwords Must Be Same!</string>
 
     <!-- Strings related to Settings -->
 

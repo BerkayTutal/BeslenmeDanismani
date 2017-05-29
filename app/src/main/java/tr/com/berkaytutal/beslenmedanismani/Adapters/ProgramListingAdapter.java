@@ -14,6 +14,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import tr.com.berkaytutal.beslenmedanismani.AllListingsActivity;
+import tr.com.berkaytutal.beslenmedanismani.ProgramDetailActivity;
 import tr.com.berkaytutal.beslenmedanismani.R;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
@@ -58,7 +59,7 @@ public class ProgramListingAdapter extends BaseAdapter {
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
         final View listeElemani = li.inflate(R.layout.listing_adapter_program, null);
-        ProgramPOJO programPOJO = list.get(i);
+        final ProgramPOJO programPOJO = list.get(i);
 
         ImageView image = (ImageView) listeElemani.findViewById(R.id.listingImage);
         TextView title = (TextView) listeElemani.findViewById(R.id.listingTitle);
@@ -81,7 +82,8 @@ public class ProgramListingAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Toast.makeText(view.getContext(), i + "", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(view.getContext(), AllListingsActivity.class);
+                Intent intent = new Intent(view.getContext(), ProgramDetailActivity.class);
+                intent.putExtra("programID",programPOJO.getProgramID());
                 view.getContext().startActivity(intent);
             }
         });

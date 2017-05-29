@@ -1,15 +1,27 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Calendar;
+
+import tr.com.berkaytutal.beslenmedanismani.Utils.DataSenderHelper;
+import tr.com.berkaytutal.beslenmedanismani.Utils.PasswordHashingMD5;
+import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -19,11 +31,15 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private EditText passwordAgainEditText;
     private EditText birthdayEditText;
+    private RadioButton maleRadioButton;
+    private RadioButton femaleRadioButton;
     private Button registerButton;
 
     private int yearM = -1;
     private int monthM = -1;
     private int dayM = -1;
+
+    private JSONObject jsonObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +53,37 @@ public class RegisterActivity extends AppCompatActivity {
         passwordAgainEditText = (EditText) findViewById(R.id.passwordAgainRegisterScreen);
         birthdayEditText = (EditText) findViewById(R.id.birthdayEditTextRegisterScreen);
         registerButton = (Button) findViewById(R.id.registerButtonRegisterScreen);
+        maleRadioButton = (RadioButton) findViewById(R.id.registerMaleRadioButton);
+        femaleRadioButton = (RadioButton) findViewById(R.id.registerFemaleRadioButton);
 
-        if(getIntent().hasExtra("email")){
+        if (getIntent().hasExtra("email")) {
             emailEditText.setText(getIntent().getStringExtra("email").toString());
         }
-        if(getIntent().hasExtra("password")){
+        if (getIntent().hasExtra("password")) {
             passwordEditText.setText(getIntent().getStringExtra("password"));
         }
+
+        maleRadioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                maleRadioButton.setChecked(true);
+                femaleRadioButton.setChecked(false);
+            }
+        });
+        femaleRadioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                maleRadioButton.setChecked(false);
+                femaleRadioButton.setChecked(true);
+            }
+        });
 
 
         birthdayEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar mcurrentTime = Calendar.getInstance();
-                if(yearM == -1 || monthM == -1 || dayM == -1){
+                if (yearM == -1 || monthM == -1 || dayM == -1) {
                     yearM = mcurrentTime.get(Calendar.YEAR);//Güncel Yılı alıyoruz
                     monthM = mcurrentTime.get(Calendar.MONTH);//Güncel Ayı alıyoruz
                     dayM = mcurrentTime.get(Calendar.DAY_OF_MONTH);//Güncel Günü alıyoruz
@@ -64,8 +97,8 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
                         // TODO Auto-generated method stub
-                        birthdayEditText.setText(dayOfMonth + "/" + (monthOfYear+1) + "/" + year);//Ayarla butonu tıklandığında textview'a yazdırıyoruz
-                        dayM= dayOfMonth;
+                        birthdayEditText.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);//Ayarla butonu tıklandığında textview'a yazdırıyoruz
+                        dayM = dayOfMonth;
                         monthM = monthOfYear;
                         yearM = year;
 
@@ -86,12 +119,70 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //TODO buradan login'e email ve password ile yönlendirip loginde direkt login olma kımına geçeceğiz
 
-                if(!passwordEditText.getText().toString().equals(passwordAgainEditText.getText().toString())){
-                    Toast.makeText(getApplicationContext(),"şifreleriniz aynı omalı",Toast.LENGTH_SHORT).show();
+                if (!passwordEditText.getText().toString().equals(passwordAgainEditText.getText().toString())) {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.passwordsMustbeSame), Toast.LENGTH_SHORT).show();
+                } else {
+                    JSONObject json = new JSONObject();
+                    String sex = "M";
+                    if (maleRadioButton.isChecked()) {
+                        sex = "M";
+                    } else if (femaleRadioButton.isChecked()){
+                        sex = "F";
+                    }
+                    try {
+                        json.accumulate("birthday", yearM + "-" + (monthM + 1) + "-" + dayM);
+                        json.accumulate("email", emailEditText.getText());
+                        json.accumulate("name", nameEditText.getText());
+                        json.accumulate("password", PasswordHashingMD5.md5(passwordEditText.getText().toString()));
+                        json.accumulate("sex", sex);
+                        json.accumulate("surname", surnameEditText.getText());
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i("register", json.toString());
+                    jsonObject = json;
+                    MyRegisterAsync registerAsync = new MyRegisterAsync();
+                    registerAsync.execute("test");
+
                 }
-                Toast.makeText(getApplicationContext(),"register olduk",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "register olduk", Toast.LENGTH_SHORT).show();
 
             }
         });
+    }
+
+    private class MyRegisterAsync extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return DataSenderHelper.POST(PublicVariables.registerURL, jsonObject);
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (result.equals("false")) {
+                Toast.makeText(getApplicationContext(), "kayıt olunmuş zaten", Toast.LENGTH_SHORT).show();
+            } else if (result.equals("true")) {
+
+                SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", MODE_PRIVATE);
+                SharedPreferences.Editor edit = userDetails.edit();
+                edit.clear();
+                edit.putString("userEmail", emailEditText.getText().toString());
+                edit.putString("userPass", passwordEditText.getText().toString());
+                edit.commit();
+                Toast.makeText(getApplicationContext(), "Login details are saved..", Toast.LENGTH_LONG).show();
+
+
+                LoginActivity.loginActivity.finish();
+                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                i.putExtra("isMainLogin", true);
+                startActivity(i);
+                finish();
+            }
+        }
     }
 }
