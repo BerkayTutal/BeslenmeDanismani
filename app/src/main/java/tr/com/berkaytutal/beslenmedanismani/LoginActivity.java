@@ -138,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-    class MyLoginAsync extends AsyncTask {
+    private class MyLoginAsync extends AsyncTask {
         JSONObject jsonObject;
 
 

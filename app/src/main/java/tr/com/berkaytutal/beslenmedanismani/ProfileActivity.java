@@ -1,5 +1,6 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +32,8 @@ public class ProfileActivity extends BaseDrawerActivity {
     private ListView myProgramsListview;
     private ArrayList<ProgramPOJO> myProgramsArrayList;
     private Button editDetails;
+
+    public static Activity profileActivity;
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem logoutButton = menu.findItem(R.id.appBarLogoutButton);
@@ -44,6 +47,8 @@ public class ProfileActivity extends BaseDrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        profileActivity = this;
 
         userDataPOJO = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
 

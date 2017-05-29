@@ -36,7 +36,7 @@ public class SplashScreen extends AppCompatActivity {
     }
 
 
-    class MyAsyncClass extends AsyncTask {
+    private class MyAsyncClass extends AsyncTask {
         JSONArray jsonArray;
 
         @Override
