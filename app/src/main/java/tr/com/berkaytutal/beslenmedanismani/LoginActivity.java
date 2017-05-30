@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import tr.com.berkaytutal.beslenmedanismani.Utils.DBHelper;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.JSONParser;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PasswordHashingMD5;
@@ -70,14 +71,14 @@ public class LoginActivity extends AppCompatActivity {
 
 
         }
-        if(isMainLogin){
+        if (isMainLogin) {
 
 
             SharedPreferences userDetails = this.getSharedPreferences("userdetails", MODE_PRIVATE);
             String userEmail = userDetails.getString("userEmail", "");
             String userPass = userDetails.getString("userPass", "");
 
-            if(!userEmail.equals("") && !userPass.equals("")){
+            if (!userEmail.equals("") && !userPass.equals("")) {
                 email = userEmail;
                 password = userPass;
                 MyLoginAsync loginAsync = new MyLoginAsync();
@@ -137,10 +138,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
     private class MyLoginAsync extends AsyncTask {
         JSONObject jsonObject;
-
 
 
         @Override
@@ -171,6 +170,14 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected Object doInBackground(Object[] objects) {
 
+            DBHelper dbhelper = new DBHelper(getApplicationContext());
+            UserDataPOJO dbUser = dbhelper.getUser();
+
+            boolean shouldIUpdate = false;
+            if(dbUser != null){
+                shouldIUpdate = true;
+            }
+
             JSONParser jsonParser = new JSONParser();
             jsonObject = jsonParser.getJSONObjectFromUrl(PublicVariables.loginURL + email + "/" + PasswordHashingMD5.md5(password));
             if (jsonObject == null) {
@@ -194,11 +201,11 @@ public class LoginActivity extends AppCompatActivity {
 
                     JSONArray programArray = jsonObject.getJSONArray("userPrograms");
 
-                    for (int j =0; j<programArray.length();j++){
+                    for (int j = 0; j < programArray.length(); j++) {
                         JSONObject program = (JSONObject) programArray.get(j);
                         String programDiff = program.getString("programDiffName");
                         byte[] imageByte = Base64.decode(program.getString("programPhoto"), Base64.DEFAULT);
-                        Bitmap programPhoto = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+//                        Bitmap programPhoto = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
                         String programSpecName = program.getString("programSpecName");
                         String programTittle = program.getString("programTittle");
                         int program_ID = program.getInt("program_ID");
@@ -206,13 +213,29 @@ public class LoginActivity extends AppCompatActivity {
                         String trainerSurname = program.getString("trainerName");
                         int trainer_id = program.getInt("trainer_ID");
 
-                        ProgramPOJO myProgram = new ProgramPOJO(programDiff,programPhoto,programSpecName,programTittle,program_ID,trainer_id,trainerName,trainerSurname);
+                        ProgramPOJO myProgram = new ProgramPOJO(programDiff, imageByte, programSpecName, programTittle, program_ID, trainer_id, trainerName, trainerSurname);
                         myPrograms.add(myProgram);
+                    }
+                    if(dbUser == null){
+                        dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, tall, weight, muscleRate, fatRate, waterRate, myPrograms);
+                    }
+                    else{
+                        for (ProgramPOJO program: myPrograms) {
+                            dbUser.insertProgram(program);
+                        }
+                        ArrayList<ProgramPOJO> updatedPrograms = dbUser.getMyPrograms();
+                        dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, tall, weight, muscleRate, fatRate, waterRate, updatedPrograms);
                     }
 
 
-                    UserDataPOJO userDataPOJO = new UserDataPOJO(user_id, name, surname, email, sex, birthday, tall, weight, muscleRate, fatRate, waterRate,myPrograms);
-                    ((GlobalVariables) getApplicationContext()).setUserDataPOJO(userDataPOJO);
+                    ((GlobalVariables) getApplicationContext()).setUserDataPOJO(dbUser);
+                    if(shouldIUpdate){
+                        dbhelper.updateUser(dbUser);
+                    }
+                    else{
+                        dbhelper.insertUser(dbUser);
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

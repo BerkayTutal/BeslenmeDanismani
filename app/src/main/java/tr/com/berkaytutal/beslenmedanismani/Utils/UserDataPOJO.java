@@ -40,9 +40,6 @@ public class UserDataPOJO implements Serializable {
     }
 
 
-
-
-
     public int getUser_ID() {
         return user_ID;
     }
@@ -138,22 +135,34 @@ public class UserDataPOJO implements Serializable {
     public void setMyPrograms(ArrayList<ProgramPOJO> myPrograms) {
         this.myPrograms = myPrograms;
     }
-    public void setProgramByID(ProgramPOJO programPOJO){
 
-        for(int i = 0; i<myPrograms.size();i++){
-            if (myPrograms.get(i).getProgramID() == programPOJO.getProgramID()){
-                myPrograms.set(i,programPOJO);
+    public void setProgramByID(ProgramPOJO programPOJO) {
+
+        for (int i = 0; i < myPrograms.size(); i++) {
+            if (myPrograms.get(i).getProgramID() == programPOJO.getProgramID()) {
+                myPrograms.set(i, programPOJO);
                 return;
             }
         }
     }
-    public ProgramPOJO getProgramByID(int programID){
 
-        for(int i = 0; i<myPrograms.size();i++){
-            if (myPrograms.get(i).getProgramID() == programID){
+    public ProgramPOJO getProgramByID(int programID) {
+
+        for (int i = 0; i < myPrograms.size(); i++) {
+            if (myPrograms.get(i).getProgramID() == programID) {
                 return myPrograms.get(i);
             }
         }
         return null;
+    }
+
+    public boolean insertProgram(ProgramPOJO programPOJO) {
+        for (ProgramPOJO program : myPrograms) {
+            if (program.getProgramID() == programPOJO.getProgramID()) {
+                return false;
+            }
+        }
+        myPrograms.add(programPOJO);
+        return true;
     }
 }

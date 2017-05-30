@@ -11,6 +11,7 @@ import android.util.Base64;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
@@ -29,7 +30,7 @@ public class SplashScreen extends AppCompatActivity {
 
         //TODO adaptörlerdeki type'lar gereksiz
 
-       MyAsyncClass asy = new MyAsyncClass();
+        MyAsyncClass asy = new MyAsyncClass();
         asy.execute("test");
 
 
@@ -57,8 +58,9 @@ public class SplashScreen extends AppCompatActivity {
                     JSONObject jobj = (JSONObject) jsonArray.get(i);
                     String diff = jobj.getString("programDiffName");
 
-                    byte[] imageByte = Base64.decode(jobj.getString("programPhoto"), Base64.DEFAULT);
-                    Bitmap photo = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+                    byte[] photo = Base64.decode(jobj.getString("programPhoto"), Base64.DEFAULT);
+//                    byte[] imageByte = Base64.decode(jobj.getString("programPhoto"), Base64.DEFAULT);
+//                    Bitmap photo = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
 
 
                     String programSpec = jobj.getString("programSpecName");
@@ -69,7 +71,7 @@ public class SplashScreen extends AppCompatActivity {
                     String trainerSurname = jobj.getString("trainerSurname");
 
 
-                    program = new ProgramPOJO(diff, photo, programSpec, programTitle, programID, trainerID,trainerName,trainerSurname);
+                    program = new ProgramPOJO(diff, photo, programSpec, programTitle, programID, trainerID, trainerName, trainerSurname);
 
                     allPrograms.add(program);
                 } catch (JSONException e) {

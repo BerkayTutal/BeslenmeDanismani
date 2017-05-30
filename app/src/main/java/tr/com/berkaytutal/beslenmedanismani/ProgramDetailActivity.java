@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ChestPOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.DBHelper;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ExercisePOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.JSONParser;
@@ -67,7 +68,10 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
 
 
         user = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
-        program = user.getProgramByID(programID);
+        if (user != null) {
+            program = user.getProgramByID(programID);
+
+        }
 
 
         if (program == null) {
@@ -175,11 +179,11 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                 int exercises_ID = 0;
                 String name = null;
                 int orderExercise = 0;
-                Bitmap photo1 = null;
-                Bitmap photo2 = null;
+                byte[] photo1 = null;
+                byte[] photo2 = null;
                 int restTime = 0;
                 String title = null;
-                MediaStore.Video video = null;
+                byte[] video = null;
 
                 try {
                     exerciseType = json.getString("exerciseType");
@@ -197,14 +201,16 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
 
 
                 try {
-                    byte[] imageByte = Base64.decode(json.getString("photo1"), Base64.DEFAULT);
-                    photo1 = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+                    photo1 = Base64.decode(json.getString("photo1"), Base64.DEFAULT);
+//                    byte[] imageByte = Base64.decode(json.getString("photo1"), Base64.DEFAULT);
+//                    photo1 = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 try {
-                    byte[] imageByte = Base64.decode(json.getString("photo2"), Base64.DEFAULT);
-                    photo2 = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+                    photo2 = Base64.decode(json.getString("photo2"), Base64.DEFAULT);
+//                    byte[] imageByte = Base64.decode(json.getString("photo2"), Base64.DEFAULT);
+//                    photo2 = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -257,6 +263,8 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
             program.setExercisez(exercisePOJOs);
             user.setProgramByID(program);
             ((GlobalVariables) getApplicationContext()).setUserDataPOJO(user);
+            DBHelper dbhelper = new DBHelper(getApplicationContext());
+            dbhelper.updateUser(user);
             disableDownloadButton();
 
 

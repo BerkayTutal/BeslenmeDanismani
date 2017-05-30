@@ -1,6 +1,7 @@
 package tr.com.berkaytutal.beslenmedanismani.Utils;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 
 import java.io.Serializable;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 
 public class ProgramPOJO implements Serializable {
     private String difficulty;
-    private Bitmap programPhoto;
+    private byte[] programPhoto;
     private String programSpec;
     private String programTitle;
     private int programID;
@@ -23,7 +24,7 @@ public class ProgramPOJO implements Serializable {
 
     private ArrayList<ExercisePOJO> exercisez = null;
 
-    public ProgramPOJO(String difficulty, Bitmap programPhoto, String programSpec, String programTitle, int programID, int trainerID, String trainerName, String trainerSurname) {
+    public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle, int programID, int trainerID, String trainerName, String trainerSurname) {
         this.difficulty = difficulty;
         this.programPhoto = programPhoto;
         this.programSpec = programSpec;
@@ -35,7 +36,7 @@ public class ProgramPOJO implements Serializable {
         this.trainerSurname = trainerSurname;
     }
 
-    public ProgramPOJO(String difficulty, Bitmap programPhoto, String programSpec, String programTitle, int programID, int trainerID, String trainerName, String trainerSurname, ArrayList<ExercisePOJO> exercisez) {
+    public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle, int programID, int trainerID, String trainerName, String trainerSurname, ArrayList<ExercisePOJO> exercisez) {
         this( difficulty,  programPhoto,  programSpec,  programTitle,  programID,  trainerID,  trainerName,  trainerSurname);
         this.exercisez = exercisez;
     }
@@ -57,10 +58,10 @@ public class ProgramPOJO implements Serializable {
     }
 
     public Bitmap getProgramPhoto() {
-        return programPhoto;
+        return  BitmapFactory.decodeByteArray(programPhoto, 0, programPhoto.length);
     }
 
-    public void setProgramPhoto(Bitmap programPhoto) {
+    public void setProgramPhoto(byte[] programPhoto) {
         this.programPhoto = programPhoto;
     }
 

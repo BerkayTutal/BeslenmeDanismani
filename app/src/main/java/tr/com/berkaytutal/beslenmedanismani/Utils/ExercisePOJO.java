@@ -1,9 +1,12 @@
 package tr.com.berkaytutal.beslenmedanismani.Utils;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 
-public class ExercisePOJO {
+import java.io.Serializable;
+
+public class ExercisePOJO implements Serializable{
 
 
 
@@ -12,14 +15,14 @@ public class ExercisePOJO {
     private int exercises_ID;
     private String name;
     private int orderExercise;
-    private Bitmap photo1;
-    private Bitmap photo2;
+    private byte[] photo1;
+    private byte[] photo2;
     private int restTime;
     private String title;
-    private MediaStore.Video video;
+    private byte[] video;
 
 
-    public ExercisePOJO(String description, String exerciseType, int exercises_ID, String name, int orderExercise, Bitmap photo1, Bitmap photo2, int restTime, String title, MediaStore.Video video) {
+    public ExercisePOJO(String description, String exerciseType, int exercises_ID, String name, int orderExercise, byte[] photo1, byte[] photo2, int restTime, String title, byte[] video) {
         this.description = description;
         this.exerciseType = exerciseType;
         this.exercises_ID = exercises_ID;
@@ -73,18 +76,18 @@ public class ExercisePOJO {
     }
 
     public Bitmap getPhoto1() {
-        return photo1;
+        return  BitmapFactory.decodeByteArray(photo1, 0, photo1.length);
     }
 
-    public void setPhoto1(Bitmap photo1) {
+    public void setPhoto1(byte[] photo1) {
         this.photo1 = photo1;
     }
 
     public Bitmap getPhoto2() {
-        return photo2;
+        return  BitmapFactory.decodeByteArray(photo2, 0, photo2.length);
     }
 
-    public void setPhoto2(Bitmap photo2) {
+    public void setPhoto2(byte[] photo2) {
         this.photo2 = photo2;
     }
 
@@ -104,11 +107,11 @@ public class ExercisePOJO {
         this.title = title;
     }
 
-    public MediaStore.Video getVideo() {
+    public byte[] getVideo() {
         return video;
     }
 
-    public void setVideo(MediaStore.Video video) {
+    public void setVideo(byte[] video) {
         this.video = video;
     }
 

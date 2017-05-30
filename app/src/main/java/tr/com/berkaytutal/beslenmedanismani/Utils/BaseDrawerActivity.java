@@ -112,7 +112,11 @@ public class BaseDrawerActivity extends AppCompatActivity
             edit.putString("userPass", "");
             edit.commit();
 
+            DBHelper dbHelper = new DBHelper(getApplicationContext());
+            dbHelper.deleteUser(((GlobalVariables)getApplicationContext()).getUserDataPOJO().getUser_ID());
+
             ((GlobalVariables)getApplicationContext()).setUserDataPOJO(null);
+
 
             //TODO buraya databaseden silme kısmını da eklemem lazım
 

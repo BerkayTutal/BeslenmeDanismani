@@ -3,12 +3,14 @@ package tr.com.berkaytutal.beslenmedanismani.Utils;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
 
-public class ChestPOJO extends ExercisePOJO{
+import java.io.Serializable;
+
+public class ChestPOJO extends ExercisePOJO implements Serializable{
     private int agirlik;
     private int setSayisi;
     private int tekrarSayisi;
 
-    public ChestPOJO(String description, String exerciseType, int exercises_ID, String name, int orderExercise, Bitmap photo1, Bitmap photo2, int restTime, String title, MediaStore.Video video, int agirlik, int setSayisi, int tekrarSayisi) {
+    public ChestPOJO(String description, String exerciseType, int exercises_ID, String name, int orderExercise, byte[] photo1, byte[] photo2, int restTime, String title, byte[] video, int agirlik, int setSayisi, int tekrarSayisi) {
         super(description, exerciseType, exercises_ID, name, orderExercise, photo1, photo2, restTime, title, video);
         this.agirlik = agirlik;
         this.setSayisi = setSayisi;
