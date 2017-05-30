@@ -4,14 +4,12 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -220,7 +218,7 @@ public class EditProfileActivity extends BaseDrawerActivity {
         @Override
         protected String doInBackground(String... strings) {
             Log.i("json",jsonObject.toString());
-            return DataSenderHelper.POST(PublicVariables.updateURL, jsonObject);
+            return DataSenderHelper.POST(PublicVariables.userUpdateURL, jsonObject);
 
         }
 

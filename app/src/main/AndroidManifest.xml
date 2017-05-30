@@ -30,7 +30,8 @@
         <activity android:name=".TrainerDetailPage" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ProgramDetailActivity" />
-        <activity android:name=".EditProfileActivity"></activity>
+        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".BodyRates"></activity>
     </application>
 
 </manifest>

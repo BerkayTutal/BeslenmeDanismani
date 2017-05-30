@@ -35,8 +35,16 @@
         <item>Trainer</item>
     </array>
 
+    <!--Body Rates-->
+    <string name="tall">Tall</string>
+    <string name="weight">Weight</string>
+    <string name="muscleRate">Muscle Rate</string>
+    <string name="fatRate">Fat Rate</string>
+    <string name="waterRate">Water Rate</string>
+    <string name="update">Update</string>
+
     <!--program detay sayfası değişkenleri-->
-<string name="buythisprogram">Buy This Program</string>
+    <string name="buythisprogram">Buy This Program</string>
     <string name="indir">Download</string>
     <string name="indirildi">In Library!</string>
     <string name="baslat">Workout!</string>

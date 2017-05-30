@@ -25,6 +25,9 @@ public class HomepageActivity extends BaseDrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
+//
+//        Intent rates = new Intent(this,BodyRates.class);
+//        startActivity(rates);
 
         ArrayList<TrainerPOJO> allUsers = ((GlobalVariables) getApplicationContext()).getAllUsers();
         ArrayList<ProgramPOJO> allPrograms = ((GlobalVariables) getApplicationContext()).getAllPrograms();

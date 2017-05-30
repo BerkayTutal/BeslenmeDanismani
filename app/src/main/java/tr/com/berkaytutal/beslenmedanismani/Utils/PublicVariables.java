@@ -22,7 +22,8 @@ public interface PublicVariables {
     String allUsersURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/getAllTrainers/";
     String loginURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/";
     String registerURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/addNewUser";
-    String updateURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/addNewUser";
+    String userUpdateURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/updateUserSimpleData";
+    String bodyRateUpdateURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/updateUserBodyRates";
     //getProgramDetailsURL + programID/userID
     String getProgramDetailsURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/getProgramDetails/";
 }
