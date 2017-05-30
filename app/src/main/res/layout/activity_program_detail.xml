@@ -18,11 +18,27 @@
             android:id="@+id/programDetailImage"
             android:layout_width="200dp"
             android:layout_height="200dp" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/buythisprogram"
+            android:textColor="#fff"
+            android:background="@color/colorGreen"
+            android:layout_marginRight="5dp"
+            android:id="@+id/programBuyButton"
+            android:drawableLeft="@drawable/download"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:id="@+id/boughtProgramLinearLayout"
+            android:visibility="gone"
             >
             <Button
                 android:layout_width="match_parent"

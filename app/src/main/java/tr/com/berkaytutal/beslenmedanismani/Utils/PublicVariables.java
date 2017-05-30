@@ -8,6 +8,8 @@ public interface PublicVariables {
     int TYPE_LISTINGS_ALL = 1;
     int TYPE_LISTINGS_HOMEPAGE  = 2;
 
+    String CHEST = "Chest";
+
 
 
 
@@ -21,4 +23,6 @@ public interface PublicVariables {
     String loginURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/";
     String registerURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/addNewUser";
     String updateURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/addNewUser";
+    //getProgramDetailsURL + programID/userID
+    String getProgramDetailsURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/getProgramDetails/";
 }

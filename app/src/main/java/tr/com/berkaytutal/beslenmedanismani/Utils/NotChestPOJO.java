@@ -1,0 +1,21 @@
+package tr.com.berkaytutal.beslenmedanismani.Utils;
+
+import android.graphics.Bitmap;
+import android.provider.MediaStore;
+
+public class NotChestPOJO extends ExercisePOJO{
+    private int exerciseTime;
+
+    public NotChestPOJO(String description, String exerciseType, int exercises_ID, String name, int orderExercise, Bitmap photo1, Bitmap photo2, int restTime, String title, MediaStore.Video video, int exerciseTime) {
+        super(description, exerciseType, exercises_ID, name, orderExercise, photo1, photo2, restTime, title, video);
+        this.exerciseTime = exerciseTime;
+    }
+
+    public int getExerciseTime() {
+        return exerciseTime;
+    }
+
+    public void setExerciseTime(int exerciseTime) {
+        this.exerciseTime = exerciseTime;
+    }
+}

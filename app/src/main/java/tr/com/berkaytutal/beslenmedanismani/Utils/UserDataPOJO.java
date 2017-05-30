@@ -1,5 +1,6 @@
 package tr.com.berkaytutal.beslenmedanismani.Utils;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Created by MUSTAFA on 27.05.2017.
  */
 
-public class UserDataPOJO {
+public class UserDataPOJO implements Serializable {
     private int user_ID;
     private String name;
     private String surname;
@@ -136,5 +137,23 @@ public class UserDataPOJO {
 
     public void setMyPrograms(ArrayList<ProgramPOJO> myPrograms) {
         this.myPrograms = myPrograms;
+    }
+    public void setProgramByID(ProgramPOJO programPOJO){
+
+        for(int i = 0; i<myPrograms.size();i++){
+            if (myPrograms.get(i).getProgramID() == programPOJO.getProgramID()){
+                myPrograms.set(i,programPOJO);
+                return;
+            }
+        }
+    }
+    public ProgramPOJO getProgramByID(int programID){
+
+        for(int i = 0; i<myPrograms.size();i++){
+            if (myPrograms.get(i).getProgramID() == programID){
+                return myPrograms.get(i);
+            }
+        }
+        return null;
     }
 }

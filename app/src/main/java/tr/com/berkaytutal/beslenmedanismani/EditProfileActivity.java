@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -218,6 +219,7 @@ public class EditProfileActivity extends BaseDrawerActivity {
 
         @Override
         protected String doInBackground(String... strings) {
+            Log.i("json",jsonObject.toString());
             return DataSenderHelper.POST(PublicVariables.updateURL, jsonObject);
 
         }

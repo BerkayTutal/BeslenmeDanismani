@@ -1,12 +1,16 @@
 package tr.com.berkaytutal.beslenmedanismani.Utils;
 
 import android.graphics.Bitmap;
+import android.provider.MediaStore;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by berka on 21.05.2017.
  */
 
-public class ProgramPOJO {
+public class ProgramPOJO implements Serializable {
     private String difficulty;
     private Bitmap programPhoto;
     private String programSpec;
@@ -16,6 +20,8 @@ public class ProgramPOJO {
 
     private String trainerName;
     private String trainerSurname;
+
+    private ArrayList<ExercisePOJO> exercisez = null;
 
     public ProgramPOJO(String difficulty, Bitmap programPhoto, String programSpec, String programTitle, int programID, int trainerID, String trainerName, String trainerSurname) {
         this.difficulty = difficulty;
@@ -27,6 +33,19 @@ public class ProgramPOJO {
 
         this.trainerName = trainerName;
         this.trainerSurname = trainerSurname;
+    }
+
+    public ProgramPOJO(String difficulty, Bitmap programPhoto, String programSpec, String programTitle, int programID, int trainerID, String trainerName, String trainerSurname, ArrayList<ExercisePOJO> exercisez) {
+        this( difficulty,  programPhoto,  programSpec,  programTitle,  programID,  trainerID,  trainerName,  trainerSurname);
+        this.exercisez = exercisez;
+    }
+
+    public ArrayList<ExercisePOJO> getExercisez() {
+        return exercisez;
+    }
+
+    public void setExercisez(ArrayList<ExercisePOJO> exercisez) {
+        this.exercisez = exercisez;
     }
 
     public String getDifficulty() {
@@ -94,3 +113,4 @@ public class ProgramPOJO {
         this.trainerSurname = trainerSurname;
     }
 }
+

@@ -114,6 +114,8 @@ public class BaseDrawerActivity extends AppCompatActivity
 
             ((GlobalVariables)getApplicationContext()).setUserDataPOJO(null);
 
+            //TODO buraya databaseden silme kısmını da eklemem lazım
+
             Intent i = new Intent(this, HomepageActivity.class);
             startActivity(i);
             finish();
