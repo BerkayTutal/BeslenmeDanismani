@@ -34,6 +34,12 @@
         <item>Title</item>
         <item>Trainer</item>
     </array>
+    <array name="hardness">
+        <item>Basic</item>
+        <item>Medium</item>
+        <item>Hard</item>
+
+    </array>
 
     <!--Body Rates-->
     <string name="tall">Tall</string>
@@ -51,6 +57,7 @@
     <string name="aboutTrainer">About Trainer</string>
 
     <!--profil detay sayfası değişkenleri-->
+    <string name="bodyRates">Body Rates</string>
     <string name="myPrograms">My Programs</string>
     <string name="editDetails">Edit Details</string>
     <string name="updateDetails">Update Details</string>

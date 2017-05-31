@@ -82,7 +82,7 @@ public class BodyRates extends BaseDrawerActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                MyAsyncClass async = new MyAsyncClass();
+                MyAsyncClass2 async = new MyAsyncClass2();
                 async.execute("test");
 
 
@@ -92,7 +92,7 @@ public class BodyRates extends BaseDrawerActivity {
 
     }
 
-    private class MyAsyncClass extends AsyncTask<String, Void, String> {
+    private class MyAsyncClass2 extends AsyncTask<String, Void, String> {
 
 
         @Override

@@ -22,6 +22,7 @@ public class SearchFilterActivity extends AppCompatActivity {
     private EditText searchQueryEditText;
     private EditText trainerQueryEditText;
     private Spinner categorySpinner;
+    private Spinner hardnessSpinner;
     private Spinner sortBySpinner;
 
     private String searchQueryString;
@@ -44,12 +45,20 @@ public class SearchFilterActivity extends AppCompatActivity {
         searchQueryEditText = (EditText) findViewById(R.id.filterSearchQueryEditText);
         trainerQueryEditText = (EditText) findViewById(R.id.filterTrainerQueryEditText);
         categorySpinner = (Spinner) findViewById(R.id.filterCategoriesSpinner);
+        hardnessSpinner = (Spinner) findViewById(R.id.filterHardnessSpinner);
         sortBySpinner = (Spinner) findViewById(R.id.filterSortBySpinner);
 
         ArrayAdapter<CharSequence> sortBySpinnerAdapter = ArrayAdapter.createFromResource(
                 this, R.array.sortBy, android.R.layout.simple_spinner_item);
         sortBySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sortBySpinner.setAdapter(sortBySpinnerAdapter);
+
+        ArrayAdapter<CharSequence> hardnessSpinnerAdapter = ArrayAdapter.createFromResource(
+                this, R.array.hardness, android.R.layout.simple_spinner_item);
+        hardnessSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        hardnessSpinner.setAdapter(hardnessSpinnerAdapter);
+
+
 
         ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, categories);
