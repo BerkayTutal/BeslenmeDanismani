@@ -41,6 +41,17 @@
             android:visibility="gone"
             >
             <Button
+                android:layout_width="44dp"
+                android:layout_height="wrap_content"
+
+                android:background="@color/colorRedDark"
+                android:layout_marginRight="5dp"
+                android:id="@+id/programDetailDelete"
+                android:drawableLeft="@drawable/delete"
+                android:padding="10dp"
+                android:visibility="gone"
+                />
+            <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -48,10 +59,12 @@
                 android:textColor="#fff"
                 android:background="@color/accent"
                 android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
                 android:id="@+id/programDetailDownload"
                 android:drawableLeft="@drawable/download"
                 android:padding="10dp"
                 />
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

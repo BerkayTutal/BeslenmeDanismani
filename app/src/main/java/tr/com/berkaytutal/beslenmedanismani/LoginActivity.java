@@ -174,7 +174,7 @@ public class LoginActivity extends AppCompatActivity {
             UserDataPOJO dbUser = dbhelper.getUser();
 
             boolean shouldIUpdate = false;
-            if(dbUser != null){
+            if (dbUser != null) {
                 shouldIUpdate = true;
             }
 
@@ -212,15 +212,15 @@ public class LoginActivity extends AppCompatActivity {
                         String trainerName = program.getString("trainerName");
                         String trainerSurname = program.getString("trainerName");
                         int trainer_id = program.getInt("trainer_ID");
+                        String programDescription = program.getString("programDescription");
 
-                        ProgramPOJO myProgram = new ProgramPOJO(programDiff, imageByte, programSpecName, programTittle, program_ID, trainer_id, trainerName, trainerSurname);
+                        ProgramPOJO myProgram = new ProgramPOJO(programDiff, imageByte, programSpecName, programTittle, programDescription, program_ID, trainer_id, trainerName, trainerSurname);
                         myPrograms.add(myProgram);
                     }
-                    if(dbUser == null){
+                    if (dbUser == null) {
                         dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, tall, weight, muscleRate, fatRate, waterRate, myPrograms);
-                    }
-                    else{
-                        for (ProgramPOJO program: myPrograms) {
+                    } else {
+                        for (ProgramPOJO program : myPrograms) {
                             dbUser.insertProgram(program);
                         }
                         ArrayList<ProgramPOJO> updatedPrograms = dbUser.getMyPrograms();
@@ -229,10 +229,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
                     ((GlobalVariables) getApplicationContext()).setUserDataPOJO(dbUser);
-                    if(shouldIUpdate){
+                    if (shouldIUpdate) {
                         dbhelper.updateUser(dbUser);
-                    }
-                    else{
+                    } else {
                         dbhelper.insertUser(dbUser);
                     }
 

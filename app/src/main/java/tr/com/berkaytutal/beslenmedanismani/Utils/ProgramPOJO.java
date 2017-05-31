@@ -16,6 +16,7 @@ public class ProgramPOJO implements Serializable {
     private byte[] programPhoto;
     private String programSpec;
     private String programTitle;
+    private String programDescription;
     private int programID;
     private int trainerID;
 
@@ -24,7 +25,7 @@ public class ProgramPOJO implements Serializable {
 
     private ArrayList<ExercisePOJO> exercisez = null;
 
-    public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle, int programID, int trainerID, String trainerName, String trainerSurname) {
+    public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle, String programDescription , int programID, int trainerID, String trainerName, String trainerSurname) {
         this.difficulty = difficulty;
         this.programPhoto = programPhoto;
         this.programSpec = programSpec;
@@ -34,10 +35,11 @@ public class ProgramPOJO implements Serializable {
 
         this.trainerName = trainerName;
         this.trainerSurname = trainerSurname;
+        this.programDescription = programDescription;
     }
 
-    public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle, int programID, int trainerID, String trainerName, String trainerSurname, ArrayList<ExercisePOJO> exercisez) {
-        this( difficulty,  programPhoto,  programSpec,  programTitle,  programID,  trainerID,  trainerName,  trainerSurname);
+    public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle,String programDescription, int programID, int trainerID, String trainerName, String trainerSurname, ArrayList<ExercisePOJO> exercisez) {
+        this( difficulty,  programPhoto,  programSpec,  programTitle,  programDescription, programID,  trainerID,  trainerName,  trainerSurname);
         this.exercisez = exercisez;
     }
 
@@ -112,6 +114,14 @@ public class ProgramPOJO implements Serializable {
 
     public void setTrainerSurname(String trainerSurname) {
         this.trainerSurname = trainerSurname;
+    }
+
+    public String getProgramDescription() {
+        return programDescription;
+    }
+
+    public void setProgramDescription(String programDescription) {
+        this.programDescription = programDescription;
     }
 }
 

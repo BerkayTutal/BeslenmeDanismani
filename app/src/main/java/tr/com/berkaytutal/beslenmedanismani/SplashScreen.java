@@ -62,7 +62,7 @@ public class SplashScreen extends AppCompatActivity {
 //                    byte[] imageByte = Base64.decode(jobj.getString("programPhoto"), Base64.DEFAULT);
 //                    Bitmap photo = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
 
-
+                    String programDescription = jobj.getString("programDescription");
                     String programSpec = jobj.getString("programSpecName");
                     String programTitle = jobj.getString("programTittle");
                     int programID = jobj.getInt("program_ID");
@@ -71,7 +71,7 @@ public class SplashScreen extends AppCompatActivity {
                     String trainerSurname = jobj.getString("trainerSurname");
 
 
-                    program = new ProgramPOJO(diff, photo, programSpec, programTitle, programID, trainerID, trainerName, trainerSurname);
+                    program = new ProgramPOJO(diff, photo, programSpec, programTitle, programDescription, programID, trainerID, trainerName, trainerSurname);
 
                     allPrograms.add(program);
                 } catch (JSONException e) {

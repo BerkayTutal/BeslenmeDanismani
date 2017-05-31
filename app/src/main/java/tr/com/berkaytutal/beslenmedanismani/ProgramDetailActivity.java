@@ -49,11 +49,14 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
 
     private LinearLayout boughtProgramLinearLayout;
     private Button buyThisProgramButton;
+    private Button deleteProgramButton;
 
     private int programID;
     private ProgramPOJO program;
     private TrainerPOJO trainer;
     private UserDataPOJO user;
+
+    private View.OnClickListener downloadOnClickListener;
 
 
     @Override
@@ -63,6 +66,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
 
         buyThisProgramButton = (Button) findViewById(R.id.programBuyButton);
         boughtProgramLinearLayout = (LinearLayout) findViewById(R.id.boughtProgramLinearLayout);
+        deleteProgramButton = (Button) findViewById(R.id.programDetailDelete);
 
         programID = getIntent().getIntExtra("programID", 0);
 
@@ -84,6 +88,33 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         trainer = ((GlobalVariables) getApplicationContext()).getUserByID(program.getTrainerID());
         downloadButton = (Button) findViewById(R.id.programDetailDownload);
         startButton = (Button) findViewById(R.id.programDetailStart);
+
+        downloadOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "indirme başladı", Toast.LENGTH_SHORT).show();
+                downloadProgram();
+
+
+            }
+        };
+
+        downloadButton.setOnClickListener(downloadOnClickListener);
+
+        deleteProgramButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                user.deleteProgram(program);
+                ((GlobalVariables)getApplicationContext()).setUserDataPOJO(user);
+                DBHelper dbHelper = new DBHelper(getApplicationContext());
+                dbHelper.updateUser(user);
+                activateDownloadButton();
+
+
+                Toast.makeText(getApplicationContext(),"silindi",Toast.LENGTH_SHORT).show();
+            }
+        });
+
         if (program.getExercisez() != null) {
             disableDownloadButton();
         }
@@ -105,6 +136,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         programTitle.setText(program.getProgramTitle());
         programCategory.setText(program.getProgramSpec());
         programHardness.setText(program.getDifficulty());
+        programDescription.setText(program.getProgramDescription());
 
         trainerImage.setImageBitmap(trainer.getPhoto());
         trainerName.setText(trainer.getName() + " " + trainer.getSurname());
@@ -121,15 +153,6 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
             }
         });
 
-        downloadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "indirme başladı", Toast.LENGTH_SHORT).show();
-                downloadProgram();
-
-
-            }
-        });
 
     }
 
@@ -145,13 +168,22 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
 
 
     }
+    private void activateDownloadButton() {
+        downloadButton.setClickable(true);
+        downloadButton.setText(getResources().getString(R.string.indir));
+        downloadButton.setBackgroundColor(getResources().getColor(R.color.accent));
+        downloadButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.download), null, null, null);
+        downloadButton.setOnClickListener(downloadOnClickListener);
+        deleteProgramButton.setVisibility(View.GONE);
 
+    }
     private void disableDownloadButton() {
         downloadButton.setClickable(false);
         downloadButton.setText(getResources().getString(R.string.indirildi));
         downloadButton.setBackgroundColor(getResources().getColor(R.color.colorGreen));
-        downloadButton.setCompoundDrawables(getResources().getDrawable(R.drawable.check), null, null, null);
+        downloadButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.check), null, null, null);
         downloadButton.setOnClickListener(null);
+        deleteProgramButton.setVisibility(View.VISIBLE);
 
     }
 
