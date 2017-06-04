@@ -31,7 +31,7 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ProgramDetailActivity" />
         <activity android:name=".EditProfileActivity" />
-        <activity android:name=".BodyRates"></activity>
+        <activity android:name=".BodyRates" />
     </application>
 
 </manifest>

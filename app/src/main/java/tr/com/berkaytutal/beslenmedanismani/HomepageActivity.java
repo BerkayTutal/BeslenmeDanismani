@@ -2,9 +2,11 @@ package tr.com.berkaytutal.beslenmedanismani;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -20,6 +22,7 @@ public class HomepageActivity extends BaseDrawerActivity {
 
     private Button seeAllListings;
     private Button seeAllTrainers;
+    private TextView textViewUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,17 @@ public class HomepageActivity extends BaseDrawerActivity {
 //
 //        Intent rates = new Intent(this,BodyRates.class);
 //        startActivity(rates);
+
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        View header=navigationView.getHeaderView(0);
+        textViewUserName = (TextView)header.findViewById(R.id.nav_user_name);
+        textViewUserName.setText( ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getName()+ " " + ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getSurname());
+
+
+
+
 
         ArrayList<TrainerPOJO> allUsers = ((GlobalVariables) getApplicationContext()).getAllUsers();
         ArrayList<ProgramPOJO> allPrograms = ((GlobalVariables) getApplicationContext()).getAllPrograms();
