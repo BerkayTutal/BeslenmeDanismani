@@ -51,6 +51,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_login);
+
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+
+
         loginActivity = this;
 
 
@@ -67,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
             Intent i = new Intent(this, ProfileActivity.class);
             startActivity(i);
+
             finish();
 
 
@@ -120,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                 i.putExtra("password", password);
                 startActivity(i);
 
+
             }
         });
 
@@ -129,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (isMainLogin) {
                     Intent i = new Intent(view.getContext(), HomepageActivity.class);
                     startActivity(i);
+
                 }
                 finish();
 
@@ -163,6 +170,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 Intent i = new Intent(getApplicationContext(), HomepageActivity.class);
                 startActivity(i);
+
                 finish();
             }
         }

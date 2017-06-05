@@ -85,6 +85,7 @@ public class ProgramListingAdapter extends BaseAdapter {
                 Intent intent = new Intent(view.getContext(), ProgramDetailActivity.class);
                 intent.putExtra("programID",programPOJO.getProgramID());
                 view.getContext().startActivity(intent);
+
             }
         });
 

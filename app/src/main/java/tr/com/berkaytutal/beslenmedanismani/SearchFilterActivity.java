@@ -36,6 +36,10 @@ public class SearchFilterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_filter);
 
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+
+
+
         categories.add(getResources().getString(R.string.all));
 
 
@@ -89,4 +93,11 @@ public class SearchFilterActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
 }

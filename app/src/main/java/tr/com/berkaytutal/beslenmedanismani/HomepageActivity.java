@@ -28,6 +28,8 @@ public class HomepageActivity extends BaseDrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
+
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 //
 //        Intent rates = new Intent(this,BodyRates.class);
 //        startActivity(rates);
@@ -62,6 +64,7 @@ public class HomepageActivity extends BaseDrawerActivity {
             public void onClick(View view) {
                 Intent i = new Intent(view.getContext(), AllUsersActivity.class);
                 startActivity(i);
+
             }
         });
         seeAllListings.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +72,7 @@ public class HomepageActivity extends BaseDrawerActivity {
             public void onClick(View view) {
                 Intent i = new Intent(view.getContext(), AllListingsActivity.class);
                 startActivity(i);
+
             }
         });
 

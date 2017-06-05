@@ -24,6 +24,10 @@ public class AllUsersActivity extends BaseDrawerActivity implements SwipeRefresh
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_listings);
+
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+
+
         setFilterButtonVisibility(true);
         setFilterButtonListener(PublicVariables.FILTER_BUTTON_TYPE_USER);
 
@@ -56,6 +60,15 @@ public class AllUsersActivity extends BaseDrawerActivity implements SwipeRefresh
         listView.setAdapter(ula);
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+
+
 
     @Override
     public void onRefresh() {

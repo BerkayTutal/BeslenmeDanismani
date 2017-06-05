@@ -68,6 +68,9 @@ public class EditProfileActivity extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+
+
         userDataPOJO = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
 
         userDetails = this.getSharedPreferences("userdetails", MODE_PRIVATE);
@@ -212,6 +215,14 @@ public class EditProfileActivity extends BaseDrawerActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+
+
     private class MyRegisterAsync extends AsyncTask<String, Void, String> {
 
 
@@ -252,6 +263,7 @@ public class EditProfileActivity extends BaseDrawerActivity {
                 ProfileActivity.profileActivity.finish();
                 Intent i = new Intent(EditProfileActivity.this,ProfileActivity.class);
                 startActivity(i);
+
                 finish();
             }
         }

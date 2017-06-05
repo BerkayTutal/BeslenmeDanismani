@@ -24,6 +24,10 @@ public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_listings);
+
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+
+
         setFilterButtonVisibility(true);
         setFilterButtonListener(PublicVariables.FILTER_BUTTON_TYPE_PROGRAM);
         searchView.setVisibility(View.VISIBLE);
@@ -52,6 +56,14 @@ public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefr
         listView.setAdapter(pla);
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+
 
     @Override
     public void onRefresh() {

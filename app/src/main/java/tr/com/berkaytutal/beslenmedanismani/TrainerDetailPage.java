@@ -23,6 +23,10 @@ public class TrainerDetailPage extends BaseDrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainer_detail_page);
+
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+
+
         int userID = getIntent().getIntExtra("userID",-1);
         TrainerPOJO user = ((GlobalVariables)getApplicationContext()).getUserByID(userID);
 
@@ -46,4 +50,13 @@ public class TrainerDetailPage extends BaseDrawerActivity {
 
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+
+
 }

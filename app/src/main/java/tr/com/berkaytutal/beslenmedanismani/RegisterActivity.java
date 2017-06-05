@@ -46,6 +46,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+
         nameEditText = (EditText) findViewById(R.id.nameRegisterScreen);
         surnameEditText = (EditText) findViewById(R.id.surnameRegisterScreen);
         emailEditText = (EditText) findViewById(R.id.emailAddressRegisterScreen);
@@ -153,6 +155,14 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+
+
     private class MyRegisterAsync extends AsyncTask<String, Void, String> {
 
 
@@ -181,6 +191,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                 i.putExtra("isMainLogin", true);
                 startActivity(i);
+
                 finish();
             }
         }

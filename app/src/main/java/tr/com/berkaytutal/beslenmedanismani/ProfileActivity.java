@@ -80,6 +80,10 @@ public class ProfileActivity extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+
+
+
         profileActivity = this;
 
         userDataPOJO = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
@@ -98,6 +102,7 @@ public class ProfileActivity extends BaseDrawerActivity {
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(),EditProfileActivity.class);
                 startActivity(i);
+
             }
         });
 
@@ -168,6 +173,14 @@ public class ProfileActivity extends BaseDrawerActivity {
         });
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+
 
     private class MyAsyncClass2 extends AsyncTask<String, Void, String> {
 

@@ -65,6 +65,9 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_program_detail);
 
+
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+
         buyThisProgramButton = (Button) findViewById(R.id.programBuyButton);
         boughtProgramLinearLayout = (LinearLayout) findViewById(R.id.boughtProgramLinearLayout);
         deleteProgramButton = (Button) findViewById(R.id.programDetailDelete);
@@ -101,22 +104,28 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
             }
         };
 
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), WorkoutIntroActivity.class));
+            }
+        });
+
         downloadButton.setOnClickListener(downloadOnClickListener);
 
         deleteProgramButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 user.deleteProgram(program);
-                ((GlobalVariables)getApplicationContext()).setUserDataPOJO(user);
+                ((GlobalVariables) getApplicationContext()).setUserDataPOJO(user);
                 DBHelper dbHelper = new DBHelper(getApplicationContext());
                 dbHelper.updateUser(user);
                 activateDownloadButton();
 
 
-                Toast.makeText(getApplicationContext(),"silindi",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "silindi", Toast.LENGTH_SHORT).show();
             }
         });
-
 
 
         if (program.getExercisez() != null) {
@@ -160,10 +169,19 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+
+
     private void goTrainerPage() {
         Intent i = new Intent(this, TrainerDetailPage.class);
         i.putExtra("userID", trainer.getUserID());
         startActivity(i);
+
     }
 
     private void downloadProgram() {
@@ -172,6 +190,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
 
 
     }
+
     private void activateDownloadButton() {
         downloadButton.setClickable(true);
         downloadButton.setText(getResources().getString(R.string.indir));
@@ -181,6 +200,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         deleteProgramButton.setVisibility(View.GONE);
 
     }
+
     private void disableDownloadButton() {
         downloadButton.setClickable(false);
         downloadButton.setText(getResources().getString(R.string.indirildi));
