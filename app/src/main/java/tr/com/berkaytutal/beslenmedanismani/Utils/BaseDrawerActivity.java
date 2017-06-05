@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewStub;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import tr.com.berkaytutal.beslenmedanismani.AllListingsActivity;
@@ -32,7 +33,7 @@ public class BaseDrawerActivity extends AppCompatActivity
 
     protected FloatingActionButton filterButton;
     protected SearchView searchView;
-
+    private  TextView textViewUserName;
 
     @Override
     public void setContentView(@LayoutRes int layoutID) {
@@ -68,6 +69,12 @@ public class BaseDrawerActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+        View header=navigationView.getHeaderView(0);
+        textViewUserName = (TextView)header.findViewById(R.id.nav_user_name);
+        textViewUserName.setText( ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getName()+ " " + ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getSurname());
 
 
     }
