@@ -74,7 +74,13 @@ public class BaseDrawerActivity extends AppCompatActivity
 
         View header=navigationView.getHeaderView(0);
         textViewUserName = (TextView)header.findViewById(R.id.nav_user_name);
-        textViewUserName.setText( ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getName()+ " " + ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getSurname());
+        try{
+            textViewUserName.setText( ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getName()+ " " + ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getSurname());
+
+        }catch (Exception e){
+            textViewUserName.setText("Welcome !");
+        }
+
 
 
     }
