@@ -196,7 +196,8 @@
         <ListView
             android:id="@+id/myProgramsListviewDetailPage"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/userProfileListingHeight">
+            android:layout_height="@dimen/userProfileListingHeight"
+            android:nestedScrollingEnabled="true">
 
         </ListView>
 
