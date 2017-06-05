@@ -32,7 +32,6 @@
         <activity android:name=".ProgramDetailActivity" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".BodyRates" />
-        <activity android:name=".WorkoutIntroActivity"></activity>
     </application>
 
 </manifest>
