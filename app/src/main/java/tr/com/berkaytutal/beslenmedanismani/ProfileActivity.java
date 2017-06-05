@@ -71,6 +71,9 @@ public class ProfileActivity extends BaseDrawerActivity {
         MenuItem logoutButton = menu.findItem(R.id.appBarLogoutButton);
         logoutButton.setVisible(true);
 
+        MenuItem profileButton = menu.findItem(R.id.appBarProfileButton);
+        profileButton.setVisible(false);
+
 
         return super.onPrepareOptionsMenu(menu);
     }
