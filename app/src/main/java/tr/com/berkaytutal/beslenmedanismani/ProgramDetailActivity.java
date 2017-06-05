@@ -107,7 +107,9 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), WorkoutIntroActivity.class));
+                Intent i = new Intent(getApplicationContext(),WorkoutIntroActivity.class);
+                i.putExtra("programID",programID);
+                startActivity(i);
             }
         });
 
