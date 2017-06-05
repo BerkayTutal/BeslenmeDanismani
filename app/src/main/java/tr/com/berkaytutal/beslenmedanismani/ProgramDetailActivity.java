@@ -51,6 +51,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
     private Button buyThisProgramButton;
     private Button deleteProgramButton;
 
+
     private int programID;
     private ProgramPOJO program;
     private TrainerPOJO trainer;
@@ -67,6 +68,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         buyThisProgramButton = (Button) findViewById(R.id.programBuyButton);
         boughtProgramLinearLayout = (LinearLayout) findViewById(R.id.boughtProgramLinearLayout);
         deleteProgramButton = (Button) findViewById(R.id.programDetailDelete);
+
 
         programID = getIntent().getIntExtra("programID", 0);
 
@@ -114,6 +116,8 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                 Toast.makeText(getApplicationContext(),"silindi",Toast.LENGTH_SHORT).show();
             }
         });
+
+
 
         if (program.getExercisez() != null) {
             disableDownloadButton();

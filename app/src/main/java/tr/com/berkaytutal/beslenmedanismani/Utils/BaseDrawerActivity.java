@@ -18,8 +18,11 @@ import android.view.MenuItem;
 import android.view.ViewStub;
 import android.widget.Toast;
 
+import tr.com.berkaytutal.beslenmedanismani.AllListingsActivity;
+import tr.com.berkaytutal.beslenmedanismani.AllUsersActivity;
 import tr.com.berkaytutal.beslenmedanismani.HomepageActivity;
 import tr.com.berkaytutal.beslenmedanismani.LoginActivity;
+import tr.com.berkaytutal.beslenmedanismani.ProfileActivity;
 import tr.com.berkaytutal.beslenmedanismani.R;
 import tr.com.berkaytutal.beslenmedanismani.SearchFilterActivity;
 
@@ -57,6 +60,7 @@ public class BaseDrawerActivity extends AppCompatActivity
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -135,18 +139,39 @@ public class BaseDrawerActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.icon_home) {
+            Intent i = new Intent(getApplicationContext(),HomepageActivity.class);
+            startActivity(i);
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.icon_all_trainers) {
+            Intent i = new Intent(getApplicationContext(), AllUsersActivity.class);
+            startActivity(i);
+        } else if (id == R.id.icon_all_programs) {
+            Intent i = new Intent(getApplicationContext(), AllListingsActivity.class);
+            startActivity(i);
+        } else if (id == R.id.icon_profil) {
+            Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(i);
+        } else if (id == R.id.icon_logout) {
+            Toast.makeText(getApplicationContext(),"Logout Yapıldı",Toast.LENGTH_SHORT).show();
+            SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", MODE_PRIVATE);
+            SharedPreferences.Editor edit = userDetails.edit();
+            edit.clear();
+            edit.putString("userEmail", "");
+            edit.putString("userPass", "");
+            edit.commit();
 
-        } else if (id == R.id.nav_manage) {
+            DBHelper dbHelper = new DBHelper(getApplicationContext());
+            dbHelper.deleteUser(((GlobalVariables)getApplicationContext()).getUserDataPOJO().getUser_ID());
 
-        } else if (id == R.id.nav_share) {
+            ((GlobalVariables)getApplicationContext()).setUserDataPOJO(null);
 
-        } else if (id == R.id.nav_send) {
 
+            //TODO buraya databaseden silme kısmını da eklemem lazım
+
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
