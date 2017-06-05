@@ -33,11 +33,7 @@ public class HomepageActivity extends BaseDrawerActivity {
 //        startActivity(rates);
 
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        View header=navigationView.getHeaderView(0);
-        textViewUserName = (TextView)header.findViewById(R.id.nav_user_name);
-        textViewUserName.setText( ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getName()+ " " + ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getSurname());
+
 
 
 
