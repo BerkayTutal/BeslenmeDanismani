@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import tr.com.berkaytutal.beslenmedanismani.Adapters.ProgramOverviewAdapter;
 import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
+import tr.com.berkaytutal.beslenmedanismani.Utils.CircleMakerHelper;
+import tr.com.berkaytutal.beslenmedanismani.Utils.CircleTekrarAbsPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ExercisePOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
@@ -40,6 +42,9 @@ public class WorkoutIntroActivity extends BaseDrawerActivity {
         program = user.getProgramByID(programID);
 
         exercisePOJOs = program.getExercisez();
+
+        CircleMakerHelper test = new CircleMakerHelper();
+        ArrayList<CircleTekrarAbsPOJO> deneme = test.makeCircleWithThis(exercisePOJOs);
 
         ProgramOverviewAdapter adapter = new ProgramOverviewAdapter(this,exercisePOJOs);
         listview.setAdapter(adapter);

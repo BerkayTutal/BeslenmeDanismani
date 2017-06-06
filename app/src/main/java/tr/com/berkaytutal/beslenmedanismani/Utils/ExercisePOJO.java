@@ -6,7 +6,7 @@ import android.provider.MediaStore;
 
 import java.io.Serializable;
 
-public class ExercisePOJO implements Serializable{
+public class ExercisePOJO extends CircleTekrarAbsPOJO implements Serializable{
 
 
 
@@ -115,4 +115,13 @@ public class ExercisePOJO implements Serializable{
         this.video = video;
     }
 
+    @Override
+    public boolean isCircle() {
+        return false;
+    }
+
+    @Override
+    public boolean isTekrar() {
+        return false;
+    }
 }
