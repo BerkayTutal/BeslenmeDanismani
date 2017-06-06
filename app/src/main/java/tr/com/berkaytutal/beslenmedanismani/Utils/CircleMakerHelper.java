@@ -50,4 +50,20 @@ public class CircleMakerHelper {
         return arrayListTOTAL;
 
     }
+
+//    private ArrayList<CircleTekrarAbsPOJO> handleCircles(ArrayList<CircleTekrarAbsPOJO> exercisePOJOs){
+//
+//        ArrayList<CircleTekrarAbsPOJO> arrayList = new ArrayList<>();
+//
+//        for(int i=0; i<exercisePOJOs.size();i++){
+//            int circleStartID = -1;
+//           if(exercisePOJOs.get(i).isTekrar()){
+//               TekrarPOJO tekrar = (TekrarPOJO) exercisePOJOs.get(i);
+//               tekrar.get
+//           }
+//        }
+//
+//
+//
+//    }
 }
