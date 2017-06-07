@@ -59,6 +59,8 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
 
     private View.OnClickListener downloadOnClickListener;
 
+    protected boolean isWorkoutButton = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +99,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         downloadOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isWorkoutButton = false;
                 Toast.makeText(getApplicationContext(), "indirme başladı", Toast.LENGTH_SHORT).show();
                 downloadProgram();
 
@@ -107,9 +110,21 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),WorkoutIntroActivity.class);
-                i.putExtra("programID",programID);
-                startActivity(i);
+               // program = ((GlobalVariables) getApplicationContext()).getProgramByID(programID);
+
+                if(program.getExercisez() == null){
+                    isWorkoutButton = true;
+
+                    Toast.makeText(getApplicationContext(), "indirme başladı", Toast.LENGTH_SHORT).show();
+                    downloadProgram();
+                }
+                else{
+                    isWorkoutButton = false;
+                    startWorkout();
+                }
+
+
+
             }
         });
 
@@ -178,7 +193,6 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
     }
 
 
-
     private void goTrainerPage() {
         Intent i = new Intent(this, TrainerDetailPage.class);
         i.putExtra("userID", trainer.getUserID());
@@ -191,6 +205,11 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         async.execute("test");
 
 
+    }
+    protected void startWorkout(){
+        Intent i = new Intent(getApplicationContext(), WorkoutIntroActivity.class);
+        i.putExtra("programID", programID);
+        startActivity(i);
     }
 
     private void activateDownloadButton() {
@@ -218,6 +237,8 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         ArrayList<ExercisePOJO> exercisePOJOs = new ArrayList<>();
         JSONArray jsonArray;
 
+
+
         @Override
         protected Object doInBackground(Object[] objects) {
 
@@ -242,6 +263,9 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                 int restTime = 0;
                 String title = null;
                 byte[] video = null;
+                Integer circleID = null;
+                Integer circleCount = null;
+
 
                 try {
                     exerciseType = json.getString("exerciseType");
@@ -253,6 +277,17 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                     title = json.getString("tittle");
 
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    circleID = json.getInt("circleExercise_ID");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    circleCount = json.getInt("circleExercise_Repeat");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -287,7 +322,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    ChestPOJO chestPOJO = new ChestPOJO(description, exerciseType, exercises_ID, name, orderExercise, photo1, photo2, restTime, title, video, agirlik, setSayisi, tekrarSayisi);
+                    ChestPOJO chestPOJO = new ChestPOJO(description, exerciseType, exercises_ID, name, orderExercise, photo1, photo2, restTime, title, video, agirlik, setSayisi, tekrarSayisi, circleID, circleCount);
                     exercisePOJOs.add(chestPOJO);
 
 
@@ -302,7 +337,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    NotChestPOJO notChestPOJO = new NotChestPOJO(description, exerciseType, exercises_ID, name, orderExercise, photo1, photo2, restTime, title, video, exerciseTime);
+                    NotChestPOJO notChestPOJO = new NotChestPOJO(description, exerciseType, exercises_ID, name, orderExercise, photo1, photo2, restTime, title, video, exerciseTime, circleID, circleCount);
                     exercisePOJOs.add(notChestPOJO);
 
 
@@ -324,6 +359,10 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
             DBHelper dbhelper = new DBHelper(getApplicationContext());
             dbhelper.updateUser(user);
             disableDownloadButton();
+
+            if(isWorkoutButton){
+                startWorkout();
+            }
 
 
             super.onPostExecute(o);

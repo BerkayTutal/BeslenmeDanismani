@@ -29,9 +29,12 @@ public class CircleMakerHelper {
                 if (exercisePOJOs.get(i).getExercises_ID() == exercisePOJOs.get(i + 1).getExercises_ID()) {
                     ArrayList<ExercisePOJO> arrayList2 = new ArrayList<>();
                     int j = i;
-                    while (exercisePOJOs.get(i).getExercises_ID() == exercisePOJOs.get(j).getExercises_ID()) {
+                    while ((exercisePOJOs.get(i).getExercises_ID() == exercisePOJOs.get(j).getExercises_ID())) {
                         arrayList2.add(exercisePOJOs.get(j));
                         j++;
+                        if(j>=exercisePOJOs.size()){
+                            break;
+                        }
                     }
 
                     arrayListTOTAL.add(new TekrarPOJO(arrayList2));

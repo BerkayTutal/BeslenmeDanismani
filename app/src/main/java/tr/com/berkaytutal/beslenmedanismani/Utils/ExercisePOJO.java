@@ -6,8 +6,7 @@ import android.provider.MediaStore;
 
 import java.io.Serializable;
 
-public class ExercisePOJO extends CircleTekrarAbsPOJO implements Serializable{
-
+public class ExercisePOJO extends CircleTekrarAbsPOJO implements Serializable {
 
 
     private String description;
@@ -21,8 +20,11 @@ public class ExercisePOJO extends CircleTekrarAbsPOJO implements Serializable{
     private String title;
     private byte[] video;
 
+    Integer circleID;
+    Integer circleCount;
 
-    public ExercisePOJO(String description, String exerciseType, int exercises_ID, String name, int orderExercise, byte[] photo1, byte[] photo2, int restTime, String title, byte[] video) {
+
+    public ExercisePOJO(String description, String exerciseType, int exercises_ID, String name, int orderExercise, byte[] photo1, byte[] photo2, int restTime, String title, byte[] video, Integer circleID, Integer circleCount) {
         this.description = description;
         this.exerciseType = exerciseType;
         this.exercises_ID = exercises_ID;
@@ -33,6 +35,24 @@ public class ExercisePOJO extends CircleTekrarAbsPOJO implements Serializable{
         this.restTime = restTime;
         this.title = title;
         this.video = video;
+        this.circleID = circleID;
+        this.circleCount = circleCount;
+    }
+
+    public Integer getCircleID() {
+        return circleID;
+    }
+
+    public void setCircleID(Integer circleID) {
+        this.circleID = circleID;
+    }
+
+    public Integer getCircleCount() {
+        return circleCount;
+    }
+
+    public void setCircleCount(Integer circleCount) {
+        this.circleCount = circleCount;
     }
 
     public String getDescription() {
@@ -76,7 +96,7 @@ public class ExercisePOJO extends CircleTekrarAbsPOJO implements Serializable{
     }
 
     public Bitmap getPhoto1() {
-        return  BitmapFactory.decodeByteArray(photo1, 0, photo1.length);
+        return BitmapFactory.decodeByteArray(photo1, 0, photo1.length);
     }
 
     public void setPhoto1(byte[] photo1) {
@@ -84,7 +104,7 @@ public class ExercisePOJO extends CircleTekrarAbsPOJO implements Serializable{
     }
 
     public Bitmap getPhoto2() {
-        return  BitmapFactory.decodeByteArray(photo2, 0, photo2.length);
+        return BitmapFactory.decodeByteArray(photo2, 0, photo2.length);
     }
 
     public void setPhoto2(byte[] photo2) {

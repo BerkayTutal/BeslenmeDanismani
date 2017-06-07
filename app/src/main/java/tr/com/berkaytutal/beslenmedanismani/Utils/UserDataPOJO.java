@@ -169,7 +169,7 @@ public class UserDataPOJO implements Serializable {
     public boolean deleteProgram(ProgramPOJO programPOJO) {
         for (int i = 0; i < myPrograms.size(); i++) {
             if (myPrograms.get(i).getProgramID() == programPOJO.getProgramID()) {
-                myPrograms.remove(i);
+                myPrograms.get(i).setExercisez(null);
                 return true;
             }
         }

@@ -5,11 +5,11 @@ import android.provider.MediaStore;
 
 import java.io.Serializable;
 
-public class NotChestPOJO extends ExercisePOJO implements Serializable{
+public class NotChestPOJO extends ExercisePOJO implements Serializable {
     private int exerciseTime;
 
-    public NotChestPOJO(String description, String exerciseType, int exercises_ID, String name, int orderExercise, byte[] photo1, byte[] photo2, int restTime, String title, byte[] video, int exerciseTime) {
-        super(description, exerciseType, exercises_ID, name, orderExercise, photo1, photo2, restTime, title, video);
+    public NotChestPOJO(String description, String exerciseType, int exercises_ID, String name, int orderExercise, byte[] photo1, byte[] photo2, int restTime, String title, byte[] video, int exerciseTime, Integer circleID, Integer circleCount) {
+        super(description, exerciseType, exercises_ID, name, orderExercise, photo1, photo2, restTime, title, video, circleID, circleCount);
         this.exerciseTime = exerciseTime;
     }
 
