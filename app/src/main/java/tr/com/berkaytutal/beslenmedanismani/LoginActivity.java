@@ -231,6 +231,7 @@ public class LoginActivity extends AppCompatActivity {
                         for (ProgramPOJO program : myPrograms) {
                             dbUser.insertProgram(program);
                         }
+                        dbUser.deleteProgramsExcept(myPrograms);
                         ArrayList<ProgramPOJO> updatedPrograms = dbUser.getMyPrograms();
                         dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, tall, weight, muscleRate, fatRate, waterRate, updatedPrograms);
                     }

@@ -133,7 +133,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         deleteProgramButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                user.deleteProgram(program);
+                user.deleteProgramExercisez(program);
                 ((GlobalVariables) getApplicationContext()).setUserDataPOJO(user);
                 DBHelper dbHelper = new DBHelper(getApplicationContext());
                 dbHelper.updateUser(user);

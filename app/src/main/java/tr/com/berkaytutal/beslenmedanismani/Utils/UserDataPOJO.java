@@ -169,6 +169,28 @@ public class UserDataPOJO implements Serializable {
     public boolean deleteProgram(ProgramPOJO programPOJO) {
         for (int i = 0; i < myPrograms.size(); i++) {
             if (myPrograms.get(i).getProgramID() == programPOJO.getProgramID()) {
+                myPrograms.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+    public void deleteProgramsExcept(ArrayList<ProgramPOJO> programs){
+        ArrayList<Integer> programIDs = new ArrayList<>();
+        for (int i = 0; i < programs.size(); i++) {
+            programIDs.add(programs.get(i).getProgramID());
+        }
+        for (int i = 0; i < myPrograms.size(); i++) {
+            if (!programIDs.contains(myPrograms.get(i).getProgramID())) {
+                myPrograms.remove(i);
+
+            }
+        }
+
+    }
+    public boolean deleteProgramExercisez(ProgramPOJO programPOJO) {
+        for (int i = 0; i < myPrograms.size(); i++) {
+            if (myPrograms.get(i).getProgramID() == programPOJO.getProgramID()) {
                 myPrograms.get(i).setExercisez(null);
                 return true;
             }
