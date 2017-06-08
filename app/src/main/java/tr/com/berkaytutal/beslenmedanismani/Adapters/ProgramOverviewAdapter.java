@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,6 +16,7 @@ import tr.com.berkaytutal.beslenmedanismani.R;
 import tr.com.berkaytutal.beslenmedanismani.Utils.CirclePOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.CircleTekrarAbsPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ExercisePOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.ExpandedListView;
 import tr.com.berkaytutal.beslenmedanismani.Utils.TekrarPOJO;
 
 import static android.view.View.GONE;
@@ -76,7 +76,7 @@ public class ProgramOverviewAdapter extends BaseAdapter {
         if (exercises.get(i).isCircle()) {
             View listeElemani = li.inflate(R.layout.listing_adapter_program_overview_circle, null);
             TextView countText = (TextView) listeElemani.findViewById(R.id.programOverviewCircleCount);
-            ListView listView = (ListView) listeElemani.findViewById(R.id.programOverviewCircleListview);
+            ExpandedListView listView = (ExpandedListView) listeElemani.findViewById(R.id.programOverviewCircleListview);
 
             ProgramOverviewAdapter adapter = new ProgramOverviewAdapter(activity, ((CirclePOJO) exercises.get(i)).getArraylist());
             //adapter.setComingFromCircle(true);
