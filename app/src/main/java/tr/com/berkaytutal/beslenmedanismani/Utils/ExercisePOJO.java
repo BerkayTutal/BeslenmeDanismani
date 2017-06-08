@@ -20,8 +20,8 @@ public class ExercisePOJO extends CircleTekrarAbsPOJO implements Serializable {
     private String title;
     private byte[] video;
 
-    Integer circleID;
-    Integer circleCount;
+    private Integer circleID;
+    private Integer circleCount;
 
 
     public ExercisePOJO(String description, String exerciseType, int exercises_ID, String name, int orderExercise, byte[] photo1, byte[] photo2, int restTime, String title, byte[] video, Integer circleID, Integer circleCount) {
@@ -143,5 +143,21 @@ public class ExercisePOJO extends CircleTekrarAbsPOJO implements Serializable {
     @Override
     public boolean isTekrar() {
         return false;
+    }
+
+    @Override
+    public int getOrder() {
+        return getOrderExercise();
+    }
+
+    @Override
+    public void setOrder(int order) {
+        super.setOrder(order);
+        setOrderExercise(order);
+    }
+
+    @Override
+    public int getID(){
+        return exercises_ID;
     }
 }

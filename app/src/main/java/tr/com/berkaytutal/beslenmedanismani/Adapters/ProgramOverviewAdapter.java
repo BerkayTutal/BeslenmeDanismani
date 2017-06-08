@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -29,12 +30,19 @@ public class ProgramOverviewAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<CircleTekrarAbsPOJO> exercises;
     private LayoutInflater li;
+    private Activity activity;
+    private boolean comingFromCircle = false;
 
     public ProgramOverviewAdapter(Activity activity, ArrayList<CircleTekrarAbsPOJO> exercises) {
         this.context = activity.getApplicationContext();
         this.exercises = exercises;
+        this.activity = activity;
 
         li = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    public void setComingFromCircle(boolean cc) {
+        comingFromCircle = cc;
     }
 
     @Override
@@ -50,56 +58,63 @@ public class ProgramOverviewAdapter extends BaseAdapter {
     @Override
     public long getItemId(int i) {
         int id = -1;
-
-        if(exercises.get(i).isTekrar() && !exercises.get(i).isCircle()){
-            id = ((TekrarPOJO)exercises.get(i)).getID();
-        }
-        else if(!exercises.get(i).isTekrar() && exercises.get(i).isCircle()) {
-            id = ((CirclePOJO)exercises.get(i)).getId();
-        }
-        else if(!exercises.get(i).isTekrar() && !exercises.get(i).isCircle()) {
-            id = ((ExercisePOJO)exercises.get(i)).getExercises_ID();
+//        return exercises.get(i).getOrder();
+        if (exercises.get(i).isTekrar() && !exercises.get(i).isCircle()) {
+            id = ((TekrarPOJO) exercises.get(i)).getID();
+        } else if (!exercises.get(i).isTekrar() && !exercises.get(i).isCircle()) {
+            id = ((ExercisePOJO) exercises.get(i)).getExercises_ID();
         }
 
-        return id;
+        return exercises.get(i).getOrder();
     }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+//        if(exercises.get(i).isCircle()){
+
+        int berkay = 0;
+        if (exercises.get(i).isCircle()) {
+            View listeElemani = li.inflate(R.layout.listing_adapter_program_overview_circle, null);
+            TextView countText = (TextView) listeElemani.findViewById(R.id.programOverviewCircleCount);
+            ListView listView = (ListView) listeElemani.findViewById(R.id.programOverviewCircleListview);
+
+            ProgramOverviewAdapter adapter = new ProgramOverviewAdapter(activity, ((CirclePOJO) exercises.get(i)).getArraylist());
+            //adapter.setComingFromCircle(true);
+            listView.setAdapter(adapter);
+            countText.setText("x" + ((CirclePOJO) exercises.get(i)).getTekrarCount());
+            return listeElemani;
 
 
-        final View listeElemani = li.inflate(R.layout.listing_adapter_program_overview, null);
+        } else {
+            View listeElemani = li.inflate(R.layout.listing_adapter_program_overview, null);
 
 
+            ImageView image = (ImageView) listeElemani.findViewById(R.id.listingExerciseImage);
+            TextView title = (TextView) listeElemani.findViewById(R.id.listingExerciseTitle);
+            TextView tekrar = (TextView) listeElemani.findViewById(R.id.listingExerciseTekrar);
 
-        ImageView image = (ImageView) listeElemani.findViewById(R.id.listingExerciseImage);
-        TextView title = (TextView) listeElemani.findViewById(R.id.listingExerciseTitle);
-        TextView tekrar = (TextView) listeElemani.findViewById(R.id.listingExerciseTekrar);
-
-        Bitmap bitmap = null;
-        String titleString = "";
-        String tekrarString = "";
+            Bitmap bitmap = null;
+            String titleString = "";
+            String tekrarString = "";
 
 
-        if(exercises.get(i).isTekrar() && !exercises.get(i).isCircle()){
-            bitmap = ((TekrarPOJO)exercises.get(i)).getPhoto1();
-            titleString = ((TekrarPOJO)exercises.get(i)).getName();
-            tekrarString = "x" + ((TekrarPOJO)exercises.get(i)).getTekrarCount();
+            if (exercises.get(i).isTekrar() && !exercises.get(i).isCircle()) {
+                bitmap = ((TekrarPOJO) exercises.get(i)).getPhoto1();
+                titleString = ((TekrarPOJO) exercises.get(i)).getName();
+                tekrarString = "x" + ((TekrarPOJO) exercises.get(i)).getTekrarCount();
+            } else if (!exercises.get(i).isTekrar() && !exercises.get(i).isCircle()) {
+                bitmap = ((ExercisePOJO) exercises.get(i)).getPhoto1();
+                titleString = ((ExercisePOJO) exercises.get(i)).getName();
+                tekrar.setVisibility(GONE);
+            }
+
+
+            image.setImageBitmap(bitmap);
+            title.setText(titleString);
+            tekrar.setText(tekrarString);
+            return listeElemani;
+
         }
 
-        else if(!exercises.get(i).isTekrar() && !exercises.get(i).isCircle()) {
-            bitmap = ((ExercisePOJO)exercises.get(i)).getPhoto1();
-            titleString = ((ExercisePOJO)exercises.get(i)).getName();
-            tekrar.setVisibility(GONE);
-        }
-
-
-
-        image.setImageBitmap(bitmap);
-        title.setText(titleString);
-        tekrar.setText(tekrarString);
-
-
-        return listeElemani;
     }
 }

@@ -8,13 +8,21 @@ import java.util.ArrayList;
 
 public class CirclePOJO extends CircleTekrarAbsPOJO {
     private ArrayList<CircleTekrarAbsPOJO> arraylist;
-    private int circleCount;
-    private int id;
 
-    public CirclePOJO(ArrayList<CircleTekrarAbsPOJO> arraylist, int circleCount, int id) {
+
+    private int order;
+    private Integer circleID;
+    private Integer circleCount;
+    private int tekrarCount;
+
+    public CirclePOJO(ArrayList<CircleTekrarAbsPOJO> arraylist, int order, Integer circleID, Integer circleCount, int tekrarCount) {
         this.arraylist = arraylist;
         this.circleCount = circleCount;
-        this.id = id;
+
+        this.order = order;
+        this.circleID = circleID;
+        this.circleCount = circleCount;
+        this.tekrarCount = tekrarCount;
     }
 
     public ArrayList<CircleTekrarAbsPOJO> getArraylist() {
@@ -25,20 +33,37 @@ public class CirclePOJO extends CircleTekrarAbsPOJO {
         this.arraylist = arraylist;
     }
 
-    public int getCircleCount() {
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public Integer getCircleID() {
+        return circleID;
+    }
+
+    public void setCircleID(Integer circleID) {
+        this.circleID = circleID;
+    }
+
+    public Integer getCircleCount() {
         return circleCount;
     }
 
-    public void setCircleCount(int circleCount) {
+    public void setCircleCount(Integer circleCount) {
         this.circleCount = circleCount;
     }
 
-    public int getId() {
-        return id;
+    public int getTekrarCount() {
+        return tekrarCount;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTekrarCount(int tekrarCount) {
+        this.tekrarCount = tekrarCount;
     }
 
     @Override
@@ -50,4 +75,10 @@ public class CirclePOJO extends CircleTekrarAbsPOJO {
     public boolean isTekrar() {
         return false;
     }
+
+    @Override
+    public int getID() {
+        return arraylist.get(0).getID();
+    }
+
 }

@@ -46,7 +46,10 @@ public class WorkoutIntroActivity extends BaseDrawerActivity {
         CircleMakerHelper test = new CircleMakerHelper();
         ArrayList<CircleTekrarAbsPOJO> deneme = test.makeCircleWithThis(exercisePOJOs);
 
-        ProgramOverviewAdapter adapter = new ProgramOverviewAdapter(this,deneme);
+        //TODO SIKINTI VAR
+        ArrayList<CircleTekrarAbsPOJO> denemeCircles = test.handleCircles(deneme);
+
+        ProgramOverviewAdapter adapter = new ProgramOverviewAdapter(this,denemeCircles);
         listview.setAdapter(adapter);
 
 

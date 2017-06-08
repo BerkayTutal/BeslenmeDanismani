@@ -35,6 +35,7 @@ public class TekrarPOJO extends CircleTekrarAbsPOJO {
         return ex.getTitle();
     }
 
+    @Override
     public int getID() {
         return ex.getExercises_ID();
     }
@@ -52,6 +53,16 @@ public class TekrarPOJO extends CircleTekrarAbsPOJO {
         return exercisez.size();
     }
 
+    public Integer getCircleID(){
+        return ex.getCircleID();
+    }
+    public Integer getCircleCount(){
+        return ex.getCircleCount();
+    }
+    public int getOrder(){
+        return ex.getOrderExercise();
+    }
+
 
     @Override
     public boolean isCircle() {
@@ -62,4 +73,6 @@ public class TekrarPOJO extends CircleTekrarAbsPOJO {
     public boolean isTekrar() {
         return true;
     }
+
+
 }
