@@ -12,11 +12,10 @@
         android:gravity="center"
         android:text="x3" />
 
-    <tr.com.berkaytutal.beslenmedanismani.Utils.ExpandedListView
+    <ListView
         android:id="@+id/programOverviewCircleListview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none"
         android:layout_weight="1"
-        ></tr.com.berkaytutal.beslenmedanismani.Utils.ExpandedListView>
+        ></ListView>
 </LinearLayout>

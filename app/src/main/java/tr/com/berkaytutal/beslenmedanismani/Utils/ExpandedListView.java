@@ -32,7 +32,7 @@ public class ExpandedListView extends ListView {
 //            }
 //            params.height = height;
 
-            params.height = getCount() * (old_count > 0 ? getChildAt(0).getHeight() + 30  : 0);
+            params.height = getCount() * (old_count > 0 ? getChildAt(0).getHeight()  : 0);
             setLayoutParams(params);
         }
 
