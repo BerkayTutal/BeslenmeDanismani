@@ -10,7 +10,8 @@
         android:layout_height="match_parent"
         android:layout_weight="9"
         android:gravity="center"
-        android:text="x3" />
+        android:text="x3"
+        android:background="@drawable/circle"/>
 
     <ListView
         android:id="@+id/programOverviewCircleListview"
