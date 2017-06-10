@@ -2,10 +2,12 @@ package tr.com.berkaytutal.beslenmedanismani;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.view.ActionMode;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +15,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
+import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramCategoryPOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramDifficultyPOJO;
 
 public class SearchFilterActivity extends AppCompatActivity {
 
@@ -28,7 +34,9 @@ public class SearchFilterActivity extends AppCompatActivity {
     private String searchQueryString;
     private String trainerQueryString;
 
-    private ArrayList<String> categories = new ArrayList<>();
+   // private ArrayList<String> categories = new ArrayList<>();
+    private ArrayList<ProgramDifficultyPOJO> difficulties;
+    private ArrayList<ProgramCategoryPOJO> categories;
 
 
     @Override
@@ -38,9 +46,12 @@ public class SearchFilterActivity extends AppCompatActivity {
 
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
+        categories = ((GlobalVariables)getApplicationContext()).getProgramCategories();
+        difficulties = ((GlobalVariables)getApplicationContext()).getProgramDifficulties();
 
 
-        categories.add(getResources().getString(R.string.all));
+
+        //categories.add(getResources().getString(R.string.all));
 
 
         applyButton = (Button) findViewById(R.id.buttonFilterApply);
@@ -57,17 +68,45 @@ public class SearchFilterActivity extends AppCompatActivity {
         sortBySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sortBySpinner.setAdapter(sortBySpinnerAdapter);
 
-        ArrayAdapter<CharSequence> hardnessSpinnerAdapter = ArrayAdapter.createFromResource(
-                this, R.array.hardness, android.R.layout.simple_spinner_item);
-        hardnessSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        hardnessSpinner.setAdapter(hardnessSpinnerAdapter);
+
+
+        ArrayAdapter<ProgramDifficultyPOJO> hardnessAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, difficulties);
+        hardnessAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        hardnessSpinner.setAdapter(hardnessAdapter);
+
+        hardnessSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getApplicationContext(),difficulties.get(i).toString(),Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
 
 
-        ArrayAdapter<String> categoriesAdapter = new ArrayAdapter<>(this,
+        ArrayAdapter<ProgramCategoryPOJO> categoriesAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, categories);
         categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(categoriesAdapter);
+
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getApplicationContext(),categories.get(i).toString(),Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
 
 
         applyButton.setOnClickListener(new View.OnClickListener() {

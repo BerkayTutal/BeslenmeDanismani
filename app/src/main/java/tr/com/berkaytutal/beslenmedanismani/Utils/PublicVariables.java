@@ -18,6 +18,9 @@ public interface PublicVariables {
 
 
     int homepageListingCount = 3;
+
+    String programDiffURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/getProgramDiffParameters";
+    String programCategoriesURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/getProgramSpecParameters";
     String allProgramsURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/getAllPrograms/";
     String allUsersURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/getAllTrainers/";
     String loginURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/";
@@ -26,4 +29,6 @@ public interface PublicVariables {
     String bodyRateUpdateURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/updateUserBodyRates";
     //getProgramDetailsURL + programID/userID
     String getProgramDetailsURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/getProgramDetails/";
+
+
 }

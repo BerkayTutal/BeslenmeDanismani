@@ -13,6 +13,24 @@ public class GlobalVariables extends Application {
     private ArrayList<ProgramPOJO> allPrograms;
     private ArrayList<TrainerPOJO> allUsers;
     private UserDataPOJO userDataPOJO;
+    private ArrayList<ProgramDifficultyPOJO> programDifficulties;
+    private ArrayList<ProgramCategoryPOJO> programCategories;
+
+    public ArrayList<ProgramDifficultyPOJO> getProgramDifficulties() {
+        return programDifficulties;
+    }
+
+    public void setProgramDifficulties(ArrayList<ProgramDifficultyPOJO> programDifficulties) {
+        this.programDifficulties = programDifficulties;
+    }
+
+    public ArrayList<ProgramCategoryPOJO> getProgramCategories() {
+        return programCategories;
+    }
+
+    public void setProgramCategories(ArrayList<ProgramCategoryPOJO> programCategories) {
+        this.programCategories = programCategories;
+    }
 
     public void setUserDataPOJO(UserDataPOJO userDataPOJO){
         this.userDataPOJO=userDataPOJO;

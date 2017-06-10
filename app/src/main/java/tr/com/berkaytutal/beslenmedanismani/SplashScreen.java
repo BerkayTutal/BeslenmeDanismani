@@ -16,6 +16,8 @@ import java.util.ArrayList;
 
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.JSONParser;
+import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramCategoryPOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramDifficultyPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.TrainerPOJO;
@@ -110,6 +112,58 @@ public class SplashScreen extends AppCompatActivity {
             }
 
             ((GlobalVariables) getApplicationContext()).setAllUsers(allUsers);
+
+            ArrayList<ProgramCategoryPOJO> allCategories = new ArrayList<>();
+
+            jsonArray = jsonParser.getJSONArrayFromUrl(PublicVariables.programCategoriesURL);
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+
+                ProgramCategoryPOJO category;
+                try {
+                    JSONObject jobj = (JSONObject) jsonArray.get(i);
+
+
+
+                    String name = jobj.getString("programSpec_Name");
+                    int id = jobj.getInt("programSpec_ID");
+
+                    category = new ProgramCategoryPOJO(id,name);
+                    allCategories.add(category);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            ((GlobalVariables) getApplicationContext()).setProgramCategories(allCategories);
+
+            ArrayList<ProgramDifficultyPOJO> allDifficulties = new ArrayList<>();
+
+            jsonArray = jsonParser.getJSONArrayFromUrl(PublicVariables.programDiffURL);
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+
+                ProgramDifficultyPOJO diff;
+                try {
+                    JSONObject jobj = (JSONObject) jsonArray.get(i);
+
+
+
+                    String name = jobj.getString("programDiff_Name");
+                    int id = jobj.getInt("programDiff_ID");
+
+                    diff = new ProgramDifficultyPOJO(id,name);
+                    allDifficulties.add(diff);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            ((GlobalVariables) getApplicationContext()).setProgramDifficulties(allDifficulties);
 
 
             return null;
