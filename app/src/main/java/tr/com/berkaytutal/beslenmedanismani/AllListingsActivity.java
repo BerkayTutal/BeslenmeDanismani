@@ -1,5 +1,6 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
@@ -49,8 +50,17 @@ public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefr
 
 //        swipeRefreshLayout.setRefreshing(true);
 
-
         ArrayList<ProgramPOJO> allPrograms = ((GlobalVariables)getApplicationContext()).getAllPrograms();
+
+        Intent resultIntent = getIntent();
+        if(resultIntent!=null){
+            ArrayList<ProgramPOJO> filteredPrograms = (ArrayList<ProgramPOJO>) resultIntent.getSerializableExtra("filterResults");
+            if(filteredPrograms!=null){
+                allPrograms = filteredPrograms;
+            }
+
+
+        }
 
         ProgramListingAdapter pla = new ProgramListingAdapter(this, allPrograms);
         listView.setAdapter(pla);
