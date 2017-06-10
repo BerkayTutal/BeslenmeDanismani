@@ -114,6 +114,7 @@ public class SplashScreen extends AppCompatActivity {
             ((GlobalVariables) getApplicationContext()).setAllUsers(allUsers);
 
             ArrayList<ProgramCategoryPOJO> allCategories = new ArrayList<>();
+            allCategories.add(new ProgramCategoryPOJO(PublicVariables.ALL_ID, "All"));
 
             jsonArray = jsonParser.getJSONArrayFromUrl(PublicVariables.programCategoriesURL);
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -140,6 +141,7 @@ public class SplashScreen extends AppCompatActivity {
             ((GlobalVariables) getApplicationContext()).setProgramCategories(allCategories);
 
             ArrayList<ProgramDifficultyPOJO> allDifficulties = new ArrayList<>();
+            allDifficulties.add(new ProgramDifficultyPOJO(PublicVariables.ALL_ID,"All"));
 
             jsonArray = jsonParser.getJSONArrayFromUrl(PublicVariables.programDiffURL);
             for (int i = 0; i < jsonArray.length(); i++) {

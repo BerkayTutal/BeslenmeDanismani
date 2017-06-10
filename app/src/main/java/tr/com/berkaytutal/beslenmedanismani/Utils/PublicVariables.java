@@ -10,6 +10,8 @@ public interface PublicVariables {
 
     String CHEST = "Chest";
 
+    int ALL_ID = 0;
+
 
 
 
@@ -29,6 +31,8 @@ public interface PublicVariables {
     String bodyRateUpdateURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/updateUserBodyRates";
     //getProgramDetailsURL + programID/userID
     String getProgramDetailsURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/getProgramDetails/";
+
+    String searchFilterURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/searchFilter";
 
 
 }
