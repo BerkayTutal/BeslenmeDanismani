@@ -23,6 +23,7 @@ import tr.com.berkaytutal.beslenmedanismani.AllListingsActivity;
 import tr.com.berkaytutal.beslenmedanismani.AllUsersActivity;
 import tr.com.berkaytutal.beslenmedanismani.HomepageActivity;
 import tr.com.berkaytutal.beslenmedanismani.LoginActivity;
+import tr.com.berkaytutal.beslenmedanismani.MyProgramsActivity;
 import tr.com.berkaytutal.beslenmedanismani.ProfileActivity;
 import tr.com.berkaytutal.beslenmedanismani.R;
 import tr.com.berkaytutal.beslenmedanismani.SearchFilterActivity;
@@ -34,6 +35,7 @@ public class BaseDrawerActivity extends AppCompatActivity
     protected FloatingActionButton filterButton;
     protected SearchView searchView;
     private  TextView textViewUserName;
+    protected Intent searchIntent;
 
     @Override
     public void setContentView(@LayoutRes int layoutID) {
@@ -41,6 +43,7 @@ public class BaseDrawerActivity extends AppCompatActivity
         onCreateDrawer(layoutID);
 
         searchView = (SearchView) findViewById(R.id.searchView);
+        searchIntent = new Intent(getApplicationContext(),SearchFilterActivity.class);
     }
 
     protected void onCreateDrawer(@LayoutRes int layoutID) {
@@ -154,6 +157,7 @@ public class BaseDrawerActivity extends AppCompatActivity
 
         if (id == R.id.icon_home) {
             Intent i = new Intent(getApplicationContext(),HomepageActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
 
         } else if (id == R.id.icon_all_trainers) {
@@ -164,6 +168,9 @@ public class BaseDrawerActivity extends AppCompatActivity
             startActivity(i);
         } else if (id == R.id.icon_profil) {
             Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(i);
+        }else if(id == R.id.icon_my_programs){
+            Intent i = new Intent(getApplicationContext(), MyProgramsActivity.class);
             startActivity(i);
         } else if (id == R.id.icon_logout) {
             Toast.makeText(getApplicationContext(),"Logout Yapıldı",Toast.LENGTH_SHORT).show();
@@ -208,8 +215,8 @@ public class BaseDrawerActivity extends AppCompatActivity
                 @Override
                 public void onClick(View view) {
 
-                    Intent intent = new Intent(getApplicationContext(),SearchFilterActivity.class);
-                    startActivity(intent);
+
+                    startActivity(searchIntent);
 //                overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
 
 

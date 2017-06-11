@@ -28,6 +28,7 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
 
         //TODO adaptörlerdeki type'lar gereksiz

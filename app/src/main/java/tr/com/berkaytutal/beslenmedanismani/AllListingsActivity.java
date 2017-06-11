@@ -1,8 +1,10 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.ListView;
@@ -20,6 +22,18 @@ public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefr
 
     private ListView listView;
     private SwipeRefreshLayout swipeRefreshLayout;
+
+
+    private String searchQueryString = "";
+    private String trainerQueryString = "";
+
+
+    private int catPos = 0;
+    private int diffPos = 0;
+    private int sortPos = 0;
+    private boolean isFiltered = false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +71,21 @@ public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefr
             ArrayList<ProgramPOJO> filteredPrograms = (ArrayList<ProgramPOJO>) resultIntent.getSerializableExtra("filterResults");
             if(filteredPrograms!=null){
                 allPrograms = filteredPrograms;
+                searchQueryString = resultIntent.getStringExtra("searchQueryString");
+                trainerQueryString = resultIntent.getStringExtra("trainerQueryString");
+                catPos = resultIntent.getIntExtra("catPos",0);
+                diffPos = resultIntent.getIntExtra("diffPos",0);
+                sortPos = resultIntent.getIntExtra("sortPos",0);
+
+                searchIntent.putExtra("searchQueryString",searchQueryString);
+                searchIntent.putExtra("trainerQueryString",trainerQueryString);
+                searchIntent.putExtra("catPos",catPos);
+                searchIntent.putExtra("diffPos",diffPos);
+                searchIntent.putExtra("sortPos",sortPos);
+                isFiltered = true;
             }
+
+
 
 
         }
@@ -69,8 +97,32 @@ public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefr
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+        if(isFiltered){
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            AllListingsActivity.super.onBackPressed();
+                            overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("All filters are going to be disappear if you go back").setTitle("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
+        }
+        else{
+            super.onBackPressed();
+            overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+        }
+
     }
 
 
@@ -95,4 +147,5 @@ public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefr
     public boolean onQueryTextChange(String newText) {
         return false;
     }
+
 }

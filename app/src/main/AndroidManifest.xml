@@ -33,6 +33,7 @@
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".BodyRates" />
         <activity android:name=".WorkoutIntroActivity" />
+        <activity android:name=".MyProgramsActivity"></activity>
     </application>
 
 </manifest>

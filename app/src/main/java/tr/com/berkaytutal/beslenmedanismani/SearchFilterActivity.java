@@ -49,8 +49,8 @@ public class SearchFilterActivity extends AppCompatActivity {
     private ArrayList<ProgramCategoryPOJO> categories;
 
 
-    private String searchQueryString;
-    private String trainerQueryString;
+    private String searchQueryString = "";
+    private String trainerQueryString = "";
 
 
     private int catPos = 0;
@@ -130,6 +130,21 @@ public class SearchFilterActivity extends AppCompatActivity {
             }
         });
 
+
+        Intent resultIntent = getIntent();
+        if (resultIntent != null) {
+            searchQueryString = resultIntent.getStringExtra("searchQueryString");
+            trainerQueryString = resultIntent.getStringExtra("trainerQueryString");
+            catPos = resultIntent.getIntExtra("catPos", 0);
+            diffPos = resultIntent.getIntExtra("diffPos", 0);
+            sortPos = resultIntent.getIntExtra("sortPos", 0);
+        }
+
+        searchQueryEditText.setText(searchQueryString);
+        trainerQueryEditText.setText(trainerQueryString);
+        categorySpinner.setSelection(catPos);
+        hardnessSpinner.setSelection(diffPos);
+        sortBySpinner.setSelection(sortPos);
 
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -273,8 +288,13 @@ public class SearchFilterActivity extends AppCompatActivity {
 
             }
 
-            Intent intent = new Intent(getApplicationContext(),AllListingsActivity.class);
-            intent.putExtra("filterResults",allPrograms);
+            Intent intent = new Intent(getApplicationContext(), AllListingsActivity.class);
+            intent.putExtra("filterResults", allPrograms);
+            intent.putExtra("searchQueryString", searchQueryString);
+            intent.putExtra("trainerQueryString", trainerQueryString);
+            intent.putExtra("catPos", catPos);
+            intent.putExtra("diffPos", diffPos);
+            intent.putExtra("sortPos", sortPos);
             startActivity(intent);
             finish();
 

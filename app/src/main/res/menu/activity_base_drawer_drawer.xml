@@ -19,6 +19,10 @@
           android:icon="@drawable/icon_profil"
           android:title="Profil" />
         <item
+            android:id="@+id/icon_my_programs"
+            android:icon="@drawable/icon_all_programs"
+            android:title="My Programs" />
+        <item
             android:id="@+id/icon_logout"
             android:icon="@drawable/icon_logout"
             android:title="Logout" />
