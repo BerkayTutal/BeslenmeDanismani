@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,6 +54,7 @@ public class SplashScreen extends AppCompatActivity {
             ArrayList<TrainerPOJO> allUsers = new ArrayList<>();
 
             jsonArray = jsonParser.getJSONArrayFromUrl(PublicVariables.allProgramsURL);
+            Log.i("allprograms",jsonArray.toString());
             for (int i = 0; i < jsonArray.length(); i++) {
 
 
@@ -86,6 +88,7 @@ public class SplashScreen extends AppCompatActivity {
             ((GlobalVariables) getApplicationContext()).setAllPrograms(allPrograms);
 
             jsonArray = jsonParser.getJSONArrayFromUrl(PublicVariables.allUsersURL);
+            Log.i("alltrainers",jsonArray.toString());
             for (int i = 0; i < jsonArray.length(); i++) {
 
 
@@ -118,6 +121,7 @@ public class SplashScreen extends AppCompatActivity {
             allCategories.add(new ProgramCategoryPOJO(PublicVariables.ALL_ID, "All"));
 
             jsonArray = jsonParser.getJSONArrayFromUrl(PublicVariables.programCategoriesURL);
+            Log.i("programcategories",jsonArray.toString());
             for (int i = 0; i < jsonArray.length(); i++) {
 
 
@@ -145,6 +149,7 @@ public class SplashScreen extends AppCompatActivity {
             allDifficulties.add(new ProgramDifficultyPOJO(PublicVariables.ALL_ID,"All"));
 
             jsonArray = jsonParser.getJSONArrayFromUrl(PublicVariables.programDiffURL);
+            Log.i("alldifficulties",jsonArray.toString());
             for (int i = 0; i < jsonArray.length(); i++) {
 
 

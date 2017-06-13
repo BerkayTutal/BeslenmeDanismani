@@ -25,7 +25,7 @@ public class ProgramPOJO implements Serializable {
 
     private ArrayList<ExercisePOJO> exercisez = null;
 
-    public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle, String programDescription , int programID, int trainerID, String trainerName, String trainerSurname) {
+    public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle, String programDescription, int programID, int trainerID, String trainerName, String trainerSurname) {
         this.difficulty = difficulty;
         this.programPhoto = programPhoto;
         this.programSpec = programSpec;
@@ -38,8 +38,8 @@ public class ProgramPOJO implements Serializable {
         this.programDescription = programDescription;
     }
 
-    public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle,String programDescription, int programID, int trainerID, String trainerName, String trainerSurname, ArrayList<ExercisePOJO> exercisez) {
-        this( difficulty,  programPhoto,  programSpec,  programTitle,  programDescription, programID,  trainerID,  trainerName,  trainerSurname);
+    public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle, String programDescription, int programID, int trainerID, String trainerName, String trainerSurname, ArrayList<ExercisePOJO> exercisez) {
+        this(difficulty, programPhoto, programSpec, programTitle, programDescription, programID, trainerID, trainerName, trainerSurname);
         this.exercisez = exercisez;
     }
 
@@ -60,7 +60,7 @@ public class ProgramPOJO implements Serializable {
     }
 
     public Bitmap getProgramPhoto() {
-        return  BitmapFactory.decodeByteArray(programPhoto, 0, programPhoto.length);
+        return BitmapFactory.decodeByteArray(programPhoto, 0, programPhoto.length);
     }
 
     public void setProgramPhoto(byte[] programPhoto) {
@@ -122,6 +122,16 @@ public class ProgramPOJO implements Serializable {
 
     public void setProgramDescription(String programDescription) {
         this.programDescription = programDescription;
+    }
+
+    public ExercisePOJO getExerciseByOrderNumber(int order) {
+
+        for (ExercisePOJO exercise : exercisez) {
+            if (exercise.getOrder() == order) {
+                return exercise;
+            }
+        }
+        return null;
     }
 }
 

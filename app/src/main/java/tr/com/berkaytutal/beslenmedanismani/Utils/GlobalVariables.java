@@ -3,12 +3,17 @@ package tr.com.berkaytutal.beslenmedanismani.Utils;
 import android.app.Application;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by berka on 21.05.2017.
  */
 
 public class GlobalVariables extends Application {
+
+    public HashMap<Integer,Integer> circleCountHolder;
+
+
 
     private ArrayList<ProgramPOJO> allPrograms;
     private ArrayList<TrainerPOJO> allUsers;
@@ -17,6 +22,7 @@ public class GlobalVariables extends Application {
     private ArrayList<ProgramCategoryPOJO> programCategories;
 
     public ArrayList<ProgramDifficultyPOJO> getProgramDifficulties() {
+
         return programDifficulties;
     }
 

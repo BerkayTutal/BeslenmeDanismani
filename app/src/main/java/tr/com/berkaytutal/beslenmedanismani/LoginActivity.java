@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +24,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import tr.com.berkaytutal.beslenmedanismani.Utils.BodyRatioPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.DBHelper;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.JSONParser;
@@ -43,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private String email;
     private String password;
-
+    private boolean isTrainer =false;
     public static Activity loginActivity;
 
 
@@ -188,6 +190,8 @@ public class LoginActivity extends AppCompatActivity {
 
             JSONParser jsonParser = new JSONParser();
             jsonObject = jsonParser.getJSONObjectFromUrl(PublicVariables.loginURL + email + "/" + PasswordHashingMD5.md5(password));
+
+            Log.i("login", jsonObject.toString());
             if (jsonObject == null) {
                 return "wrongLogin";
             } else {
@@ -200,12 +204,12 @@ public class LoginActivity extends AppCompatActivity {
                     String email = jsonObject.getString("email");
                     String sex = jsonObject.getString("sex");
                     String birthday = jsonObject.getString("birthday");
-                    String tall = jsonObject.getString("tall");
-                    String weight = jsonObject.getString("weight");
-                    String muscleRate = jsonObject.getString("muscleRate");
-                    String fatRate = jsonObject.getString("fatRate");
-                    String waterRate = jsonObject.getString("waterRate");
+
+                    isTrainer = jsonObject.getBoolean("isTrainer");
+                    JSONArray bodyRatiosJSONArr = jsonObject.getJSONArray("bodyRatesList");
+
                     ArrayList<ProgramPOJO> myPrograms = new ArrayList<>();
+                    ArrayList<BodyRatioPOJO> bodyRatios = new ArrayList<>();
 
                     JSONArray programArray = jsonObject.getJSONArray("userPrograms");
 
@@ -225,16 +229,36 @@ public class LoginActivity extends AppCompatActivity {
                         ProgramPOJO myProgram = new ProgramPOJO(programDiff, imageByte, programSpecName, programTittle, programDescription, program_ID, trainer_id, trainerName, trainerSurname);
                         myPrograms.add(myProgram);
                     }
+
+
+                    for (int j = 0; j < bodyRatiosJSONArr.length(); j++) {
+                        JSONObject jsonObj = (JSONObject) bodyRatiosJSONArr.get(j);
+                        String date = jsonObj.getString("date");
+                        float fatRate = jsonObj.getLong("fatRate");
+                        float muscleRate = jsonObj.getLong("muscleRate");
+                        float waterRate = jsonObj.getLong("waterRate");
+                        float weight = jsonObj.getLong("weight");
+                        int tall = jsonObj.getInt("tall");
+                        int user_ID = jsonObj.getInt("user_ID");
+                        bodyRatios.add(new BodyRatioPOJO(date, fatRate, muscleRate, tall, user_ID, waterRate, weight));
+
+
+                    }
+
+
                     if (dbUser == null) {
-                        dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, tall, weight, muscleRate, fatRate, waterRate, myPrograms);
+                        dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, myPrograms);
                     } else {
                         for (ProgramPOJO program : myPrograms) {
                             dbUser.insertProgram(program);
                         }
                         dbUser.deleteProgramsExcept(myPrograms);
                         ArrayList<ProgramPOJO> updatedPrograms = dbUser.getMyPrograms();
-                        dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, tall, weight, muscleRate, fatRate, waterRate, updatedPrograms);
+                        dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, updatedPrograms);
                     }
+
+                    dbUser.setBodyRatios(bodyRatios);
+                    dbUser.setTrainer(true);
 
 
                     ((GlobalVariables) getApplicationContext()).setUserDataPOJO(dbUser);

@@ -25,15 +25,16 @@
         <activity android:name=".HomepageActivity" />
         <activity android:name=".AllListingsActivity" />
         <activity android:name=".AllUsersActivity" />
-        <activity android:name=".SearchFilterActivity" />
+        <activity android:name=".ProgramSearchFilterActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".TrainerDetailPage" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ProgramDetailActivity" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".BodyRates" />
-        <activity android:name=".WorkoutIntroActivity" />
-        <activity android:name=".MyProgramsActivity"></activity>
+        <activity android:name=".ProgramOverviewActivity" />
+        <activity android:name=".MyProgramsActivity" />
+        <activity android:name=".ProgramPlayActivity"></activity>
     </application>
 
 </manifest>

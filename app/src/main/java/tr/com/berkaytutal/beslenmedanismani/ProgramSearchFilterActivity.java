@@ -32,7 +32,7 @@ import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramDifficultyPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
 
-public class SearchFilterActivity extends AppCompatActivity {
+public class ProgramSearchFilterActivity extends AppCompatActivity {
 
     private Button cancelButton;
     private Button applyButton;

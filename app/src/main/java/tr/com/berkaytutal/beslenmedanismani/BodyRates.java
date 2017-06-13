@@ -44,11 +44,6 @@ public class BodyRates extends BaseDrawerActivity {
         setContentView(R.layout.activity_body_rates);
 
         user = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
-        tall = user.getTall();
-        weight = user.getWeight();
-        muscleRate = user.getMuscleRate();
-        fatRate = user.getFatRate();
-        waterRate = user.getWaterRate();
 
         tallEditText = (EditText) findViewById(R.id.bodyRatesTallEditText);
         weightEditText = (EditText) findViewById(R.id.bodyRatesWeightEditText);
@@ -110,11 +105,11 @@ public class BodyRates extends BaseDrawerActivity {
                 Toast.makeText(getApplicationContext(), "sorun oluştu", Toast.LENGTH_SHORT).show();
             } else if (result.equals("true")) {
                 Log.i("body","update başarılı");
-                user.setFatRate(fatRate);
-                user.setMuscleRate(muscleRate);
-                user.setTall(tall);
-                user.setWaterRate(waterRate);
-                user.setWeight(weight);
+//                user.setFatRate(fatRate);
+//                user.setMuscleRate(muscleRate);
+//                user.setTall(tall);
+//                user.setWaterRate(waterRate);
+//                user.setWeight(weight);
                 DBHelper dbHelper = new DBHelper(getApplicationContext());
                 dbHelper.updateUser(user);
                 ((GlobalVariables)getApplicationContext()).setUserDataPOJO(user);

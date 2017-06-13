@@ -255,11 +255,11 @@ public class EditProfileActivity extends BaseDrawerActivity {
                     sex = "F";
                 }
 
-                UserDataPOJO newUserDataPOJO = new UserDataPOJO(userDataPOJO.getUser_ID(),nameEditText.getText().toString(),surnameEditText.getText().toString(),emailEditText.getText().toString()
-                ,sex,birthdayEditText.getText().toString(),userDataPOJO.getTall(),userDataPOJO.getWeight(),userDataPOJO.getMuscleRate(),userDataPOJO.getFatRate()
-                ,userDataPOJO.getWaterRate(),userDataPOJO.getMyPrograms());
+//                UserDataPOJO newUserDataPOJO = new UserDataPOJO(userDataPOJO.getUser_ID(),nameEditText.getText().toString(),surnameEditText.getText().toString(),emailEditText.getText().toString()
+//                ,sex,birthdayEditText.getText().toString(),userDataPOJO.getTall(),userDataPOJO.getWeight(),userDataPOJO.getMuscleRate(),userDataPOJO.getFatRate()
+//                ,userDataPOJO.getWaterRate(),userDataPOJO.getMyPrograms());
 
-                ((GlobalVariables)getApplicationContext()).setUserDataPOJO(newUserDataPOJO);
+//                ((GlobalVariables)getApplicationContext()).setUserDataPOJO(newUserDataPOJO);
                 ProfileActivity.profileActivity.finish();
                 Intent i = new Intent(EditProfileActivity.this,ProfileActivity.class);
                 startActivity(i);

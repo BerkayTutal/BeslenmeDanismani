@@ -1,10 +1,11 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import tr.com.berkaytutal.beslenmedanismani.Adapters.ProgramOverviewAdapter;
@@ -16,26 +17,27 @@ import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.UserDataPOJO;
 
-public class WorkoutIntroActivity extends BaseDrawerActivity {
+public class ProgramOverviewActivity extends BaseDrawerActivity {
 
-    private int programID;
+    public int programID;
     private ProgramPOJO program;
     private UserDataPOJO user;
     private ArrayList<ExercisePOJO> exercisePOJOs;
 
     private ListView listview;
 
+    private Button programStartButton;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_workout_intro);
+        setContentView(R.layout.activity_program_overview);
 
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
-         listview = (ListView) findViewById(R.id.workoutIntroListview);
-
+        listview = (ListView) findViewById(R.id.workoutIntroListview);
+        programStartButton = (Button) findViewById(R.id.programOverviewStart);
 
         programID = getIntent().getIntExtra("programID", 0);
         user = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
@@ -46,15 +48,20 @@ public class WorkoutIntroActivity extends BaseDrawerActivity {
         CircleMakerHelper test = new CircleMakerHelper();
         ArrayList<CircleTekrarAbsPOJO> deneme = test.makeCircleWithThis(exercisePOJOs);
 
-        //TODO SIKINTI VAR
         ArrayList<CircleTekrarAbsPOJO> denemeCircles = test.handleCircles(deneme);
 
-        ProgramOverviewAdapter adapter = new ProgramOverviewAdapter(this,denemeCircles);
+        ProgramOverviewAdapter adapter = new ProgramOverviewAdapter(this, denemeCircles);
         listview.setAdapter(adapter);
 
 
-
-
+        programStartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),ProgramPlayActivity.class);
+                intent.putExtra("programID",programID);
+                startActivity(intent);
+            }
+        });
 
     }
 

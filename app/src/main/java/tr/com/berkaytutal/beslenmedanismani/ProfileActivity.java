@@ -130,11 +130,11 @@ public class ProfileActivity extends BaseDrawerActivity {
 
 
 
-        tall = userDataPOJO.getTall();
-        weight = userDataPOJO.getWeight();
-        muscleRate = userDataPOJO.getMuscleRate();
-        fatRate = userDataPOJO.getFatRate();
-        waterRate = userDataPOJO.getWaterRate();
+//        tall = userDataPOJO.getTall();
+//        weight = userDataPOJO.getWeight();
+//        muscleRate = userDataPOJO.getMuscleRate();
+//        fatRate = userDataPOJO.getFatRate();
+//        waterRate = userDataPOJO.getWaterRate();
 
         tallEditText = (EditText) findViewById(R.id.bodyRatesTallEditText);
         weightEditText = (EditText) findViewById(R.id.bodyRatesWeightEditText);
@@ -199,11 +199,11 @@ public class ProfileActivity extends BaseDrawerActivity {
                 Toast.makeText(getApplicationContext(), "sorun oluştu", Toast.LENGTH_SHORT).show();
             } else if (result.equals("true")) {
                 Log.i("body","update başarılı");
-                userDataPOJO.setFatRate(fatRate);
-                userDataPOJO.setMuscleRate(muscleRate);
-                userDataPOJO.setTall(tall);
-                userDataPOJO.setWaterRate(waterRate);
-                userDataPOJO.setWeight(weight);
+//                userDataPOJO.setFatRate(fatRate);
+//                userDataPOJO.setMuscleRate(muscleRate);
+//                userDataPOJO.setTall(tall);
+//                userDataPOJO.setWaterRate(waterRate);
+//                userDataPOJO.setWeight(weight);
                 DBHelper dbHelper = new DBHelper(getApplicationContext());
                 dbHelper.updateUser(userDataPOJO);
                 ((GlobalVariables)getApplicationContext()).setUserDataPOJO(userDataPOJO);

@@ -36,6 +36,8 @@ public class JSONParser {
 
     public JSONObject getJSONObjectFromUrl(String ul){
         try {
+
+            Log.i("url",ul);
             URL url = new URL(ul);
             URLConnection connection = url.openConnection();
             //connection.addRequestProperty("Referer", "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=%22mixorg.com%22&rsz=8");

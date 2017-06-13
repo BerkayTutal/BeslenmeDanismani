@@ -2,6 +2,7 @@ package tr.com.berkaytutal.beslenmedanismani.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +14,14 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import tr.com.berkaytutal.beslenmedanismani.ProgramOverviewActivity;
+import tr.com.berkaytutal.beslenmedanismani.ProgramPlayActivity;
 import tr.com.berkaytutal.beslenmedanismani.R;
 import tr.com.berkaytutal.beslenmedanismani.Utils.CirclePOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.CircleTekrarAbsPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ExercisePOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ExpandedListView;
+import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.TekrarPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.UIUtils;
 
@@ -71,7 +75,7 @@ public class ProgramOverviewAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
 //        if(exercises.get(i).isCircle()){
 
         int berkay = 0;
@@ -94,7 +98,7 @@ public class ProgramOverviewAdapter extends BaseAdapter {
 
 
         } else {
-            View listeElemani = li.inflate(R.layout.listing_adapter_program_overview, null);
+            final View listeElemani = li.inflate(R.layout.listing_adapter_program_overview, null);
 
 
             ImageView image = (ImageView) listeElemani.findViewById(R.id.listingExerciseImage);
@@ -120,6 +124,19 @@ public class ProgramOverviewAdapter extends BaseAdapter {
             image.setImageBitmap(bitmap);
             title.setText(titleString);
             tekrar.setText(tekrarString);
+
+            listeElemani.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ProgramPlayActivity.class);
+                    int programID = ((ProgramOverviewActivity)activity).programID;
+                    intent.putExtra("programID",programID);
+                    intent.putExtra("currentExerciseIndex",((GlobalVariables)context.getApplicationContext()).getUserDataPOJO().getProgramByID(programID).getExercisez().indexOf(exercises.get(i)));
+                    activity.startActivity(intent);
+
+
+                }
+            });
             return listeElemani;
 
         }

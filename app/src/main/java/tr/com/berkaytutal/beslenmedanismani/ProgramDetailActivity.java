@@ -1,10 +1,7 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.provider.MediaStore;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
@@ -207,7 +204,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
 
     }
     protected void startWorkout(){
-        Intent i = new Intent(getApplicationContext(), WorkoutIntroActivity.class);
+        Intent i = new Intent(getApplicationContext(), ProgramOverviewActivity.class);
         i.putExtra("programID", programID);
         startActivity(i);
     }

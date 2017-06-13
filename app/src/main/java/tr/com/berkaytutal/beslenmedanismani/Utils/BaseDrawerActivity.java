@@ -26,7 +26,7 @@ import tr.com.berkaytutal.beslenmedanismani.LoginActivity;
 import tr.com.berkaytutal.beslenmedanismani.MyProgramsActivity;
 import tr.com.berkaytutal.beslenmedanismani.ProfileActivity;
 import tr.com.berkaytutal.beslenmedanismani.R;
-import tr.com.berkaytutal.beslenmedanismani.SearchFilterActivity;
+import tr.com.berkaytutal.beslenmedanismani.ProgramSearchFilterActivity;
 
 public class BaseDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,7 +43,7 @@ public class BaseDrawerActivity extends AppCompatActivity
         onCreateDrawer(layoutID);
 
         searchView = (SearchView) findViewById(R.id.searchView);
-        searchIntent = new Intent(getApplicationContext(),SearchFilterActivity.class);
+        searchIntent = new Intent(getApplicationContext(),ProgramSearchFilterActivity.class);
     }
 
     protected void onCreateDrawer(@LayoutRes int layoutID) {
@@ -233,7 +233,7 @@ public class BaseDrawerActivity extends AppCompatActivity
 
                     //TODO buraya özel searchfilter eklenecek
 
-                    Intent intent = new Intent(getApplicationContext(),SearchFilterActivity.class);
+                    Intent intent = new Intent(getApplicationContext(),ProgramSearchFilterActivity.class);
                     startActivity(intent);
 //                overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
 

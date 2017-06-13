@@ -15,15 +15,14 @@ public class UserDataPOJO implements Serializable {
     private String email;
     private String sex;
     private String birthday;
-    private String tall;
-    private String weight;
-    private String muscleRate;
-    private String fatRate;
-    private String waterRate;
+
+    private boolean isTrainer = false;
+
+    private ArrayList<BodyRatioPOJO> bodyRatios;
+
     private ArrayList<ProgramPOJO> myPrograms;
 
-    public UserDataPOJO(int user_ID, String name, String surname, String email, String sex, String birthday, String tall,
-                        String weight, String muscleRate, String fatRate, String waterRate, ArrayList<ProgramPOJO> myPrograms) {
+    public UserDataPOJO(int user_ID, String name, String surname, String email, String sex, String birthday, ArrayList<ProgramPOJO> myPrograms) {
 
         this.user_ID = user_ID;
         this.name = name;
@@ -31,14 +30,17 @@ public class UserDataPOJO implements Serializable {
         this.email = email;
         this.sex = sex;
         this.birthday = birthday;
-        this.tall = tall;
-        this.weight = weight;
-        this.muscleRate = muscleRate;
-        this.fatRate = fatRate;
-        this.waterRate = waterRate;
+
         this.myPrograms = myPrograms;
     }
 
+    public ArrayList<BodyRatioPOJO> getBodyRatios() {
+        return bodyRatios;
+    }
+
+    public void setBodyRatios(ArrayList<BodyRatioPOJO> bodyRatios) {
+        this.bodyRatios = bodyRatios;
+    }
 
     public int getUser_ID() {
         return user_ID;
@@ -88,45 +90,6 @@ public class UserDataPOJO implements Serializable {
         this.birthday = birthday;
     }
 
-    public String getTall() {
-        return tall;
-    }
-
-    public void setTall(String tall) {
-        this.tall = tall;
-    }
-
-    public String getWeight() {
-        return weight;
-    }
-
-    public void setWeight(String weight) {
-        this.weight = weight;
-    }
-
-    public String getMuscleRate() {
-        return muscleRate;
-    }
-
-    public void setMuscleRate(String muscleRate) {
-        this.muscleRate = muscleRate;
-    }
-
-    public String getFatRate() {
-        return fatRate;
-    }
-
-    public void setFatRate(String fatRate) {
-        this.fatRate = fatRate;
-    }
-
-    public String getWaterRate() {
-        return waterRate;
-    }
-
-    public void setWaterRate(String waterRate) {
-        this.waterRate = waterRate;
-    }
 
     public ArrayList<ProgramPOJO> getMyPrograms() {
         return myPrograms;
@@ -175,7 +138,8 @@ public class UserDataPOJO implements Serializable {
         }
         return false;
     }
-    public void deleteProgramsExcept(ArrayList<ProgramPOJO> programs){
+
+    public void deleteProgramsExcept(ArrayList<ProgramPOJO> programs) {
         ArrayList<Integer> programIDs = new ArrayList<>();
         for (int i = 0; i < programs.size(); i++) {
             programIDs.add(programs.get(i).getProgramID());
@@ -188,6 +152,7 @@ public class UserDataPOJO implements Serializable {
         }
 
     }
+
     public boolean deleteProgramExercisez(ProgramPOJO programPOJO) {
         for (int i = 0; i < myPrograms.size(); i++) {
             if (myPrograms.get(i).getProgramID() == programPOJO.getProgramID()) {
@@ -196,5 +161,13 @@ public class UserDataPOJO implements Serializable {
             }
         }
         return false;
+    }
+
+    public boolean isTrainer() {
+        return isTrainer;
+    }
+
+    public void setTrainer(boolean trainer) {
+        isTrainer = trainer;
     }
 }
