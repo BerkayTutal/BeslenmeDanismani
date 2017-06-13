@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private String email;
     private String password;
-    private boolean isTrainer =false;
+    private boolean isTrainer = false;
     public static Activity loginActivity;
 
 
@@ -168,10 +168,14 @@ public class LoginActivity extends AppCompatActivity {
                 edit.putString("userPass", password);
                 edit.commit();
                 Toast.makeText(getApplicationContext(), "Login details are saved..", Toast.LENGTH_LONG).show();
+                if (isTrainer) {
+                    Intent intent = new Intent(getApplicationContext(), MyProgramsActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent i = new Intent(getApplicationContext(), HomepageActivity.class);
+                    startActivity(i);
+                }
 
-
-                Intent i = new Intent(getApplicationContext(), HomepageActivity.class);
-                startActivity(i);
 
                 finish();
             }
@@ -191,10 +195,11 @@ public class LoginActivity extends AppCompatActivity {
             JSONParser jsonParser = new JSONParser();
             jsonObject = jsonParser.getJSONObjectFromUrl(PublicVariables.loginURL + email + "/" + PasswordHashingMD5.md5(password));
 
-            Log.i("login", jsonObject.toString());
+
             if (jsonObject == null) {
                 return "wrongLogin";
             } else {
+                Log.i("login", jsonObject.toString());
 
 
                 try {
@@ -258,7 +263,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     dbUser.setBodyRatios(bodyRatios);
-                    dbUser.setTrainer(true);
+                    dbUser.setTrainer(isTrainer);
 
 
                     ((GlobalVariables) getApplicationContext()).setUserDataPOJO(dbUser);

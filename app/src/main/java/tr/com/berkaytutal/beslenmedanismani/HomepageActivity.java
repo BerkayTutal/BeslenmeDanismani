@@ -32,6 +32,8 @@ public class HomepageActivity extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
 
+
+
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 //
 //        Intent rates = new Intent(this,BodyRates.class);

@@ -34,8 +34,9 @@ public class BaseDrawerActivity extends AppCompatActivity
 
     protected FloatingActionButton filterButton;
     protected SearchView searchView;
-    private  TextView textViewUserName;
+    private TextView textViewUserName;
     protected Intent searchIntent;
+    protected boolean isTrainer = false;
 
     @Override
     public void setContentView(@LayoutRes int layoutID) {
@@ -43,7 +44,9 @@ public class BaseDrawerActivity extends AppCompatActivity
         onCreateDrawer(layoutID);
 
         searchView = (SearchView) findViewById(R.id.searchView);
-        searchIntent = new Intent(getApplicationContext(),ProgramSearchFilterActivity.class);
+        searchIntent = new Intent(getApplicationContext(), ProgramSearchFilterActivity.class);
+
+
     }
 
     protected void onCreateDrawer(@LayoutRes int layoutID) {
@@ -74,16 +77,34 @@ public class BaseDrawerActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
+        View header = navigationView.getHeaderView(0);
+        textViewUserName = (TextView) header.findViewById(R.id.nav_user_name);
+        try {
+            textViewUserName.setText(((GlobalVariables) getApplicationContext()).getUserDataPOJO().getName() + " " + ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getSurname());
 
-        View header=navigationView.getHeaderView(0);
-        textViewUserName = (TextView)header.findViewById(R.id.nav_user_name);
-        try{
-            textViewUserName.setText( ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getName()+ " " + ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getSurname());
-
-        }catch (Exception e){
+        } catch (Exception e) {
             textViewUserName.setText("Welcome !");
         }
 
+
+        UserDataPOJO userDataPOJO = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
+        if (userDataPOJO != null) {
+            isTrainer = userDataPOJO.isTrainer();
+        }
+        else{
+            navigationView.getMenu().findItem(R.id.icon_logout).setVisible(false);
+            navigationView.getMenu().findItem(R.id.icon_my_programs).setVisible(false);
+            navigationView.getMenu().findItem(R.id.icon_profil).setVisible(false);
+        }
+
+
+        if (isTrainer) {
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            toggle.onDrawerStateChanged(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            toggle.setDrawerIndicatorEnabled(false);
+            toggle.syncState();
+
+        }
 
 
     }
@@ -107,6 +128,16 @@ public class BaseDrawerActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (isTrainer) {
+            MenuItem profileButton = menu.findItem(R.id.appBarProfileButton);
+            profileButton.setVisible(false);
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
 
@@ -118,13 +149,13 @@ public class BaseDrawerActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.appBarProfileButton) {
-            Toast.makeText(getApplicationContext(),"Profiiiiil",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Profiiiiil", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);
             return true;
         }
         if (id == R.id.appBarLogoutButton) {
-            Toast.makeText(getApplicationContext(),"Logout Yapıldı",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Logout Yapıldı", Toast.LENGTH_SHORT).show();
             SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", MODE_PRIVATE);
             SharedPreferences.Editor edit = userDetails.edit();
             edit.clear();
@@ -133,9 +164,9 @@ public class BaseDrawerActivity extends AppCompatActivity
             edit.commit();
 
             DBHelper dbHelper = new DBHelper(getApplicationContext());
-            dbHelper.deleteUser(((GlobalVariables)getApplicationContext()).getUserDataPOJO().getUser_ID());
+            dbHelper.deleteUser(((GlobalVariables) getApplicationContext()).getUserDataPOJO().getUser_ID());
 
-            ((GlobalVariables)getApplicationContext()).setUserDataPOJO(null);
+            ((GlobalVariables) getApplicationContext()).setUserDataPOJO(null);
 
 
             //TODO buraya databaseden silme kısmını da eklemem lazım
@@ -156,7 +187,7 @@ public class BaseDrawerActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.icon_home) {
-            Intent i = new Intent(getApplicationContext(),HomepageActivity.class);
+            Intent i = new Intent(getApplicationContext(), HomepageActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
 
@@ -169,11 +200,11 @@ public class BaseDrawerActivity extends AppCompatActivity
         } else if (id == R.id.icon_profil) {
             Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
             startActivity(i);
-        }else if(id == R.id.icon_my_programs){
+        } else if (id == R.id.icon_my_programs) {
             Intent i = new Intent(getApplicationContext(), MyProgramsActivity.class);
             startActivity(i);
         } else if (id == R.id.icon_logout) {
-            Toast.makeText(getApplicationContext(),"Logout Yapıldı",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Logout Yapıldı", Toast.LENGTH_SHORT).show();
             SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", MODE_PRIVATE);
             SharedPreferences.Editor edit = userDetails.edit();
             edit.clear();
@@ -182,9 +213,9 @@ public class BaseDrawerActivity extends AppCompatActivity
             edit.commit();
 
             DBHelper dbHelper = new DBHelper(getApplicationContext());
-            dbHelper.deleteUser(((GlobalVariables)getApplicationContext()).getUserDataPOJO().getUser_ID());
+            dbHelper.deleteUser(((GlobalVariables) getApplicationContext()).getUserDataPOJO().getUser_ID());
 
-            ((GlobalVariables)getApplicationContext()).setUserDataPOJO(null);
+            ((GlobalVariables) getApplicationContext()).setUserDataPOJO(null);
 
 
             //TODO buraya databaseden silme kısmını da eklemem lazım
@@ -208,9 +239,8 @@ public class BaseDrawerActivity extends AppCompatActivity
 
     }
 
-    protected void setFilterButtonListener(int type){
-        if(type == PublicVariables.FILTER_BUTTON_TYPE_PROGRAM)
-        {
+    protected void setFilterButtonListener(int type) {
+        if (type == PublicVariables.FILTER_BUTTON_TYPE_PROGRAM) {
             filterButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -220,23 +250,20 @@ public class BaseDrawerActivity extends AppCompatActivity
 //                overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
 
 
-
                     Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
             });
-        }
-        else if(type == PublicVariables.FILTER_BUTTON_TYPE_USER){
+        } else if (type == PublicVariables.FILTER_BUTTON_TYPE_USER) {
             filterButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     //TODO buraya özel searchfilter eklenecek
 
-                    Intent intent = new Intent(getApplicationContext(),ProgramSearchFilterActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), ProgramSearchFilterActivity.class);
                     startActivity(intent);
 //                overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
-
 
 
                     Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -246,6 +273,7 @@ public class BaseDrawerActivity extends AppCompatActivity
         }
 
     }
+
 
 
 }
