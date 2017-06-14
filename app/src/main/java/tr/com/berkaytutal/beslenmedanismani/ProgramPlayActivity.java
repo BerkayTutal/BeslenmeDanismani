@@ -91,12 +91,22 @@ public class ProgramPlayActivity extends AppCompatActivity {
             }
         } else {
             int circleID = exercise.getCircleID();
-            if (circleCountHolder.get(circleID) == null) {
-                circleCountHolder.put(circleID, exercise.getCircleCount() - 1);
+            if (circleCountHolder.get(exercise.getOrder()) == null) {
+                circleCountHolder.put(exercise.getOrder(), exercise.getCircleCount() - 1);
                 nextExerciseIndex = program.getExercisez().indexOf(program.getExerciseByOrderNumber(circleID));
-            } else if (circleCountHolder.get(circleID) > 1) {
-                circleCountHolder.put(circleID, circleCountHolder.get(circleID) - 1);
+            } else if (circleCountHolder.get(exercise.getOrder()) > 1) {
+                circleCountHolder.put(exercise.getOrder(), circleCountHolder.get(exercise.getOrder()) - 1);
+
                 nextExerciseIndex = program.getExercisez().indexOf(program.getExerciseByOrderNumber(circleID));
+            } else if (circleCountHolder.get(exercise.getOrder()) == 1) {
+                circleCountHolder.put(exercise.getOrder(), exercise.getCircleCount() - 1);
+
+                if (currentExerciseIndex != maxExerciseIndex) {
+                    nextExerciseIndex = currentExerciseIndex + 1;
+                }
+                else{
+                    //TODO finish kismi
+                }
             } else if (currentExerciseIndex != maxExerciseIndex) {
                 nextExerciseIndex = currentExerciseIndex + 1;
             } else {
