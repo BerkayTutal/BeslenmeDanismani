@@ -131,7 +131,14 @@ public class ProgramOverviewAdapter extends BaseAdapter {
                     Intent intent = new Intent(context, ProgramPlayActivity.class);
                     int programID = ((ProgramOverviewActivity)activity).programID;
                     intent.putExtra("programID",programID);
-                    intent.putExtra("currentExerciseIndex",((GlobalVariables)context.getApplicationContext()).getUserDataPOJO().getProgramByID(programID).getExercisez().indexOf(exercises.get(i)));
+                    ExercisePOJO exx;
+                    if(exercises.get(i).isTekrar()){
+                        exx = ((TekrarPOJO)exercises.get(i)).getExercisez().get(0);
+                    }
+                    else{
+                        exx = (ExercisePOJO) exercises.get(i);
+                    }
+                    intent.putExtra("currentExerciseIndex",((GlobalVariables)context.getApplicationContext()).getUserDataPOJO().getProgramByID(programID).getExercisez().indexOf(exx));
                     activity.startActivity(intent);
 
 
