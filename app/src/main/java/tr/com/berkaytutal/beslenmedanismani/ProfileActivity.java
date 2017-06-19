@@ -33,6 +33,8 @@ import tr.com.berkaytutal.beslenmedanismani.Utils.UserDataPOJO;
 
 public class ProfileActivity extends BaseDrawerActivity {
 
+    private ProgramListingAdapter adapter;
+
     private ImageView profileImage;
     private TextView profileName;
     private TextView profileEmail;
@@ -42,9 +44,6 @@ public class ProfileActivity extends BaseDrawerActivity {
     private ListView myProgramsListview;
     private ArrayList<ProgramPOJO> myProgramsArrayList;
     private Button editDetails;
-
-
-
 
 
     private String tall;
@@ -66,6 +65,7 @@ public class ProfileActivity extends BaseDrawerActivity {
 
 
     public static Activity profileActivity;
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem logoutButton = menu.findItem(R.id.appBarLogoutButton);
@@ -78,6 +78,7 @@ public class ProfileActivity extends BaseDrawerActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +86,12 @@ public class ProfileActivity extends BaseDrawerActivity {
 
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
 
         profileActivity = this;
@@ -103,7 +110,7 @@ public class ProfileActivity extends BaseDrawerActivity {
         editDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),EditProfileActivity.class);
+                Intent i = new Intent(getApplicationContext(), EditProfileActivity.class);
                 startActivity(i);
 
             }
@@ -121,13 +128,10 @@ public class ProfileActivity extends BaseDrawerActivity {
         }
 
 
-
         myProgramsArrayList = userDataPOJO.getMyPrograms();
-        ProgramListingAdapter adapter = new ProgramListingAdapter(this, myProgramsArrayList);
+        adapter = new ProgramListingAdapter(this, myProgramsArrayList);
         myProgramsListview.setAdapter(adapter);
 //        myProgramsListview.setMinimumHeight(getResources().getDimensionPixelOffset(R.dimen.homeListingHeight));
-
-
 
 
 //        tall = userDataPOJO.getTall();
@@ -178,15 +182,12 @@ public class ProfileActivity extends BaseDrawerActivity {
     }
 
 
-
-
-
     private class MyAsyncClass2 extends AsyncTask<String, Void, String> {
 
 
         @Override
         protected String doInBackground(String... strings) {
-            Log.i("body","update isteği yollandı");
+            Log.i("body", "update isteği yollandı");
 //            Toast.makeText(getApplicationContext(), "istek Gönderildi", Toast.LENGTH_SHORT).show();
             return DataSenderHelper.POST(PublicVariables.bodyRateUpdateURL, jsonObject);
         }
@@ -195,10 +196,10 @@ public class ProfileActivity extends BaseDrawerActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             if (result.equals("false")) {
-                Log.e("body","sorun oluştu");
+                Log.e("body", "sorun oluştu");
                 Toast.makeText(getApplicationContext(), "sorun oluştu", Toast.LENGTH_SHORT).show();
             } else if (result.equals("true")) {
-                Log.i("body","update başarılı");
+                Log.i("body", "update başarılı");
 //                userDataPOJO.setFatRate(fatRate);
 //                userDataPOJO.setMuscleRate(muscleRate);
 //                userDataPOJO.setTall(tall);
@@ -206,9 +207,8 @@ public class ProfileActivity extends BaseDrawerActivity {
 //                userDataPOJO.setWeight(weight);
                 DBHelper dbHelper = new DBHelper(getApplicationContext());
                 dbHelper.updateUser(userDataPOJO);
-                ((GlobalVariables)getApplicationContext()).setUserDataPOJO(userDataPOJO);
+                ((GlobalVariables) getApplicationContext()).setUserDataPOJO(userDataPOJO);
                 Toast.makeText(getApplicationContext(), "Başarılı", Toast.LENGTH_SHORT).show();
-
 
 
             }

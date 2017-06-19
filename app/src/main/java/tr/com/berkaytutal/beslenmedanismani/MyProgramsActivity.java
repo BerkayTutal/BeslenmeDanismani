@@ -19,6 +19,7 @@ public class MyProgramsActivity extends BaseDrawerActivity {
     private ListView myProgramsListview;
     private ArrayList<ProgramPOJO> myProgramsArrayList;
     private UserDataPOJO userDataPOJO;
+    private ProgramListingAdapter adapter;
 
 
 
@@ -46,15 +47,24 @@ public class MyProgramsActivity extends BaseDrawerActivity {
 
         myProgramsListview = (ListView) findViewById(R.id.myProgramsListViewActivity);
 
-        ProgramListingAdapter adapter = new ProgramListingAdapter(this,myProgramsArrayList);
+        adapter = new ProgramListingAdapter(this,myProgramsArrayList);
 
         myProgramsListview.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+
+
+
     }
 
 

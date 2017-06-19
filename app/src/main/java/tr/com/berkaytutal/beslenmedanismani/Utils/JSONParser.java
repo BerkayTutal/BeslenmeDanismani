@@ -35,6 +35,7 @@ public class JSONParser {
     }
 
     public JSONObject getJSONObjectFromUrl(String ul){
+        jsonObject=null;
         try {
 
             Log.i("url",ul);

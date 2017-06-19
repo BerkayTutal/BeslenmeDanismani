@@ -27,6 +27,13 @@ public class TrainerDetailPage extends BaseDrawerActivity {
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
         int userID = getIntent().getIntExtra("userID",-1);
         TrainerPOJO user = ((GlobalVariables)getApplicationContext()).getUserByID(userID);
 
@@ -41,14 +48,10 @@ public class TrainerDetailPage extends BaseDrawerActivity {
 
         ArrayList<ProgramPOJO> trainerPrograms = ((GlobalVariables)getApplicationContext()).getProgramsByTrainerID(userID);
 
-        
+
 
         ProgramListingAdapter adapter = new ProgramListingAdapter(this,trainerPrograms);
         trainerProgramsListView.setAdapter(adapter);
-
-
-
-
     }
 
     @Override

@@ -19,6 +19,13 @@ public class AllUsersActivity extends BaseDrawerActivity implements SwipeRefresh
 
     private ListView listView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private UserListingAdapter ula;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ula.notifyDataSetChanged();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +41,7 @@ public class AllUsersActivity extends BaseDrawerActivity implements SwipeRefresh
         ArrayList<TrainerPOJO> allUsers = ((GlobalVariables)getApplicationContext()).getAllUsers();
         
 
-        searchView.setVisibility(View.VISIBLE);
+//        searchView.setVisibility(View.VISIBLE);
 //        searchView.setIconified(false);
 
         searchView.setOnQueryTextListener(this);
@@ -56,7 +63,7 @@ public class AllUsersActivity extends BaseDrawerActivity implements SwipeRefresh
 //        swipeRefreshLayout.setRefreshing(true);
 
 
-        UserListingAdapter ula = new UserListingAdapter(this, allUsers);
+        ula = new UserListingAdapter(this, allUsers);
         listView.setAdapter(ula);
 
     }

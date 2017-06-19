@@ -183,16 +183,12 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected Object doInBackground(Object[] objects) {
-
+//TODO dbden mail ve password ile cekelim
             DBHelper dbhelper = new DBHelper(getApplicationContext());
-            UserDataPOJO dbUser = dbhelper.getUser();
-
-            boolean shouldIUpdate = false;
-            if (dbUser != null) {
-                shouldIUpdate = true;
-            }
+            UserDataPOJO dbUser = dbhelper.getUser(email, password);
 
             JSONParser jsonParser = new JSONParser();
+
             jsonObject = jsonParser.getJSONObjectFromUrl(PublicVariables.loginURL + email + "/" + PasswordHashingMD5.md5(password));
 
 
@@ -251,6 +247,11 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
 
+                    boolean shouldIUpdate = false;
+                    if (dbUser != null) {
+                        shouldIUpdate = true;
+                    }
+
                     if (dbUser == null) {
                         dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, myPrograms);
                     } else {
@@ -270,7 +271,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (shouldIUpdate) {
                         dbhelper.updateUser(dbUser);
                     } else {
-                        dbhelper.insertUser(dbUser);
+                        dbhelper.insertUser(dbUser, password);
                     }
 
                 } catch (JSONException e) {

@@ -18,6 +18,14 @@
         tools:ignore="AppCompatResource"
         android:id="@+id/appBarLogoutButton"
         android:visible="false"/>
+    <item
+        android:icon="@drawable/ic_warning"
+        android:orderInCategory="101"
+        app:showAsAction="always"
+        android:title="Report"
+        tools:ignore="AppCompatResource"
+        android:id="@+id/appBarReportButton"
+        android:visible="false"/>
 
 
 </menu>

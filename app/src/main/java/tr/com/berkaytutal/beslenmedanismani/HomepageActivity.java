@@ -26,6 +26,15 @@ public class HomepageActivity extends BaseDrawerActivity {
     private Button seeAllTrainers;
     private TextView textViewUserName;
     private boolean doubleBackToExitPressedOnce = false;
+    private ProgramListingAdapter pla;
+    private UserListingAdapter ula;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        pla.notifyDataSetChanged();
+        ula.notifyDataSetChanged();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,10 +102,10 @@ public class HomepageActivity extends BaseDrawerActivity {
         ListView trainersListView = (ListView) findViewById(R.id.homeTrainersList);
 
 
-        ProgramListingAdapter pla = new ProgramListingAdapter(this, nPrograms);
+         pla = new ProgramListingAdapter(this, nPrograms);
         programsListView.setAdapter(pla);
 
-        UserListingAdapter ula = new UserListingAdapter(this, nUsers);
+         ula = new UserListingAdapter(this, nUsers);
 
         trainersListView.setAdapter(ula);
 

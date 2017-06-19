@@ -1,11 +1,15 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -54,19 +58,69 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
     private TrainerPOJO trainer;
     private UserDataPOJO user;
 
+    private MenuItem reportButton;
+    private boolean reportButtonVisibility = false;
+
     private View.OnClickListener downloadOnClickListener;
 
     protected boolean isWorkoutButton = false;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_program_detail);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.appBarReportButton) {
+            Toast.makeText(getApplicationContext(), "report", Toast.LENGTH_SHORT).show();
+            final Dialog dialog = new Dialog(this);
+            dialog.setContentView(R.layout.custom_dialog_report);
+
+            Button cancelButton = (Button) dialog.findViewById(R.id.dialogReportCancelButton);
+            Button reportButton = (Button) dialog.findViewById(R.id.dialogReportYesButton);
+            final EditText reasonEditText = (EditText) dialog.findViewById(R.id.dialogReportEditText);
+
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+            reportButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String reason = reasonEditText.getText().toString();
+                    program.getProgramID();
+                    program.getTrainerID();
+                    user.getUser_ID();
+                    Toast.makeText(view.getContext(),reason,Toast.LENGTH_SHORT).show();
+
+                    //TODO buraya async yazılacak rapor atması için
+                    dialog.dismiss();
+                }
+            });
+            dialog.setCanceledOnTouchOutside(true);
+
+            dialog.show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        reportButton = menu.findItem(R.id.appBarReportButton);
+        reportButton.setVisible(reportButtonVisibility);
 
 
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        return super.onPrepareOptionsMenu(menu);
+    }
+//TODO degistiyse tekrar yapilacak
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         buyThisProgramButton = (Button) findViewById(R.id.programBuyButton);
         boughtProgramLinearLayout = (LinearLayout) findViewById(R.id.boughtProgramLinearLayout);
         deleteProgramButton = (Button) findViewById(R.id.programDetailDelete);
@@ -88,6 +142,8 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         } else {
             boughtProgramLinearLayout.setVisibility(View.VISIBLE);
 
+            reportButtonVisibility = true;
+
         }
         trainer = ((GlobalVariables) getApplicationContext()).getUserByID(program.getTrainerID());
         downloadButton = (Button) findViewById(R.id.programDetailDownload);
@@ -107,19 +163,17 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // program = ((GlobalVariables) getApplicationContext()).getProgramByID(programID);
+                // program = ((GlobalVariables) getApplicationContext()).getProgramByID(programID);
 
-                if(program.getExercisez() == null){
+                if (program.getExercisez() == null) {
                     isWorkoutButton = true;
 
                     Toast.makeText(getApplicationContext(), "indirme başladı", Toast.LENGTH_SHORT).show();
                     downloadProgram();
-                }
-                else{
+                } else {
                     isWorkoutButton = false;
                     startWorkout();
                 }
-
 
 
             }
@@ -179,6 +233,13 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                 goTrainerPage();
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_program_detail);
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
 
     }
@@ -203,7 +264,8 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
 
 
     }
-    protected void startWorkout(){
+
+    protected void startWorkout() {
         Intent i = new Intent(getApplicationContext(), ProgramOverviewActivity.class);
         i.putExtra("programID", programID);
         startActivity(i);
@@ -233,7 +295,6 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
 
         ArrayList<ExercisePOJO> exercisePOJOs = new ArrayList<>();
         JSONArray jsonArray;
-
 
 
         @Override
@@ -357,7 +418,8 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
             dbhelper.updateUser(user);
             disableDownloadButton();
 
-            if(isWorkoutButton){
+
+            if (isWorkoutButton) {
                 startWorkout();
             }
 

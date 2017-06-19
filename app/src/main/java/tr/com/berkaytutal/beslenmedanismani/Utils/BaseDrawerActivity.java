@@ -134,6 +134,8 @@ public class BaseDrawerActivity extends AppCompatActivity
             profileButton.setVisible(false);
         }
 
+
+
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -163,19 +165,20 @@ public class BaseDrawerActivity extends AppCompatActivity
             edit.putString("userPass", "");
             edit.commit();
 
-            DBHelper dbHelper = new DBHelper(getApplicationContext());
-            dbHelper.deleteUser(((GlobalVariables) getApplicationContext()).getUserDataPOJO().getUser_ID());
+//            DBHelper dbHelper = new DBHelper(getApplicationContext());
+//            dbHelper.deleteUser(((GlobalVariables) getApplicationContext()).getUserDataPOJO().getUser_ID());
 
             ((GlobalVariables) getApplicationContext()).setUserDataPOJO(null);
 
 
-            //TODO buraya databaseden silme kısmını da eklemem lazım
+
 
             Intent i = new Intent(this, HomepageActivity.class);
             startActivity(i);
             finish();
             return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -212,8 +215,8 @@ public class BaseDrawerActivity extends AppCompatActivity
             edit.putString("userPass", "");
             edit.commit();
 
-            DBHelper dbHelper = new DBHelper(getApplicationContext());
-            dbHelper.deleteUser(((GlobalVariables) getApplicationContext()).getUserDataPOJO().getUser_ID());
+//            DBHelper dbHelper = new DBHelper(getApplicationContext());
+//            dbHelper.deleteUser(((GlobalVariables) getApplicationContext()).getUserDataPOJO().getUser_ID());
 
             ((GlobalVariables) getApplicationContext()).setUserDataPOJO(null);
 

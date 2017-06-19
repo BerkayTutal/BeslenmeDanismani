@@ -33,6 +33,8 @@ public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefr
     private int sortPos = 0;
     private boolean isFiltered = false;
 
+    private ProgramListingAdapter pla;
+
 
 
     @Override
@@ -45,7 +47,7 @@ public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefr
 
         setFilterButtonVisibility(true);
         setFilterButtonListener(PublicVariables.FILTER_BUTTON_TYPE_PROGRAM);
-        searchView.setVisibility(View.VISIBLE);
+//        searchView.setVisibility(View.VISIBLE);
 //        searchView.setIconified(false);
 
         searchView.setOnQueryTextListener(this);
@@ -90,9 +92,15 @@ public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefr
 
         }
 
-        ProgramListingAdapter pla = new ProgramListingAdapter(this, allPrograms);
+        pla = new ProgramListingAdapter(this, allPrograms);
         listView.setAdapter(pla);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        pla.notifyDataSetChanged();
     }
 
     @Override

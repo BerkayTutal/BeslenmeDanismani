@@ -22,6 +22,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "MyDBName.db";
     public static final String USER_TABLE_NAME = "users";
     public static final String USER_COLUMN_ID = "id";
+    public static final String USER_COLUMN_EMAIL = "email";
+    public static final String USER_COLUMN_PASSWORD = "password";
     public static final String USER_COLUMN_DATA = "data";
 
     private HashMap hp;
@@ -36,7 +38,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.execSQL(
                 "create table IF NOT EXISTS " + USER_TABLE_NAME +
-                        "(" + USER_COLUMN_ID + " integer primary key, " + USER_COLUMN_DATA + " blob)"
+                        "(" + USER_COLUMN_ID + " integer primary key, "
+                        + USER_COLUMN_EMAIL + " TEXT,"
+                        + USER_COLUMN_PASSWORD + " TEXT,"
+                        + USER_COLUMN_DATA + " blob)"
         );
     }
 
@@ -48,12 +53,14 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean insertUser(UserDataPOJO userDataPOJO) {
+    public boolean insertUser(UserDataPOJO userDataPOJO, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         byte[] data = SerializationUtils.serialize(userDataPOJO);
 
         contentValues.put(USER_COLUMN_ID, userDataPOJO.getUser_ID());
+        contentValues.put(USER_COLUMN_EMAIL, userDataPOJO.getEmail());
+        contentValues.put(USER_COLUMN_PASSWORD, password);
         contentValues.put(USER_COLUMN_DATA, data);
 
         db.insert(USER_TABLE_NAME, null, contentValues);
@@ -84,10 +91,26 @@ public class DBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + USER_TABLE_NAME + " where " + USER_COLUMN_ID + "=" + userID + "", null);
-
+        res.moveToFirst();
         byte[] data;
         try {
-            data = res.getBlob(res.getColumnIndex(USER_COLUMN_ID));
+            data = res.getBlob(res.getColumnIndex(USER_COLUMN_DATA));
+
+        } catch (Exception e) {
+            return null;
+        }
+        UserDataPOJO user = (UserDataPOJO) SerializationUtils.deserialize(data);
+        return user;
+
+    }
+    public UserDataPOJO getUser(String email, String password) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from " + USER_TABLE_NAME + " where " + USER_COLUMN_EMAIL + "='" + email + "' and " + USER_COLUMN_PASSWORD + "='" + password + "'", null);
+        res.moveToFirst();
+        byte[] data;
+        try {
+            data = res.getBlob(res.getColumnIndex(USER_COLUMN_DATA));
 
         } catch (Exception e) {
             return null;
