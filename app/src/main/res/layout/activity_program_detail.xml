@@ -18,6 +18,39 @@
             android:id="@+id/programDetailImage"
             android:layout_width="200dp"
             android:layout_height="200dp" />
+        <LinearLayout
+            android:id="@+id/programDetailCommentLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="8dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_star"/>
+            <TextView
+                android:id="@+id/programDetailRatingTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4.7/5"
+                android:layout_marginRight="10dp"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/comment"/>
+            <TextView
+                android:id="@+id/programDetailCommentCountTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15"
+                android:layout_marginRight="10dp"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/more_horiz"/>
+
+        </LinearLayout>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

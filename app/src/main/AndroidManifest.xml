@@ -34,7 +34,8 @@
         <activity android:name=".BodyRates" />
         <activity android:name=".ProgramOverviewActivity" />
         <activity android:name=".MyProgramsActivity" />
-        <activity android:name=".ProgramPlayActivity"></activity>
+        <activity android:name=".ProgramPlayActivity" />
+        <activity android:name=".ProgramCommentsActivity"></activity>
     </application>
 
 </manifest>

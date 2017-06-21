@@ -64,6 +64,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
     private View.OnClickListener downloadOnClickListener;
 
     protected boolean isWorkoutButton = false;
+    private LinearLayout commentsLinearLayout;
 
 
     @Override
@@ -124,9 +125,16 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         buyThisProgramButton = (Button) findViewById(R.id.programBuyButton);
         boughtProgramLinearLayout = (LinearLayout) findViewById(R.id.boughtProgramLinearLayout);
         deleteProgramButton = (Button) findViewById(R.id.programDetailDelete);
+        commentsLinearLayout = (LinearLayout) findViewById(R.id.programDetailCommentLinearLayout);
 
-
-        programID = getIntent().getIntExtra("programID", 0);
+        commentsLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(view.getContext(),ProgramCommentsActivity.class);
+                i.putExtra("programID",programID);
+                startActivity(i);
+            }
+        });
 
 
         user = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
@@ -240,6 +248,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_program_detail);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        programID = getIntent().getIntExtra("programID", 0);
 
 
     }

@@ -18,6 +18,7 @@ public class TrainerDetailPage extends BaseDrawerActivity {
     private ImageView profileImage;
     private TextView profileName;
     private ListView trainerProgramsListView;
+    private int userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,7 @@ public class TrainerDetailPage extends BaseDrawerActivity {
         setContentView(R.layout.activity_trainer_detail_page);
 
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        userID = getIntent().getIntExtra("userID",-1);
 
 
     }
@@ -34,7 +36,7 @@ public class TrainerDetailPage extends BaseDrawerActivity {
         super.onResume();
 
 
-        int userID = getIntent().getIntExtra("userID",-1);
+
         TrainerPOJO user = ((GlobalVariables)getApplicationContext()).getUserByID(userID);
 
         profileImage = (ImageView) findViewById(R.id.trainerProfileImage);
