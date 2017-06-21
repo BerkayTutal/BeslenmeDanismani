@@ -19,6 +19,17 @@
     <string name="title_activity_base_drawer">BaseDrawerActivity</string>
     <string name="title_activity_settings">Settings</string>
 
+    <!--Comment Strings-->
+    <array name="ratings">
+        <item>"   0   "</item>
+        <item>"   1   "</item>
+        <item>"   2   "</item>
+        <item>"   3   "</item>
+        <item>"   4   "</item>
+        <item>"   5   "</item>
+
+    </array>
+
     <!--Filter page strings-->
     <string name="programTitleSearch">Program Title:</string>
     <string name="trainerQuery">Trainer:</string>

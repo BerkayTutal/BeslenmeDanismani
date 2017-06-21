@@ -129,6 +129,8 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
 
     }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

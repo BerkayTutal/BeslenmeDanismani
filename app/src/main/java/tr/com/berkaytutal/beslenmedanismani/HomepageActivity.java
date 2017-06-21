@@ -29,6 +29,8 @@ public class HomepageActivity extends BaseDrawerActivity {
     private ProgramListingAdapter pla;
     private UserListingAdapter ula;
 
+
+
     @Override
     protected void onResume() {
         super.onResume();

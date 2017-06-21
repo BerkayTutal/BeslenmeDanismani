@@ -16,7 +16,8 @@
         android:layout_alignParentRight="true"
         android:layout_margin="10dp"
         app:srcCompat="@drawable/pencil"
-        app:fabSize="normal"/>
+        app:fabSize="normal"
+        android:id="@+id/programCommentsFAB"/>
     <ListView
         android:id="@+id/programCommentsListView"
         android:layout_width="match_parent"

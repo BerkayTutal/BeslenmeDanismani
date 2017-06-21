@@ -15,15 +15,24 @@ public class CommentPOJO implements Serializable {
     private int commentID;
     private String commenterName;
     private String commentText;
+    private int starPoints;
 
 
-    public CommentPOJO(byte[] commenterPhoto, int commentID, String commenterName, String commentText) {
+    public CommentPOJO(byte[] commenterPhoto, int commentID, String commenterName, String commentText, int starPoints) {
         this.commenterPhoto = commenterPhoto;
         this.commentID = commentID;
         this.commenterName = commenterName;
         this.commentText = commentText;
+        this.starPoints = starPoints;
     }
 
+    public int getStarPoints() {
+        return starPoints;
+    }
+
+    public void setStarPoints(int starPoints) {
+        this.starPoints = starPoints;
+    }
 
     public Bitmap getCommenterPhoto() {
         return BitmapFactory.decodeByteArray(commenterPhoto, 0, commenterPhoto.length);

@@ -46,7 +46,7 @@ public class ProgramCommentsAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return comments.get(i).getCommentID();
+        return i;
     }
 
     @Override
@@ -57,11 +57,13 @@ public class ProgramCommentsAdapter extends BaseAdapter {
         ImageView commenterPhoto = (ImageView) item.findViewById(R.id.commentItemPhoto);
         TextView commenterName = (TextView) item.findViewById(R.id.commentItemName);
         TextView commentText = (TextView) item.findViewById(R.id.commentItemComment);
+        TextView commentPoints = (TextView) item.findViewById(R.id.commentStarPoint);
 
 //        commentNumber.setText("#" + (i+1));
 //        commenterPhoto.setImageBitmap(comment.getCommenterPhoto());
 //        commenterName.setText(comment.getCommenterName());
 //        commentText.setText(comment.getCommentText());
+//        commentPoints.setText(comment.getStarPoints() + "/5");
 
 
         return item;
