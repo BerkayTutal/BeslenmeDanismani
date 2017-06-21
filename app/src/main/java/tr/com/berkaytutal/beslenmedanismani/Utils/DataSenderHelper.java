@@ -21,6 +21,8 @@ import java.io.InputStreamReader;
 public class DataSenderHelper {
 
     public static String POST(String url, JSONObject json){
+        Log.i("post",url);
+        Log.i("post",json.toString());
         InputStream inputStream = null;
         String result = "";
         try {
@@ -66,6 +68,7 @@ public class DataSenderHelper {
         }
 
         // 11. return result
+        Log.i("post",result);
         return result;
     }
 

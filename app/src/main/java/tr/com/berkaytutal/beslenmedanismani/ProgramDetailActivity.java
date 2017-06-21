@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ChestPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.DBHelper;
+import tr.com.berkaytutal.beslenmedanismani.Utils.DataSenderHelper;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ExercisePOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.JSONParser;
@@ -93,7 +94,10 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                     program.getProgramID();
                     program.getTrainerID();
                     user.getUser_ID();
-                    Toast.makeText(view.getContext(),reason,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), reason, Toast.LENGTH_SHORT).show();
+
+                    ReportAsyncClass async = new ReportAsyncClass();
+                    async.execute(reason);
 
                     //TODO buraya async yazılacak rapor atması için
                     dialog.dismiss();
@@ -122,6 +126,15 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_program_detail);
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        programID = getIntent().getIntExtra("programID", 0);
         buyThisProgramButton = (Button) findViewById(R.id.programBuyButton);
         boughtProgramLinearLayout = (LinearLayout) findViewById(R.id.boughtProgramLinearLayout);
         deleteProgramButton = (Button) findViewById(R.id.programDetailDelete);
@@ -130,8 +143,8 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         commentsLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(view.getContext(),ProgramCommentsActivity.class);
-                i.putExtra("programID",programID);
+                Intent i = new Intent(view.getContext(), ProgramCommentsActivity.class);
+                i.putExtra("programID", programID);
                 startActivity(i);
             }
         });
@@ -149,8 +162,10 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
             program = ((GlobalVariables) getApplicationContext()).getProgramByID(programID);
         } else {
             boughtProgramLinearLayout.setVisibility(View.VISIBLE);
+            if (!isTrainer) {
+                reportButtonVisibility = true;
 
-            reportButtonVisibility = true;
+            }
 
         }
         trainer = ((GlobalVariables) getApplicationContext()).getUserByID(program.getTrainerID());
@@ -241,15 +256,6 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                 goTrainerPage();
             }
         });
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_program_detail);
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-        programID = getIntent().getIntExtra("programID", 0);
-
 
     }
 
@@ -298,6 +304,39 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         downloadButton.setOnClickListener(null);
         deleteProgramButton.setVisibility(View.VISIBLE);
 
+    }
+
+    private class ReportAsyncClass extends AsyncTask<String, String, String> {
+
+
+        @Override
+        protected String doInBackground(String... strings) {
+            JSONObject reportJson = new JSONObject();
+            try {
+                reportJson.accumulate("user_ID", user.getUser_ID());
+                reportJson.accumulate("program_ID", programID);
+                reportJson.accumulate("comment", strings[0]);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return DataSenderHelper.POST(PublicVariables.reportURL, reportJson);
+
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if ("true".equals(s)) {
+                Toast.makeText(getApplicationContext(), "Successfully sent your report", Toast.LENGTH_SHORT).show();
+            } else if ("false".equals(s)) {
+                Toast.makeText(getApplicationContext(), "Already reported", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "An error occured", Toast.LENGTH_SHORT).show();
+
+            }
+            super.onPostExecute(s);
+        }
     }
 
     private class MyAsyncClass extends AsyncTask {
