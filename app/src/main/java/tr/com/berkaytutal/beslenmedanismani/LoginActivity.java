@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import tr.com.berkaytutal.beslenmedanismani.Utils.BodyRatioPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.DBHelper;
+import tr.com.berkaytutal.beslenmedanismani.Utils.DataSenderHelper;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.JSONParser;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PasswordHashingMD5;
@@ -189,8 +190,21 @@ public class LoginActivity extends AppCompatActivity {
 
             JSONParser jsonParser = new JSONParser();
 
-            jsonObject = jsonParser.getJSONObjectFromUrl(PublicVariables.loginURL + email + "/" + PasswordHashingMD5.md5(password));
+            JSONObject loginJSON = new JSONObject();
+            try {
+                loginJSON.accumulate("userName", email);
+                loginJSON.accumulate("password", PasswordHashingMD5.md5(password));
 
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            try {
+                jsonObject = new JSONObject(DataSenderHelper.POST(PublicVariables.loginURL, loginJSON));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             if (jsonObject == null) {
                 return "wrongLogin";
