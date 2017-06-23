@@ -246,8 +246,10 @@ public class LoginActivity extends AppCompatActivity {
                         String trainerSurname = program.getString("trainerName");
                         int trainer_id = program.getInt("trainer_ID");
                         String programDescription = program.getString("programDescription");
+                        float rating = program.getLong("ratingAvg");
+                        int commentCount = program.getInt("commentCount");
 
-                        ProgramPOJO myProgram = new ProgramPOJO(programDiff, imageByte, programSpecName, programTittle, programDescription, program_ID, trainer_id, trainerName, trainerSurname);
+                        ProgramPOJO myProgram = new ProgramPOJO(programDiff, imageByte, programSpecName, programTittle, programDescription, program_ID, trainer_id, trainerName, trainerSurname,rating,commentCount);
                         myPrograms.add(myProgram);
                     }
 

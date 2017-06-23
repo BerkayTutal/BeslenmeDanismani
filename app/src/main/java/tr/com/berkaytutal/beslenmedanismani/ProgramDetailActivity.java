@@ -66,6 +66,8 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
 
     protected boolean isWorkoutButton = false;
     private LinearLayout commentsLinearLayout;
+    private TextView commentCountTextView;
+    private TextView ratingTextView;
 
 
     @Override
@@ -141,6 +143,8 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         boughtProgramLinearLayout = (LinearLayout) findViewById(R.id.boughtProgramLinearLayout);
         deleteProgramButton = (Button) findViewById(R.id.programDetailDelete);
         commentsLinearLayout = (LinearLayout) findViewById(R.id.programDetailCommentLinearLayout);
+        commentCountTextView = (TextView) findViewById(R.id.programDetailCommentCountTextView);
+        ratingTextView = (TextView) findViewById(R.id.programDetailRatingTextView);
 
         commentsLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,6 +262,9 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                 goTrainerPage();
             }
         });
+
+        commentCountTextView.setText(program.getCommentCount() + "");
+        ratingTextView.setText(program.getRating() + "/5");
 
     }
 

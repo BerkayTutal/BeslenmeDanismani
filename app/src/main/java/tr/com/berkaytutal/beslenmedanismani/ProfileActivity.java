@@ -17,10 +17,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import tr.com.berkaytutal.beslenmedanismani.Adapters.ProgramListingAdapter;
 import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
@@ -59,6 +63,8 @@ public class ProfileActivity extends BaseDrawerActivity {
     private EditText fatRateEditText;
     private EditText waterRateEditText;
     private Button updateButton;
+
+    private Button seeAllMyProgramsButton;
 
 
     private JSONObject jsonObject;
@@ -106,6 +112,15 @@ public class ProfileActivity extends BaseDrawerActivity {
         profileBirthday = (TextView) findViewById(R.id.userBirthdayDetailPage);
         profileGender = (ImageView) findViewById(R.id.userDetailGenderIcon);
         editDetails = (Button) findViewById(R.id.userProfileEditDetails);
+        seeAllMyProgramsButton = (Button) findViewById(R.id.seeAllMyProgramsButton);
+
+        seeAllMyProgramsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(view.getContext(),MyProgramsActivity.class);
+                startActivity(i);
+            }
+        });
 
         editDetails.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,44 +155,49 @@ public class ProfileActivity extends BaseDrawerActivity {
 //        fatRate = userDataPOJO.getFatRate();
 //        waterRate = userDataPOJO.getWaterRate();
 
-        tallEditText = (EditText) findViewById(R.id.bodyRatesTallEditText);
-        weightEditText = (EditText) findViewById(R.id.bodyRatesWeightEditText);
-        muscleRateEditText = (EditText) findViewById(R.id.bodyRatesMuscleRateEditText);
-        fatRateEditText = (EditText) findViewById(R.id.bodyRatesFatRateEditText);
-        waterRateEditText = (EditText) findViewById(R.id.bodyRatesWaterRaEditText);
-        updateButton = (Button) findViewById(R.id.bodyRatesUpdateButton);
+//        tallEditText = (EditText) findViewById(R.id.bodyRatesTallEditText);
+//        weightEditText = (EditText) findViewById(R.id.bodyRatesWeightEditText);
+//        muscleRateEditText = (EditText) findViewById(R.id.bodyRatesMuscleRateEditText);
+//        fatRateEditText = (EditText) findViewById(R.id.bodyRatesFatRateEditText);
+//        waterRateEditText = (EditText) findViewById(R.id.bodyRatesWaterRaEditText);
+//        updateButton = (Button) findViewById(R.id.bodyRatesUpdateButton);
+//
+//        tallEditText.setText(tall);
+//        weightEditText.setText(weight);
+//        muscleRateEditText.setText(muscleRate);
+//        fatRateEditText.setText(fatRate);
+//        waterRateEditText.setText(waterRate);
+//
+//        updateButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                tall = tallEditText.getText().toString();
+//                weight = weightEditText.getText().toString();
+//                muscleRate = muscleRateEditText.getText().toString();
+//                fatRate = fatRateEditText.getText().toString();
+//                waterRate = waterRateEditText.getText().toString();
+//                jsonObject = new JSONObject();
+//                try {
+//                    jsonObject.accumulate("fatRate", fatRate);
+//                    jsonObject.accumulate("muscleRate", muscleRate);
+//                    jsonObject.accumulate("tall", tall);
+//                    jsonObject.accumulate("user_ID", userDataPOJO.getUser_ID());
+//                    jsonObject.accumulate("waterRate", waterRate);
+//                    jsonObject.accumulate("weight", weight);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                MyAsyncClass2 async = new MyAsyncClass2();
+//                async.execute("test");
+//
+//
+//            }
+//        });
 
-        tallEditText.setText(tall);
-        weightEditText.setText(weight);
-        muscleRateEditText.setText(muscleRate);
-        fatRateEditText.setText(fatRate);
-        waterRateEditText.setText(waterRate);
+//TODO linechart kısmı burada
+        LineChart lineChart = (LineChart) findViewById(R.id.bodyRatesChartProfile);
 
-        updateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tall = tallEditText.getText().toString();
-                weight = weightEditText.getText().toString();
-                muscleRate = muscleRateEditText.getText().toString();
-                fatRate = fatRateEditText.getText().toString();
-                waterRate = waterRateEditText.getText().toString();
-                jsonObject = new JSONObject();
-                try {
-                    jsonObject.accumulate("fatRate", fatRate);
-                    jsonObject.accumulate("muscleRate", muscleRate);
-                    jsonObject.accumulate("tall", tall);
-                    jsonObject.accumulate("user_ID", userDataPOJO.getUser_ID());
-                    jsonObject.accumulate("waterRate", waterRate);
-                    jsonObject.accumulate("weight", weight);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                MyAsyncClass2 async = new MyAsyncClass2();
-                async.execute("test");
-
-
-            }
-        });
+        List<Entry> bodyRateEntries = new ArrayList<Entry>();
 
     }
     @Override

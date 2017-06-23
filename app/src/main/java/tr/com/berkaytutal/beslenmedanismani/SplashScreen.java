@@ -74,9 +74,11 @@ public class SplashScreen extends AppCompatActivity {
                     int trainerID = jobj.getInt("trainer_ID");
                     String trainerName = jobj.getString("trainerName");
                     String trainerSurname = jobj.getString("trainerSurname");
+                    float rating = jobj.getLong("ratingAvg");
+                    int commentCount = jobj.getInt("commentCount");
 
 
-                    program = new ProgramPOJO(diff, photo, programSpec, programTitle, programDescription, programID, trainerID, trainerName, trainerSurname);
+                    program = new ProgramPOJO(diff, photo, programSpec, programTitle, programDescription, programID, trainerID, trainerName, trainerSurname,rating,commentCount);
 
                     allPrograms.add(program);
                 } catch (JSONException e) {

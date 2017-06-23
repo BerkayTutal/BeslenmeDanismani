@@ -66,6 +66,11 @@ public class ProgramListingAdapter extends BaseAdapter {
         TextView difficulty = (TextView) listeElemani.findViewById(R.id.listingDifficulty);
         TextView category = (TextView) listeElemani.findViewById(R.id.listingCategory);
         TextView trainerName = (TextView) listeElemani.findViewById(R.id.listingProgramTrainer);
+        TextView ratingTxt = (TextView) listeElemani.findViewById(R.id.listingRatingTextView);
+        TextView commentTxt = (TextView) listeElemani.findViewById(R.id.listingCommentTextView);
+
+        ratingTxt.setText(programPOJO.getRating() + "/5");
+        commentTxt.setText(programPOJO.getCommentCount() + "");
 
         image.setImageBitmap(programPOJO.getProgramPhoto());
         title.setText(programPOJO.getProgramTitle());

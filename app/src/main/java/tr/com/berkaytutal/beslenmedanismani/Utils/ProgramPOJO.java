@@ -23,9 +23,12 @@ public class ProgramPOJO implements Serializable {
     private String trainerName;
     private String trainerSurname;
 
+    private float rating;
+    private int commentCount;
+
     private ArrayList<ExercisePOJO> exercisez = null;
 
-    public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle, String programDescription, int programID, int trainerID, String trainerName, String trainerSurname) {
+    public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle, String programDescription, int programID, int trainerID, String trainerName, String trainerSurname, float rating, int commentCount) {
         this.difficulty = difficulty;
         this.programPhoto = programPhoto;
         this.programSpec = programSpec;
@@ -36,11 +39,29 @@ public class ProgramPOJO implements Serializable {
         this.trainerName = trainerName;
         this.trainerSurname = trainerSurname;
         this.programDescription = programDescription;
+        this.rating = rating;
+        this.commentCount = commentCount;
     }
 
-    public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle, String programDescription, int programID, int trainerID, String trainerName, String trainerSurname, ArrayList<ExercisePOJO> exercisez) {
-        this(difficulty, programPhoto, programSpec, programTitle, programDescription, programID, trainerID, trainerName, trainerSurname);
+    public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle, String programDescription, int programID, int trainerID, String trainerName, String trainerSurname, float rating, int commentCount, ArrayList<ExercisePOJO> exercisez) {
+        this(difficulty, programPhoto, programSpec, programTitle, programDescription, programID, trainerID, trainerName, trainerSurname,  rating,  commentCount);
         this.exercisez = exercisez;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
     }
 
     public ArrayList<ExercisePOJO> getExercisez() {
