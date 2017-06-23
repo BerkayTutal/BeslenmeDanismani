@@ -15,12 +15,18 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import tr.com.berkaytutal.beslenmedanismani.Adapters.ProgramCommentsAdapter;
 import tr.com.berkaytutal.beslenmedanismani.Utils.CommentPOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.DataSenderHelper;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
+import tr.com.berkaytutal.beslenmedanismani.Utils.UserDataPOJO;
 
 public class ProgramCommentsActivity extends AppCompatActivity {
 
@@ -36,6 +42,8 @@ public class ProgramCommentsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_program_comments);
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+
         activity = this;
         context = this;
 
@@ -44,11 +52,18 @@ public class ProgramCommentsActivity extends AppCompatActivity {
 
         programCommentsListView = (ListView) findViewById(R.id.programCommentsListView);
         commentFAB = (FloatingActionButton) findViewById(R.id.programCommentsFAB);
-
-        ProgramPOJO myProgram = ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getProgramByID(programID);
-        if (myProgram != null) {
-            isBought = true;
+        UserDataPOJO user = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
+        final ProgramPOJO myProgram;
+        if(user!=null){
+         myProgram = ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getProgramByID(programID);
+            if (myProgram != null) {
+                isBought = true;
+            }
         }
+
+
+
+
 
         if (isBought == false) {
             commentFAB.setVisibility(View.GONE);
@@ -76,16 +91,32 @@ public class ProgramCommentsActivity extends AppCompatActivity {
                 commentDialog.dismiss();
             }
         });
-        commentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        if (isBought) {
+            commentButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 //TODO buraya async yardır bi tane
-                int rating = Integer.parseInt(ratingSpinner.getSelectedItem().toString().replaceAll("[\\D]",""));
-                String comment = commentEditText.getText().toString();
-                Toast.makeText(view.getContext(), rating + " " + comment, Toast.LENGTH_SHORT).show();
-                commentDialog.dismiss();
-            }
-        });
+                    int rating = Integer.parseInt(ratingSpinner.getSelectedItem().toString().replaceAll("[\\D]", ""));
+                    String comment = commentEditText.getText().toString();
+                    Toast.makeText(view.getContext(), "Your comment is sending", Toast.LENGTH_SHORT).show();
+                    commentDialog.dismiss();
+
+                    JSONObject jsonComment = new JSONObject();
+                    try {
+                        jsonComment.accumulate("program_ID", programID);
+                        jsonComment.accumulate("user_ID",((GlobalVariables)getApplicationContext()).getUserDataPOJO().getUser_ID() );
+                        jsonComment.accumulate("rating", rating);
+                        jsonComment.accumulate("comment", comment);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    MakeCommentAsync makeCommentAsync = new MakeCommentAsync();
+                    makeCommentAsync.execute(jsonComment);
+
+                }
+            });
+        }
         commentDialog.setCanceledOnTouchOutside(true);
 
 
@@ -106,6 +137,35 @@ public class ProgramCommentsActivity extends AppCompatActivity {
 
         //TODO buraya bir adapter yazılacak ve comment içeriği ayarlanacak
         //+ comment yapma butonu eklenecek
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+    private class MakeCommentAsync extends AsyncTask<JSONObject, String, String> {
+
+        @Override
+        protected String doInBackground(JSONObject... jsonObjects) {
+
+            return DataSenderHelper.POST(PublicVariables.commentURL,jsonObjects[0]);
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            if ("true".equals(s)) {
+                Toast.makeText(context, "Your comment sent succesfully", Toast.LENGTH_SHORT).show();
+            } else if ("false".equals(s)) {
+                Toast.makeText(context, "You've already commented", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "A problem occured while sending", Toast.LENGTH_SHORT).show();
+
+            }
+            super.onPostExecute(s);
+        }
     }
 
 

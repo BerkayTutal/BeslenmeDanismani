@@ -93,18 +93,51 @@ public class SplashScreen extends AppCompatActivity {
 
 
                 TrainerPOJO user;
+                JSONObject jobj = null;
                 try {
-                    JSONObject jobj = (JSONObject) jsonArray.get(i);
+                    jobj = (JSONObject) jsonArray.get(i);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                String sex = null;
+                try {
+                    sex = jobj.getString("sex");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                byte[] imageByte = null;
+                try {
+                    imageByte = Base64.decode(jobj.getString("photo"), Base64.DEFAULT);
 
 
-                    byte[] imageByte = Base64.decode(jobj.getString("photo"), Base64.DEFAULT);
-                    Bitmap photo = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Bitmap photo = null;
+                if(imageByte != null){
+                     photo = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+                }
+                else {
+                    if("M".equals(sex)){
+                        photo = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.profile_man);
+                    }
+                    else{
+                        photo = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.profile_woman);
+
+                    }
+                }
+                try {
+
+
+
+
 
                     String birthday = jobj.getString("birthday");
                     int userID = jobj.getInt("id");
                     String name = jobj.getString("name");
                     String surname = jobj.getString("surname");
-                    String sex = jobj.getString("sex");
+
 
                     user = new TrainerPOJO(name, surname, sex, photo, userID, birthday);
                     allUsers.add(user);

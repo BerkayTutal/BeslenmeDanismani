@@ -42,9 +42,6 @@ public class HomepageActivity extends BaseDrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
-
-
-
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 //
 //        Intent rates = new Intent(this,BodyRates.class);
@@ -131,5 +128,12 @@ public class HomepageActivity extends BaseDrawerActivity {
                 doubleBackToExitPressedOnce=false;
             }
         }, 1500);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+
     }
 }

@@ -30,6 +30,7 @@ public interface PublicVariables {
     String userUpdateURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/updateUserSimpleData";
     String bodyRateUpdateURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/updateUserBodyRates";
     String reportURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/sendComplain";
+    String commentURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/voting";
     //getProgramDetailsURL + programID/userID
     String getProgramDetailsURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/getProgramDetails/";
 

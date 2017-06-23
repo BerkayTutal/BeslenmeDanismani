@@ -1,6 +1,9 @@
 package tr.com.berkaytutal.beslenmedanismani.Utils;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import tr.com.berkaytutal.beslenmedanismani.R;
 
 /**
  * Created by berka on 21.05.2017.
@@ -48,6 +51,8 @@ public class TrainerPOJO {
     }
 
     public Bitmap getPhoto() {
+
+
         return photo;
     }
 
