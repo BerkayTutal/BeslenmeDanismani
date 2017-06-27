@@ -93,9 +93,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                 @Override
                 public void onClick(View view) {
                     String reason = reasonEditText.getText().toString();
-                    program.getProgramID();
-                    program.getTrainerID();
-                    user.getUser_ID();
+
                     Toast.makeText(view.getContext(), reason, Toast.LENGTH_SHORT).show();
 
                     ReportAsyncClass async = new ReportAsyncClass();
@@ -229,6 +227,33 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
             disableDownloadButton();
         }
 
+        buyThisProgramButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(user==null){
+                    Intent intent = new Intent(view.getContext(),LoginActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    //TODO progressdialog
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.accumulate("user_ID",user.getUser_ID());
+                        jsonObject.accumulate("program_ID",programID);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    BuyAsyncClass async = new BuyAsyncClass();
+                    async.execute(jsonObject);
+                }
+
+
+
+            }
+        });
+
 
         programImageView = (ImageView) findViewById(R.id.programDetailImage);
 
@@ -313,6 +338,35 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         downloadButton.setOnClickListener(null);
         deleteProgramButton.setVisibility(View.VISIBLE);
 
+    }
+
+    private class BuyAsyncClass extends AsyncTask<JSONObject,String,String>{
+
+
+        @Override
+        protected String doInBackground(JSONObject... jsonObjects) {
+
+            return DataSenderHelper.POST(PublicVariables.buyProgramURL,jsonObjects[0]);
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if("false".equals(s)){
+                Toast.makeText(getApplicationContext(),"Satın Alamadık",Toast.LENGTH_SHORT).show();
+            }
+            else{
+//                int kalanPara = Integer.parseInt(s);
+//                Toast.makeText(getApplicationContext(),kalanPara + " kadar para kaldı",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Başarıyla satın aldık",Toast.LENGTH_SHORT).show();
+                buyThisProgramButton.setVisibility(View.GONE);
+                boughtProgramLinearLayout.setVisibility(View.VISIBLE);
+                user.getMyPrograms().add(program);
+                DBHelper dbHelper = new DBHelper(getApplicationContext());
+                dbHelper.updateUser(user);
+            }
+            super.onPostExecute(s);
+        }
     }
 
     private class ReportAsyncClass extends AsyncTask<String, String, String> {

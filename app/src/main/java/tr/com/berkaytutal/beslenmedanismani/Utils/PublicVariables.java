@@ -37,4 +37,7 @@ public interface PublicVariables {
     String searchFilterURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/searchFilter";
 
 
+    String buyProgramURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/buyProgram";
+
+
 }

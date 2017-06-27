@@ -1,6 +1,8 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -14,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -22,6 +25,7 @@ import org.json.JSONObject;
 import java.util.Calendar;
 
 import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
+import tr.com.berkaytutal.beslenmedanismani.Utils.DBHelper;
 import tr.com.berkaytutal.beslenmedanismani.Utils.DataSenderHelper;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PasswordHashingMD5;
@@ -41,6 +45,8 @@ public class EditProfileActivity extends BaseDrawerActivity {
     private RadioButton maleRadio;
     private RadioButton femaleRadio;
     private Button updateButton;
+    private Switch isPrivateSwitch;
+    private ImageView infoPrivate;
 
     private int yearM = -1;
     private int monthM = -1;
@@ -51,6 +57,8 @@ public class EditProfileActivity extends BaseDrawerActivity {
     private JSONObject jsonObject;
     private SharedPreferences userDetails;
     private String userPass;
+
+
     UserDataPOJO userDataPOJO;
 
 
@@ -87,12 +95,51 @@ public class EditProfileActivity extends BaseDrawerActivity {
         passwordEditText = (EditText) findViewById(R.id.editUserPassword);
         passwordAgainEditText = (EditText) findViewById(R.id.editUserPasswordAgain);
         currentPasswordEditText = (EditText) findViewById(R.id.editUserCurrentPassword);
+        isPrivateSwitch = (Switch) findViewById(R.id.editUserPrivateSwitch);
+        infoPrivate = (ImageView) findViewById(R.id.infoPrivateProfileEdit);
+
+        infoPrivate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO dialog
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        view.getContext());
+
+                // set title
+                alertDialogBuilder.setTitle(R.string.privateProfile);
+
+                // set dialog message
+                alertDialogBuilder
+                        .setMessage(R.string.infoPrivateProfile)
+                        .setCancelable(true)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.dismiss();
+                                    }
+                                }
+                        );
+
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+
+
+            }
+        });
 
 
         dates = userDataPOJO.getBirthday().split("-");
         yearM = Integer.parseInt(dates[0]);
         monthM = Integer.parseInt(dates[1]) - 1;
         dayM = Integer.parseInt(dates[2]);
+
+
+        if (userDataPOJO.isPrivate()) {
+            isPrivateSwitch.setChecked(true);
+        }
 
 
         nameEditText.setText(userDataPOJO.getName());
@@ -166,7 +213,22 @@ public class EditProfileActivity extends BaseDrawerActivity {
 
 
                     jsonObject = new JSONObject();
+                    boolean isPrivate = isPrivateSwitch.isChecked();
+                    if (isPrivate) {
+                        try {
+                            jsonObject.accumulate("isPrivate", "Y");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        try {
+                            jsonObject.accumulate("isPrivate", "N");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     try {
+
                         jsonObject.accumulate("userID", userDataPOJO.getUser_ID() + "");
                         jsonObject.accumulate("name", nameEditText.getText().toString());
                         jsonObject.accumulate("surname", surnameEditText.getText().toString());
@@ -222,13 +284,12 @@ public class EditProfileActivity extends BaseDrawerActivity {
     }
 
 
-
     private class MyRegisterAsync extends AsyncTask<String, Void, String> {
 
 
         @Override
         protected String doInBackground(String... strings) {
-            Log.i("json",jsonObject.toString());
+            Log.i("json", jsonObject.toString());
             return DataSenderHelper.POST(PublicVariables.userUpdateURL, jsonObject);
 
         }
@@ -243,26 +304,32 @@ public class EditProfileActivity extends BaseDrawerActivity {
                 SharedPreferences.Editor edit = userDetails.edit();
                 edit.clear();
                 edit.putString("userEmail", emailEditText.getText().toString());
-                edit.putString("userPass", passwordEditText.getText().toString());
+                if (passwordEditText.getText().toString().equals("")) {
+                    edit.putString("userPass", currentPasswordEditText.getText().toString());
+                } else {
+                    edit.putString("userPass", passwordEditText.getText().toString());
+                }
                 edit.commit();
                 Toast.makeText(getApplicationContext(), "Login details are saved..", Toast.LENGTH_LONG).show();
 
                 String sex = "M";
-                if(maleRadio.isChecked()){
+                if (maleRadio.isChecked()) {
                     sex = "M";
-                }
-                else if(femaleRadio.isChecked()){
+                } else if (femaleRadio.isChecked()) {
                     sex = "F";
                 }
 
-//                UserDataPOJO newUserDataPOJO = new UserDataPOJO(userDataPOJO.getUser_ID(),nameEditText.getText().toString(),surnameEditText.getText().toString(),emailEditText.getText().toString()
-//                ,sex,birthdayEditText.getText().toString(),userDataPOJO.getTall(),userDataPOJO.getWeight(),userDataPOJO.getMuscleRate(),userDataPOJO.getFatRate()
-//                ,userDataPOJO.getWaterRate(),userDataPOJO.getMyPrograms());
+                UserDataPOJO newUserDataPOJO = new UserDataPOJO(userDataPOJO.getUser_ID(), nameEditText.getText().toString(), surnameEditText.getText().toString(), emailEditText.getText().toString()
+                        , sex, birthdayEditText.getText().toString(), userDataPOJO.getPhotoByte(), isPrivateSwitch.isChecked(), userDataPOJO.getMyPrograms());
 
-//                ((GlobalVariables)getApplicationContext()).setUserDataPOJO(newUserDataPOJO);
+                ((GlobalVariables) getApplicationContext()).setUserDataPOJO(newUserDataPOJO);
+
+                DBHelper dbHelper = new DBHelper(getApplicationContext());
+                dbHelper.updateUser(newUserDataPOJO);
                 ProfileActivity.profileActivity.finish();
-                Intent i = new Intent(EditProfileActivity.this,ProfileActivity.class);
-                startActivity(i);
+
+//                Intent i = new Intent(EditProfileActivity.this, ProfileActivity.class);
+//                startActivity(i);
 
                 finish();
             }

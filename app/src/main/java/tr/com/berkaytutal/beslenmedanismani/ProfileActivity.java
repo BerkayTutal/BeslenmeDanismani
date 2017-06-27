@@ -1,10 +1,10 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -48,6 +47,7 @@ public class ProfileActivity extends BaseDrawerActivity {
     private ListView myProgramsListview;
     private ArrayList<ProgramPOJO> myProgramsArrayList;
     private Button editDetails;
+    private TextView privateProfileTopBanner;
 
 
     private String tall;
@@ -113,6 +113,39 @@ public class ProfileActivity extends BaseDrawerActivity {
         profileGender = (ImageView) findViewById(R.id.userDetailGenderIcon);
         editDetails = (Button) findViewById(R.id.userProfileEditDetails);
         seeAllMyProgramsButton = (Button) findViewById(R.id.seeAllMyProgramsButton);
+        privateProfileTopBanner = (TextView) findViewById(R.id.privateProfileTopBanner);
+
+        if(userDataPOJO.isPrivate()){
+            privateProfileTopBanner.setVisibility(View.VISIBLE);
+        }
+
+        privateProfileTopBanner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        view.getContext());
+
+                // set title
+                alertDialogBuilder.setTitle(R.string.privateProfile);
+
+                // set dialog message
+                alertDialogBuilder
+                        .setMessage(R.string.infoPrivateProfile)
+                        .setCancelable(true)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.dismiss();
+                                    }
+                                }
+                        );
+
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+            }
+        });
 
         seeAllMyProgramsButton.setOnClickListener(new View.OnClickListener() {
             @Override

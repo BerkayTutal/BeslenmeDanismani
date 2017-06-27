@@ -216,8 +216,20 @@ public class LoginActivity extends AppCompatActivity {
                 return "wrongLogin";
             } else {
                 Log.i("login", jsonObject.toString());
-
-
+                boolean isPrivate = false;
+                try {
+                    if("Y".equals(jsonObject.getString("isPrivate"))){
+                        isPrivate = true;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                byte[] photo = null;
+                try {
+                    photo = Base64.decode(jsonObject.getString("userPhoto"), Base64.DEFAULT);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 try {
                     int user_id = jsonObject.getInt("user_ID");
                     String name = jsonObject.getString("name");
@@ -249,7 +261,7 @@ public class LoginActivity extends AppCompatActivity {
                         float rating = program.getLong("ratingAvg");
                         int commentCount = program.getInt("commentCount");
 
-                        ProgramPOJO myProgram = new ProgramPOJO(programDiff, imageByte, programSpecName, programTittle, programDescription, program_ID, trainer_id, trainerName, trainerSurname,rating,commentCount);
+                        ProgramPOJO myProgram = new ProgramPOJO(programDiff, imageByte, programSpecName, programTittle, programDescription, program_ID, trainer_id, trainerName, trainerSurname, rating, commentCount);
                         myPrograms.add(myProgram);
                     }
 
@@ -275,14 +287,14 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     if (dbUser == null) {
-                        dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, myPrograms);
+                        dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday,photo,isPrivate, myPrograms);
                     } else {
                         for (ProgramPOJO program : myPrograms) {
                             dbUser.insertProgram(program);
                         }
                         dbUser.deleteProgramsExcept(myPrograms);
                         ArrayList<ProgramPOJO> updatedPrograms = dbUser.getMyPrograms();
-                        dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, updatedPrograms);
+                        dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, photo,isPrivate, updatedPrograms);
                     }
 
                     dbUser.setBodyRatios(bodyRatios);

@@ -9,20 +9,24 @@ import java.util.ArrayList;
  */
 
 public class UserDataPOJO implements Serializable {
+    static final long serialVersionUID = 1453L;
     private int user_ID;
     private String name;
     private String surname;
     private String email;
     private String sex;
     private String birthday;
+    private byte[] photo;
+
 
     private boolean isTrainer = false;
+    private boolean isPrivate;
 
     private ArrayList<BodyRatioPOJO> bodyRatios;
 
     private ArrayList<ProgramPOJO> myPrograms;
 
-    public UserDataPOJO(int user_ID, String name, String surname, String email, String sex, String birthday, ArrayList<ProgramPOJO> myPrograms) {
+    public UserDataPOJO(int user_ID, String name, String surname, String email, String sex, String birthday, byte[] photo, boolean isPrivate, ArrayList<ProgramPOJO> myPrograms) {
 
         this.user_ID = user_ID;
         this.name = name;
@@ -30,8 +34,27 @@ public class UserDataPOJO implements Serializable {
         this.email = email;
         this.sex = sex;
         this.birthday = birthday;
+        this.photo = photo;
+        this.isPrivate = isPrivate;
 
         this.myPrograms = myPrograms;
+    }
+
+
+    public byte[] getPhotoByte() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    public boolean isPrivate() {
+        return isPrivate;
+    }
+
+    public void setPrivate(boolean aPrivate) {
+        isPrivate = aPrivate;
     }
 
     public ArrayList<BodyRatioPOJO> getBodyRatios() {
