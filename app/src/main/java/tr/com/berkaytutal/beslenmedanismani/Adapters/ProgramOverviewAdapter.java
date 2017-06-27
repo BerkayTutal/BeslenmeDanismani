@@ -20,10 +20,9 @@ import tr.com.berkaytutal.beslenmedanismani.R;
 import tr.com.berkaytutal.beslenmedanismani.Utils.CirclePOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.CircleTekrarAbsPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ExercisePOJO;
-import tr.com.berkaytutal.beslenmedanismani.Utils.ExpandedListView;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.TekrarPOJO;
-import tr.com.berkaytutal.beslenmedanismani.Utils.UIUtils;
+import tr.com.berkaytutal.beslenmedanismani.Utils.FunctionUtils;
 
 import static android.view.View.GONE;
 
@@ -90,7 +89,7 @@ public class ProgramOverviewAdapter extends BaseAdapter {
             listView.setAdapter(adapter);
 
 
-            UIUtils.setListViewHeightBasedOnItems(listView);
+            FunctionUtils.setListViewHeightBasedOnItems(listView);
 
 
             countText.setText("x" + ((CirclePOJO) exercises.get(i)).getTekrarCount());

@@ -6,6 +6,7 @@ import android.support.annotation.LayoutRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewStub;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,8 +37,10 @@ public class BaseDrawerActivity extends AppCompatActivity
     protected FloatingActionButton filterButton;
     protected SearchView searchView;
     private TextView textViewUserName;
+    private ImageView userProfileImageView;
     protected Intent searchIntent;
     protected boolean isTrainer = false;
+    private UserDataPOJO userDataPOJO;
 
     @Override
     public void setContentView(@LayoutRes int layoutID) {
@@ -79,19 +83,15 @@ public class BaseDrawerActivity extends AppCompatActivity
 
         View header = navigationView.getHeaderView(0);
         textViewUserName = (TextView) header.findViewById(R.id.nav_user_name);
-        try {
-            textViewUserName.setText(((GlobalVariables) getApplicationContext()).getUserDataPOJO().getName() + " " + ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getSurname());
-
-        } catch (Exception e) {
-            textViewUserName.setText("Welcome !");
-        }
+        userProfileImageView = (ImageView) header.findViewById(R.id.imageView);
 
 
-        UserDataPOJO userDataPOJO = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
+
+        userDataPOJO = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
+
         if (userDataPOJO != null) {
             isTrainer = userDataPOJO.isTrainer();
-        }
-        else{
+        } else {
             navigationView.getMenu().findItem(R.id.icon_logout).setVisible(false);
             navigationView.getMenu().findItem(R.id.icon_my_programs).setVisible(false);
             navigationView.getMenu().findItem(R.id.icon_profil).setVisible(false);
@@ -107,6 +107,23 @@ public class BaseDrawerActivity extends AppCompatActivity
         }
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        userDataPOJO =  ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
+        try {
+            textViewUserName.setText(((GlobalVariables) getApplicationContext()).getUserDataPOJO().getName() + " " + ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getSurname());
+
+        } catch (Exception e) {
+            textViewUserName.setText("Welcome !");
+        }
+        try {
+            userProfileImageView.setImageBitmap(userDataPOJO.getPhoto());
+        } catch (Exception e){
+
+        }
+        super.onResume();
     }
 
     @Override
@@ -133,7 +150,6 @@ public class BaseDrawerActivity extends AppCompatActivity
             MenuItem profileButton = menu.findItem(R.id.appBarProfileButton);
             profileButton.setVisible(false);
         }
-
 
 
         return super.onPrepareOptionsMenu(menu);
@@ -169,8 +185,6 @@ public class BaseDrawerActivity extends AppCompatActivity
 //            dbHelper.deleteUser(((GlobalVariables) getApplicationContext()).getUserDataPOJO().getUser_ID());
 
             ((GlobalVariables) getApplicationContext()).setUserDataPOJO(null);
-
-
 
 
             Intent i = new Intent(this, HomepageActivity.class);
@@ -276,7 +290,6 @@ public class BaseDrawerActivity extends AppCompatActivity
         }
 
     }
-
 
 
 }

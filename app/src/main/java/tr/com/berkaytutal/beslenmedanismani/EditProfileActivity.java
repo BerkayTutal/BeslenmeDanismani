@@ -5,8 +5,10 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +21,8 @@ import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.mvc.imagepicker.ImagePicker;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,12 +31,16 @@ import java.util.Calendar;
 import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
 import tr.com.berkaytutal.beslenmedanismani.Utils.DBHelper;
 import tr.com.berkaytutal.beslenmedanismani.Utils.DataSenderHelper;
+import tr.com.berkaytutal.beslenmedanismani.Utils.FunctionUtils;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PasswordHashingMD5;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.UserDataPOJO;
 
 public class EditProfileActivity extends BaseDrawerActivity {
+
+    private Bitmap selectedBitmap;
+    private byte[] photoByte;
 
     private ImageView profileImage;
     private EditText nameEditText;
@@ -72,6 +80,20 @@ public class EditProfileActivity extends BaseDrawerActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        selectedBitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
+        if (selectedBitmap != null) {
+            profileImage.setImageBitmap(selectedBitmap);
+        }
+        // TODO do something with the bitmap
+    }
+
+    public void onPickImage(View view) {
+        // Click on image button
+        ImagePicker.pickImage(this, "Select your image:");
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
@@ -97,6 +119,8 @@ public class EditProfileActivity extends BaseDrawerActivity {
         currentPasswordEditText = (EditText) findViewById(R.id.editUserCurrentPassword);
         isPrivateSwitch = (Switch) findViewById(R.id.editUserPrivateSwitch);
         infoPrivate = (ImageView) findViewById(R.id.infoPrivateProfileEdit);
+
+        profileImage.setImageBitmap(userDataPOJO.getPhoto());
 
         infoPrivate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -263,6 +287,20 @@ public class EditProfileActivity extends BaseDrawerActivity {
                             e.printStackTrace();
                         }
                     }
+
+
+                    if (selectedBitmap != null) {
+                        photoByte = FunctionUtils.bitmapToByte(selectedBitmap);
+                    } else {
+                        photoByte = userDataPOJO.getPhotoByte();
+                    }
+
+                    try {
+                        jsonObject.accumulate("userPhoto", Base64.encodeToString(photoByte, Base64.DEFAULT));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     MyRegisterAsync async = new MyRegisterAsync();
                     async.execute("test");
 
@@ -319,8 +357,9 @@ public class EditProfileActivity extends BaseDrawerActivity {
                     sex = "F";
                 }
 
+
                 UserDataPOJO newUserDataPOJO = new UserDataPOJO(userDataPOJO.getUser_ID(), nameEditText.getText().toString(), surnameEditText.getText().toString(), emailEditText.getText().toString()
-                        , sex, birthdayEditText.getText().toString(), userDataPOJO.getPhotoByte(), isPrivateSwitch.isChecked(), userDataPOJO.getMyPrograms());
+                        , sex, birthdayEditText.getText().toString(), photoByte, isPrivateSwitch.isChecked(), userDataPOJO.getMyPrograms());
 
                 ((GlobalVariables) getApplicationContext()).setUserDataPOJO(newUserDataPOJO);
 

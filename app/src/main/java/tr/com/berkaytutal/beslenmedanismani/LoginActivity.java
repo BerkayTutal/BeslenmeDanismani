@@ -22,11 +22,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import tr.com.berkaytutal.beslenmedanismani.Utils.BodyRatioPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.DBHelper;
 import tr.com.berkaytutal.beslenmedanismani.Utils.DataSenderHelper;
+import tr.com.berkaytutal.beslenmedanismani.Utils.FunctionUtils;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.JSONParser;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PasswordHashingMD5;
@@ -154,6 +156,8 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+
+
     private class MyLoginAsync extends AsyncTask {
         JSONObject jsonObject;
 
@@ -218,7 +222,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i("login", jsonObject.toString());
                 boolean isPrivate = false;
                 try {
-                    if("Y".equals(jsonObject.getString("isPrivate"))){
+                    if ("Y".equals(jsonObject.getString("isPrivate"))) {
                         isPrivate = true;
                     }
                 } catch (JSONException e) {
@@ -230,12 +234,32 @@ public class LoginActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                String sex = "";
+
+                try {
+                    sex = jsonObject.getString("sex");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Bitmap photoBitmap = null;
+                if (photo == null) {
+
+                    if ("M".equals(sex)) {
+                        photoBitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.profile_man);
+
+                    } else {
+                        photoBitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.profile_woman);
+
+                    }
+                    photo = FunctionUtils.bitmapToByte(photoBitmap);
+                }
+
                 try {
                     int user_id = jsonObject.getInt("user_ID");
                     String name = jsonObject.getString("name");
                     String surname = jsonObject.getString("surname");
                     String email = jsonObject.getString("email");
-                    String sex = jsonObject.getString("sex");
+
                     String birthday = jsonObject.getString("birthday");
 
                     isTrainer = jsonObject.getBoolean("isTrainer");
@@ -287,14 +311,14 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     if (dbUser == null) {
-                        dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday,photo,isPrivate, myPrograms);
+                        dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, photo, isPrivate, myPrograms);
                     } else {
                         for (ProgramPOJO program : myPrograms) {
                             dbUser.insertProgram(program);
                         }
                         dbUser.deleteProgramsExcept(myPrograms);
                         ArrayList<ProgramPOJO> updatedPrograms = dbUser.getMyPrograms();
-                        dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, photo,isPrivate, updatedPrograms);
+                        dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, photo, isPrivate, updatedPrograms);
                     }
 
                     dbUser.setBodyRatios(bodyRatios);

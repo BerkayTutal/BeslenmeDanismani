@@ -164,7 +164,7 @@ public class ProfileActivity extends BaseDrawerActivity {
             }
         });
 
-//        profileImage.setImageBitmap(userDataPOJO.ge);
+        profileImage.setImageBitmap(userDataPOJO.getPhoto());
         profileName.setText(userDataPOJO.getName() + " " + userDataPOJO.getSurname());
         profileEmail.setText(userDataPOJO.getEmail());
         profileBirthday.setText(userDataPOJO.getBirthday());

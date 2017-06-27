@@ -20,13 +20,15 @@
             android:layout_height="200dp"
 
             android:background="#ccc"
+            android:onClick="onPickImage"
 
 
             />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -37,8 +39,7 @@
                 android:id="@+id/editUserPrivateSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                />
+                android:layout_marginLeft="10dp" />
 
             <ImageView
                 android:id="@+id/infoPrivateProfileEdit"

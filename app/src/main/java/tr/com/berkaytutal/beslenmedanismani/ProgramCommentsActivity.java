@@ -77,7 +77,6 @@ public class ProgramCommentsActivity extends AppCompatActivity {
                 this, R.array.ratings, android.R.layout.simple_spinner_item);
         commentRatingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        //TODO burada bir spinner hatası var
         ratingSpinner.setAdapter(commentRatingAdapter);
 
 
@@ -135,8 +134,7 @@ public class ProgramCommentsActivity extends AppCompatActivity {
         MyAsyncClass async = new MyAsyncClass();
         async.execute("test");
 
-        //TODO buraya bir adapter yazılacak ve comment içeriği ayarlanacak
-        //+ comment yapma butonu eklenecek
+
     }
     @Override
     public void onBackPressed() {

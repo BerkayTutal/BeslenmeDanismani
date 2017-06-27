@@ -1,11 +1,14 @@
 package tr.com.berkaytutal.beslenmedanismani.Utils;
 
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-public class UIUtils {
+import java.io.ByteArrayOutputStream;
+
+public class FunctionUtils {
 
     /**
      * Sets ListView height dynamically based on the height of the items.
@@ -44,5 +47,12 @@ public class UIUtils {
             return false;
         }
 
+    }
+
+    public static byte[] bitmapToByte(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        return byteArray;
     }
 }

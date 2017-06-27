@@ -1,5 +1,8 @@
 package tr.com.berkaytutal.beslenmedanismani.Utils;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -40,6 +43,9 @@ public class UserDataPOJO implements Serializable {
         this.myPrograms = myPrograms;
     }
 
+    public Bitmap getPhoto() {
+        return BitmapFactory.decodeByteArray(photo, 0, photo.length);
+    }
 
     public byte[] getPhotoByte() {
         return photo;
