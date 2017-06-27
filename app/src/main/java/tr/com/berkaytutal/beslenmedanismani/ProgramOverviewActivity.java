@@ -48,9 +48,10 @@ public class ProgramOverviewActivity extends BaseDrawerActivity {
         CircleMakerHelper test = new CircleMakerHelper();
         ArrayList<CircleTekrarAbsPOJO> deneme = test.makeCircleWithThis(exercisePOJOs);
 
-        ArrayList<CircleTekrarAbsPOJO> denemeCircles = test.handleCircles(deneme);
+//        ArrayList<CircleTekrarAbsPOJO> denemeCircles = test.handleCircles(deneme);
+//        ArrayList<CircleTekrarAbsPOJO> denemeCircles = test.handleCircles(deneme);
 
-        ProgramOverviewAdapter adapter = new ProgramOverviewAdapter(this, denemeCircles);
+        ProgramOverviewAdapter adapter = new ProgramOverviewAdapter(this, deneme);
         listview.setAdapter(adapter);
 
 

@@ -11,10 +11,11 @@ public class CircleMakerHelper {
 
     public ArrayList<CircleTekrarAbsPOJO> makeCircleWithThis(ArrayList<ExercisePOJO> exercisePOJOs) {
 
-        ArrayList<ExercisePOJO> tempExercisez = new ArrayList<>(exercisePOJOs);
+        ArrayList<CircleTekrarAbsPOJO> tempExercisez = new ArrayList<>();
+        tempExercisez.addAll(exercisePOJOs);
 
-        return handleTekrars(tempExercisez);
-
+//        return handleTekrars(tempExercisez);
+        return handleCircles(tempExercisez);
 
     }
 
@@ -97,8 +98,8 @@ public class CircleMakerHelper {
         }
 
 
-        temp.add(new CirclePOJO(temp2, temp2.get(0).getOrder(), temp2.get(0).getCircleID(),temp2.get(0).getCircleID(), temp2.get(temp2.size()-1).getCircleCount()));
-        while(i<arrayList.size()){
+        temp.add(new CirclePOJO(temp2, temp2.get(0).getOrder(), temp2.get(0).getCircleID(), temp2.get(0).getCircleID(), temp2.get(temp2.size() - 1).getCircleCount()));
+        while (i < arrayList.size()) {
             temp.add(arrayList.get(i));
             i++;
         }
