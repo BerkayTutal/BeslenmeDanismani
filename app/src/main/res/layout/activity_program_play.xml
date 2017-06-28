@@ -7,12 +7,7 @@
     android:orientation="vertical"
     tools:context="tr.com.berkaytutal.beslenmedanismani.ProgramPlayActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:layout_weight="1.65"
-        android:id="@+id/circleExerciseName"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,16 +18,27 @@
         <ImageView
             android:id="@+id/circlePhoto1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_weight="1" />
-
-        <ImageView
-            android:id="@+id/circlePhoto2"
+            android:layout_weight="2" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
-            android:layout_weight="1" />
+            android:id="@+id/circleExerciseName"/>
+        </LinearLayout>
+
+        <!--<ImageView-->
+            <!--android:id="@+id/circlePhoto2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:layout_weight="1" />-->
     </LinearLayout>
 
     <VideoView

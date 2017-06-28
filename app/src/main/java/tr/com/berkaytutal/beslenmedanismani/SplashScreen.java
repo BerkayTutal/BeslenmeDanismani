@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import tr.com.berkaytutal.beslenmedanismani.Utils.CertificatePOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.JSONParser;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramCategoryPOJO;
@@ -54,7 +55,7 @@ public class SplashScreen extends AppCompatActivity {
             ArrayList<TrainerPOJO> allUsers = new ArrayList<>();
 
             jsonArray = jsonParser.getJSONArrayFromUrl(PublicVariables.allProgramsURL);
-            Log.i("allprograms",jsonArray.toString());
+            Log.i("allprograms", jsonArray.toString());
             for (int i = 0; i < jsonArray.length(); i++) {
 
 
@@ -78,7 +79,7 @@ public class SplashScreen extends AppCompatActivity {
                     int commentCount = jobj.getInt("commentCount");
 
 
-                    program = new ProgramPOJO(diff, photo, programSpec, programTitle, programDescription, programID, trainerID, trainerName, trainerSurname,rating,commentCount);
+                    program = new ProgramPOJO(diff, photo, programSpec, programTitle, programDescription, programID, trainerID, trainerName, trainerSurname, rating, commentCount);
 
                     allPrograms.add(program);
                 } catch (JSONException e) {
@@ -90,7 +91,7 @@ public class SplashScreen extends AppCompatActivity {
             ((GlobalVariables) getApplicationContext()).setAllPrograms(allPrograms);
 
             jsonArray = jsonParser.getJSONArrayFromUrl(PublicVariables.allUsersURL);
-            Log.i("alltrainers",jsonArray.toString());
+            Log.i("alltrainers", jsonArray.toString());
             for (int i = 0; i < jsonArray.length(); i++) {
 
 
@@ -117,31 +118,53 @@ public class SplashScreen extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 Bitmap photo = null;
-                if(imageByte != null){
-                     photo = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
-                }
-                else {
-                    if("M".equals(sex)){
+                if (imageByte != null) {
+                    photo = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+                } else {
+                    if ("M".equals(sex)) {
                         photo = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.profile_man);
-                    }
-                    else{
+                    } else {
                         photo = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.profile_woman);
 
                     }
                 }
+                String bio = null;
+                String intro = null;
+
                 try {
+                    bio = jobj.getString("bio");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    intro = jobj.getString("intro");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-
-
+                try {
 
 
                     String birthday = jobj.getString("birthday");
                     int userID = jobj.getInt("id");
                     String name = jobj.getString("name");
                     String surname = jobj.getString("surname");
+                    JSONArray certificatesJsonArr = jobj.getJSONArray("certificates");
+                    ArrayList<CertificatePOJO> certificatePOJOs = new ArrayList<>();
+                    for (int j = 0; j < certificatesJsonArr.length(); j++) {
+
+                        JSONObject jsonObject = (JSONObject) certificatesJsonArr.get(j);
+                        String certificateInstution = jsonObject.getString("certificateInstution");
+                        String certificateName = jsonObject.getString("certificateName");
+                        int certificateID = jsonObject.getInt("id");
+
+                        CertificatePOJO certificate = new CertificatePOJO(certificateInstution, certificateName, certificateID);
+                        certificatePOJOs.add(certificate);
+
+                    }
 
 
-                    user = new TrainerPOJO(name, surname, sex, photo, userID, birthday);
+                    user = new TrainerPOJO(name, surname, sex, photo, userID, birthday, bio, intro, certificatePOJOs);
                     allUsers.add(user);
 
                 } catch (JSONException e) {
@@ -156,7 +179,7 @@ public class SplashScreen extends AppCompatActivity {
             allCategories.add(new ProgramCategoryPOJO(PublicVariables.ALL_ID, "All"));
 
             jsonArray = jsonParser.getJSONArrayFromUrl(PublicVariables.programCategoriesURL);
-            Log.i("programcategories",jsonArray.toString());
+            Log.i("programcategories", jsonArray.toString());
             for (int i = 0; i < jsonArray.length(); i++) {
 
 
@@ -165,11 +188,10 @@ public class SplashScreen extends AppCompatActivity {
                     JSONObject jobj = (JSONObject) jsonArray.get(i);
 
 
-
                     String name = jobj.getString("programSpec_Name");
                     int id = jobj.getInt("programSpec_ID");
 
-                    category = new ProgramCategoryPOJO(id,name);
+                    category = new ProgramCategoryPOJO(id, name);
                     allCategories.add(category);
 
                 } catch (JSONException e) {
@@ -181,10 +203,10 @@ public class SplashScreen extends AppCompatActivity {
             ((GlobalVariables) getApplicationContext()).setProgramCategories(allCategories);
 
             ArrayList<ProgramDifficultyPOJO> allDifficulties = new ArrayList<>();
-            allDifficulties.add(new ProgramDifficultyPOJO(PublicVariables.ALL_ID,"All"));
+            allDifficulties.add(new ProgramDifficultyPOJO(PublicVariables.ALL_ID, "All"));
 
             jsonArray = jsonParser.getJSONArrayFromUrl(PublicVariables.programDiffURL);
-            Log.i("alldifficulties",jsonArray.toString());
+            Log.i("alldifficulties", jsonArray.toString());
             for (int i = 0; i < jsonArray.length(); i++) {
 
 
@@ -193,11 +215,10 @@ public class SplashScreen extends AppCompatActivity {
                     JSONObject jobj = (JSONObject) jsonArray.get(i);
 
 
-
                     String name = jobj.getString("programDiff_Name");
                     int id = jobj.getInt("programDiff_ID");
 
-                    diff = new ProgramDifficultyPOJO(id,name);
+                    diff = new ProgramDifficultyPOJO(id, name);
                     allDifficulties.add(diff);
 
                 } catch (JSONException e) {

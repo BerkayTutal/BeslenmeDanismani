@@ -158,7 +158,7 @@ public class ProfileActivity extends BaseDrawerActivity {
         editDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), EditProfileActivity.class);
+                Intent i = new Intent(view.getContext(), EditProfileActivity.class);
                 startActivity(i);
 
             }

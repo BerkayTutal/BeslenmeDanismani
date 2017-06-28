@@ -253,7 +253,7 @@ public class EditProfileActivity extends BaseDrawerActivity {
                     }
                     try {
 
-                        jsonObject.accumulate("userID", userDataPOJO.getUser_ID() + "");
+                        jsonObject.accumulate("user_ID", userDataPOJO.getUser_ID() + "");
                         jsonObject.accumulate("name", nameEditText.getText().toString());
                         jsonObject.accumulate("surname", surnameEditText.getText().toString());
                         jsonObject.accumulate("birthday", birthdayEditText.getText().toString());
@@ -269,7 +269,7 @@ public class EditProfileActivity extends BaseDrawerActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    if (passwordEditText.getText() != null) {
+                    if (!passwordEditText.getText().toString().replaceAll("[\\D]", "").equals("")) {
                         if (passwordEditText.getText().toString().equals(passwordAgainEditText.getText().toString())) {
                             try {
                                 jsonObject.accumulate("password", PasswordHashingMD5.md5(passwordEditText.getText().toString()));
@@ -359,14 +359,14 @@ public class EditProfileActivity extends BaseDrawerActivity {
 
 
                 UserDataPOJO newUserDataPOJO = new UserDataPOJO(userDataPOJO.getUser_ID(), nameEditText.getText().toString(), surnameEditText.getText().toString(), emailEditText.getText().toString()
-                        , sex, birthdayEditText.getText().toString(), photoByte, isPrivateSwitch.isChecked(), userDataPOJO.getMyPrograms());
+                        , sex, birthdayEditText.getText().toString(), photoByte, isPrivateSwitch.isChecked(), userDataPOJO.getMoney(), userDataPOJO.getMyPrograms());
 
                 ((GlobalVariables) getApplicationContext()).setUserDataPOJO(newUserDataPOJO);
 
                 DBHelper dbHelper = new DBHelper(getApplicationContext());
                 dbHelper.updateUser(newUserDataPOJO);
-                ProfileActivity.profileActivity.finish();
-
+//                ProfileActivity.profileActivity.finish();
+//
 //                Intent i = new Intent(EditProfileActivity.this, ProfileActivity.class);
 //                startActivity(i);
 

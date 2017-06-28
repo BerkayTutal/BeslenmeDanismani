@@ -80,6 +80,11 @@
 
     <!--trainer detail page-->
     <string name="trainersPrograms">Trainer\'s Programs</string>
+    <string name="trainersCertificates">Trainer\'s Certificates</string>
+
+    <string name="bio">Bio</string>
+    <string name="intro">Intro</string>
+    <string name="trainerdidntenteranything">Trainer didn\'t enter anything yet.</string>
 
 
     <string name="allListingsButton">See All Programs</string>

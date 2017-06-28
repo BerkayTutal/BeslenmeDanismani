@@ -275,6 +275,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     isTrainer = jsonObject.getBoolean("isTrainer");
 
+                    int money = jsonObject.getInt("money");
+
 
                     ArrayList<ProgramPOJO> myPrograms = new ArrayList<>();
                     ArrayList<BodyRatioPOJO> bodyRatios = new ArrayList<>();
@@ -321,14 +323,14 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     if (dbUser == null) {
-                        dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, photo, isPrivate, myPrograms);
+                        dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, photo, isPrivate, money, myPrograms);
                     } else {
                         for (ProgramPOJO program : myPrograms) {
                             dbUser.insertProgram(program);
                         }
                         dbUser.deleteProgramsExcept(myPrograms);
                         ArrayList<ProgramPOJO> updatedPrograms = dbUser.getMyPrograms();
-                        dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, photo, isPrivate, updatedPrograms);
+                        dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, photo, isPrivate, money, updatedPrograms);
                     }
 
                     dbUser.setBodyRatios(bodyRatios);

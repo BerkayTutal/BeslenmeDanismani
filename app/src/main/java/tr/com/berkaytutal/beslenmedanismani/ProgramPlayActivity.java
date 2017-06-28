@@ -65,7 +65,7 @@ public class ProgramPlayActivity extends AppCompatActivity {
 
 
         photo1ImageView = (ImageView) findViewById(R.id.circlePhoto1);
-        photo2ImageView = (ImageView) findViewById(R.id.circlePhoto2);
+//        photo2ImageView = (ImageView) findViewById(R.id.circlePhoto2);
         videoView = (VideoView) findViewById(R.id.circleVideo);
         prevButton = (Button) findViewById(R.id.circleButtonPrev);
         pauseButton = (Button) findViewById(R.id.circleButtonPause);
@@ -126,8 +126,31 @@ public class ProgramPlayActivity extends AppCompatActivity {
         photo1ImageView.setImageBitmap(exercise.getPhoto1());
         Bitmap photo2 = exercise.getPhoto2();
         if (photo2 != null) {
-            photo2ImageView.setImageBitmap(photo2);
+//            photo2ImageView.setImageBitmap(photo2);
+
+
+            final Bitmap[] imageArray = new Bitmap[2];
+            imageArray[0]=exercise.getPhoto1();
+            imageArray[1]=exercise.getPhoto2();
+            final Handler handler = new Handler();
+            Runnable runnable = new Runnable() {
+                int i=0;
+                public void run() {
+                    photo1ImageView.setImageBitmap(imageArray[i]);
+                    i++;
+                    if(i>imageArray.length-1)
+                    {
+                        i=0;
+                    }
+                    handler.postDelayed(this, 500);  //for interval...
+                }
+            };
+            handler.postDelayed(runnable, 500); //for initial delay..
         }
+
+
+
+
 
         if (currentExerciseIndex == 0 && circleCountHolder.isEmpty()) {
             prevButton.setVisibility(GONE);

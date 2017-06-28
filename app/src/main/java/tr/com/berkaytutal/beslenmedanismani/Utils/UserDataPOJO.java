@@ -20,6 +20,7 @@ public class UserDataPOJO implements Serializable {
     private String sex;
     private String birthday;
     private byte[] photo;
+    private int money;
 
 
     private boolean isTrainer = false;
@@ -29,7 +30,7 @@ public class UserDataPOJO implements Serializable {
 
     private ArrayList<ProgramPOJO> myPrograms;
 
-    public UserDataPOJO(int user_ID, String name, String surname, String email, String sex, String birthday, byte[] photo, boolean isPrivate, ArrayList<ProgramPOJO> myPrograms) {
+    public UserDataPOJO(int user_ID, String name, String surname, String email, String sex, String birthday, byte[] photo, boolean isPrivate, int money, ArrayList<ProgramPOJO> myPrograms) {
 
         this.user_ID = user_ID;
         this.name = name;
@@ -39,8 +40,21 @@ public class UserDataPOJO implements Serializable {
         this.birthday = birthday;
         this.photo = photo;
         this.isPrivate = isPrivate;
+        this.money = money;
 
         this.myPrograms = myPrograms;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
     }
 
     public Bitmap getPhoto() {

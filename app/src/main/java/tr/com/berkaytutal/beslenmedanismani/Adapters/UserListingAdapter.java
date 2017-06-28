@@ -58,6 +58,9 @@ public class UserListingAdapter extends BaseAdapter {
 
         ImageView image = (ImageView) listeElemani.findViewById(R.id.trainerListingImage);
         TextView trainerName = (TextView) listeElemani.findViewById(R.id.trainerNameText);
+        TextView certificateCountText = (TextView) listeElemani.findViewById(R.id.trainerCertificateCount);
+
+        certificateCountText.setText(user.getCertificateCount() + "");
         trainerName.setText(user.getName() + " " + user.getSurname());
         image.setImageBitmap(user.getPhoto());
 

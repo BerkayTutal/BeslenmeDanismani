@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewStub;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,8 @@ public class BaseDrawerActivity extends AppCompatActivity
     protected SearchView searchView;
     private TextView textViewUserName;
     private ImageView userProfileImageView;
+    private LinearLayout moneyLinearLayout ;
+    private TextView moneyText;
     protected Intent searchIntent;
     protected boolean isTrainer = false;
     private UserDataPOJO userDataPOJO;
@@ -84,7 +87,8 @@ public class BaseDrawerActivity extends AppCompatActivity
         View header = navigationView.getHeaderView(0);
         textViewUserName = (TextView) header.findViewById(R.id.nav_user_name);
         userProfileImageView = (ImageView) header.findViewById(R.id.imageView);
-
+        moneyLinearLayout = (LinearLayout) header.findViewById(R.id.navDraverMoneyLinearLayout);
+        moneyText = (TextView) header.findViewById(R.id.nav_user_money);
 
 
         userDataPOJO = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
@@ -111,7 +115,7 @@ public class BaseDrawerActivity extends AppCompatActivity
 
     @Override
     protected void onResume() {
-        userDataPOJO =  ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
+        userDataPOJO = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
         try {
             textViewUserName.setText(((GlobalVariables) getApplicationContext()).getUserDataPOJO().getName() + " " + ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getSurname());
 
@@ -120,8 +124,19 @@ public class BaseDrawerActivity extends AppCompatActivity
         }
         try {
             userProfileImageView.setImageBitmap(userDataPOJO.getPhoto());
-        } catch (Exception e){
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        try {
+            int money = userDataPOJO.getMoney();
+            moneyLinearLayout.setVisibility(View.VISIBLE);
+            moneyText.setText(money + "");
+
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
         super.onResume();
     }

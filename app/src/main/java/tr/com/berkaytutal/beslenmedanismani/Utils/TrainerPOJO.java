@@ -3,6 +3,8 @@ package tr.com.berkaytutal.beslenmedanismani.Utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import java.util.ArrayList;
+
 import tr.com.berkaytutal.beslenmedanismani.R;
 
 /**
@@ -16,14 +18,49 @@ public class TrainerPOJO {
     private Bitmap photo;
     private int userID;
     private String birthday;
+    private String bio;
+    private String intro;
+    private ArrayList<CertificatePOJO> certificates;
 
-    public TrainerPOJO(String name, String surname, String sex, Bitmap photo, int userID, String birthday) {
+    public TrainerPOJO(String name, String surname, String sex, Bitmap photo, int userID, String birthday, String bio, String intro, ArrayList<CertificatePOJO> certificates)
+    {
         this.name = name;
         this.surname = surname;
         this.sex = sex;
         this.photo = photo;
         this.userID = userID;
         this.birthday = birthday;
+        this.certificates = certificates;
+        this.bio = bio;
+        this.intro = intro;
+    }
+
+    public int getCertificateCount(){
+        return certificates.size();
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
+    }
+
+    public ArrayList<CertificatePOJO> getCertificates() {
+        return certificates;
+    }
+
+    public void setCertificates(ArrayList<CertificatePOJO> certificates) {
+        this.certificates = certificates;
     }
 
     public String getName() {

@@ -30,13 +30,24 @@
             android:textColor="@color/primary_text"
             android:textSize="18sp" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginBottom="@dimen/listingTextMarginBottom"
-            android:text="Hardness"
-            android:textColor="@color/secondary_text" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/certificate" />
+
+            <TextView
+                android:id="@+id/trainerCertificateCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -54,7 +65,7 @@
                 android:id="@+id/trainerStarsText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Trainer"
+                android:text="3/5"
                 android:textColor="@color/colorAccent" />
         </LinearLayout>
 
