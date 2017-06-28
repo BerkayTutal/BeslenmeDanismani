@@ -157,7 +157,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
     private class MyLoginAsync extends AsyncTask {
         JSONObject jsonObject;
 
@@ -253,6 +252,18 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     photo = FunctionUtils.bitmapToByte(photoBitmap);
                 }
+                JSONArray bodyRatiosJSONArr = new JSONArray();
+                try {
+                    bodyRatiosJSONArr = jsonObject.getJSONArray("bodyRatesList");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                JSONArray programArray = new JSONArray();
+                try {
+                    programArray = jsonObject.getJSONArray("userPrograms");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 try {
                     int user_id = jsonObject.getInt("user_ID");
@@ -263,12 +274,11 @@ public class LoginActivity extends AppCompatActivity {
                     String birthday = jsonObject.getString("birthday");
 
                     isTrainer = jsonObject.getBoolean("isTrainer");
-                    JSONArray bodyRatiosJSONArr = jsonObject.getJSONArray("bodyRatesList");
+
 
                     ArrayList<ProgramPOJO> myPrograms = new ArrayList<>();
                     ArrayList<BodyRatioPOJO> bodyRatios = new ArrayList<>();
 
-                    JSONArray programArray = jsonObject.getJSONArray("userPrograms");
 
                     for (int j = 0; j < programArray.length(); j++) {
                         JSONObject program = (JSONObject) programArray.get(j);
