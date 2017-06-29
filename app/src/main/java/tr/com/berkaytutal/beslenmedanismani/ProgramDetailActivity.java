@@ -370,8 +370,8 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
             if ("false".equals(s)) {
                 Toast.makeText(getApplicationContext(), "Satın Alamadık", Toast.LENGTH_SHORT).show();
             } else {
-//                int kalanPara = Integer.parseInt(s);
-//                Toast.makeText(getApplicationContext(),kalanPara + " kadar para kaldı",Toast.LENGTH_SHORT).show();
+                int kalanPara = Integer.parseInt(s);
+                Toast.makeText(getApplicationContext(),kalanPara + " kadar para kaldı",Toast.LENGTH_SHORT).show();
                 Toast.makeText(getApplicationContext(), "Başarıyla satın aldık", Toast.LENGTH_SHORT).show();
                 buyThisProgramButton.setVisibility(View.GONE);
                 boughtProgramLinearLayout.setVisibility(View.VISIBLE);
