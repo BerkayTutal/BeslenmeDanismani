@@ -376,6 +376,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                 buyThisProgramButton.setVisibility(View.GONE);
                 boughtProgramLinearLayout.setVisibility(View.VISIBLE);
                 user.getMyPrograms().add(program);
+                user.setMoney(kalanPara);
                 DBHelper dbHelper = new DBHelper(getApplicationContext());
                 dbHelper.updateUser(user);
             }
