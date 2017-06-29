@@ -10,7 +10,7 @@ public class ChestPOJO extends ExercisePOJO implements Serializable {
     private int setSayisi;
     private int tekrarSayisi;
 
-    public ChestPOJO(String description, String exerciseType, int exercises_ID, String name, int orderExercise, byte[] photo1, byte[] photo2, int restTime, String title, byte[] video, int agirlik, int setSayisi, int tekrarSayisi, Integer circleID, Integer circleCount) {
+    public ChestPOJO(String description, String exerciseType, int exercises_ID, String name, int orderExercise, byte[] photo1, byte[] photo2, int restTime, String title, String video, int agirlik, int setSayisi, int tekrarSayisi, Integer circleID, Integer circleCount) {
         super(description, exerciseType, exercises_ID, name, orderExercise, photo1, photo2, restTime, title, video, circleID, circleCount);
         this.agirlik = agirlik;
         this.setSayisi = setSayisi;

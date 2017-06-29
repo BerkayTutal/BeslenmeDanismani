@@ -2,12 +2,16 @@ package tr.com.berkaytutal.beslenmedanismani;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -80,13 +84,40 @@ public class ProgramPlayActivity extends AppCompatActivity {
         program = ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getProgramByID(programID);
         exercise = program.getExercisez().get(currentExerciseIndex);
 
+
+        //Video ile ilgili kısımlar
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+            }
+        });
+
+        //video görünmeme hatasını giderir
+        videoView.setZOrderOnTop(true);
+
+        //Creating MediaController
+        MediaController mediaController = new MediaController(this);
+        mediaController.setAnchorView(videoView);
+
+
+        //specify the location of media file
+        Uri uri = Uri.parse(getFilesDir() + "/" + exercise.getVideo());
+
+        //Setting MediaController and URI, then starting the videoView
+        videoView.setMediaController(mediaController);
+        videoView.setVideoURI(uri);
+        videoView.requestFocus();
+        videoView.start();
+
+
         maxExerciseIndex = program.getExercisez().size() - 1;
 
         if (exercise.getCircleID() == null) {
             if (currentExerciseIndex != maxExerciseIndex) {
                 nextExerciseIndex = currentExerciseIndex + 1;
             } else {
-               nextButton.setVisibility(GONE);
+                nextButton.setVisibility(GONE);
 
             }
         } else {
@@ -103,8 +134,7 @@ public class ProgramPlayActivity extends AppCompatActivity {
 
                 if (currentExerciseIndex != maxExerciseIndex) {
                     nextExerciseIndex = currentExerciseIndex + 1;
-                }
-                else{
+                } else {
                     //TODO finish kismi
                 }
             } else if (currentExerciseIndex != maxExerciseIndex) {
@@ -130,26 +160,23 @@ public class ProgramPlayActivity extends AppCompatActivity {
 
 
             final Bitmap[] imageArray = new Bitmap[2];
-            imageArray[0]=exercise.getPhoto1();
-            imageArray[1]=exercise.getPhoto2();
+            imageArray[0] = exercise.getPhoto1();
+            imageArray[1] = exercise.getPhoto2();
             final Handler handler = new Handler();
             Runnable runnable = new Runnable() {
-                int i=0;
+                int i = 0;
+
                 public void run() {
                     photo1ImageView.setImageBitmap(imageArray[i]);
                     i++;
-                    if(i>imageArray.length-1)
-                    {
-                        i=0;
+                    if (i > imageArray.length - 1) {
+                        i = 0;
                     }
                     handler.postDelayed(this, 500);  //for interval...
                 }
             };
             handler.postDelayed(runnable, 500); //for initial delay..
         }
-
-
-
 
 
         if (currentExerciseIndex == 0 && circleCountHolder.isEmpty()) {
@@ -195,6 +222,7 @@ public class ProgramPlayActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        videoView.pause();
         super.onPause();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }

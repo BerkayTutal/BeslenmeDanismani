@@ -8,6 +8,8 @@ public interface PublicVariables {
     int TYPE_LISTINGS_ALL = 1;
     int TYPE_LISTINGS_HOMEPAGE  = 2;
 
+    String videoBaseURL = "http://bitirmeprojesi.azurewebsites.net/videos/";
+
     String CHEST = "Chest";
 
     int ALL_ID = 0;

@@ -1,12 +1,21 @@
 package tr.com.berkaytutal.beslenmedanismani.Utils;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class FunctionUtils {
 
@@ -55,4 +64,12 @@ public class FunctionUtils {
         byte[] byteArray = stream.toByteArray();
         return byteArray;
     }
+
+    public static String takeLastPartOfURL(String url) {
+        Uri uri = Uri.parse(url);
+        return uri.getLastPathSegment();
+
+    }
+
+
 }

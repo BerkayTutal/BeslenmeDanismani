@@ -1,10 +1,13 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +23,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
@@ -27,6 +38,7 @@ import tr.com.berkaytutal.beslenmedanismani.Utils.ChestPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.DBHelper;
 import tr.com.berkaytutal.beslenmedanismani.Utils.DataSenderHelper;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ExercisePOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.FunctionUtils;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.JSONParser;
 import tr.com.berkaytutal.beslenmedanismani.Utils.NotChestPOJO;
@@ -36,6 +48,10 @@ import tr.com.berkaytutal.beslenmedanismani.Utils.TrainerPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.UserDataPOJO;
 
 public class ProgramDetailActivity extends BaseDrawerActivity {
+//
+//    // Progress Dialog
+//    private ProgressDialog pDialog;
+//    public static final int progress_bar_type = 0;
 
     private ImageView programImageView;
     private Button downloadButton;
@@ -130,7 +146,6 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,6 +158,8 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         commentsLinearLayout = (LinearLayout) findViewById(R.id.programDetailCommentLinearLayout);
         commentCountTextView = (TextView) findViewById(R.id.programDetailCommentCountTextView);
         ratingTextView = (TextView) findViewById(R.id.programDetailRatingTextView);
+
+
 
         commentsLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -231,16 +248,15 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
             @Override
             public void onClick(View view) {
 
-                if(user==null){
-                    Intent intent = new Intent(view.getContext(),LoginActivity.class);
+                if (user == null) {
+                    Intent intent = new Intent(view.getContext(), LoginActivity.class);
                     startActivity(intent);
-                }
-                else{
+                } else {
                     //TODO progressdialog
                     JSONObject jsonObject = new JSONObject();
                     try {
-                        jsonObject.accumulate("user_ID",user.getUser_ID());
-                        jsonObject.accumulate("program_ID",programID);
+                        jsonObject.accumulate("user_ID", user.getUser_ID());
+                        jsonObject.accumulate("program_ID", programID);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -248,7 +264,6 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                     BuyAsyncClass async = new BuyAsyncClass();
                     async.execute(jsonObject);
                 }
-
 
 
             }
@@ -340,25 +355,24 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
 
     }
 
-    private class BuyAsyncClass extends AsyncTask<JSONObject,String,String>{
+    private class BuyAsyncClass extends AsyncTask<JSONObject, String, String> {
 
 
         @Override
         protected String doInBackground(JSONObject... jsonObjects) {
 
-            return DataSenderHelper.POST(PublicVariables.buyProgramURL,jsonObjects[0]);
+            return DataSenderHelper.POST(PublicVariables.buyProgramURL, jsonObjects[0]);
 
         }
 
         @Override
         protected void onPostExecute(String s) {
-            if("false".equals(s)){
-                Toast.makeText(getApplicationContext(),"Satın Alamadık",Toast.LENGTH_SHORT).show();
-            }
-            else{
+            if ("false".equals(s)) {
+                Toast.makeText(getApplicationContext(), "Satın Alamadık", Toast.LENGTH_SHORT).show();
+            } else {
 //                int kalanPara = Integer.parseInt(s);
 //                Toast.makeText(getApplicationContext(),kalanPara + " kadar para kaldı",Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(),"Başarıyla satın aldık",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Başarıyla satın aldık", Toast.LENGTH_SHORT).show();
                 buyThisProgramButton.setVisibility(View.GONE);
                 boughtProgramLinearLayout.setVisibility(View.VISIBLE);
                 user.getMyPrograms().add(program);
@@ -431,7 +445,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                 byte[] photo2 = null;
                 int restTime = 0;
                 String title = null;
-                byte[] video = null;
+                String video = null;
                 Integer circleID = null;
                 Integer circleCount = null;
 
@@ -444,11 +458,14 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                     orderExercise = json.getInt("orderExercise");
                     restTime = json.getInt("restTime");
                     title = json.getString("tittle");
+                    video = json.getString("video");
+                    video = FunctionUtils.takeLastPartOfURL(video);
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                downloadVideoFunction(video);
 
                 try {
                     circleID = json.getInt("circleExercise_ID");
@@ -538,4 +555,191 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
             super.onPostExecute(o);
         }
     }
+
+//    /**
+//     * Showing Dialog
+//     */
+//
+//    @Override
+//    protected Dialog onCreateDialog(int id) {
+//        switch (id) {
+//            case progress_bar_type: // we set this to 0
+//                pDialog = new ProgressDialog(this);
+//                pDialog.setMessage("Downloading file. Please wait...");
+//                pDialog.setIndeterminate(false);
+//                pDialog.setMax(100);
+//                pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+//                pDialog.setCancelable(true);
+//                pDialog.show();
+//                return pDialog;
+//            default:
+//                return null;
+//        }
+//    }
+
+
+    private boolean downloadVideoFunction(String videoName) {
+
+
+        //TODO / kısımlarını alma, sadece filename al, video yoksa indir, return olanlar da string filename dönsün
+
+        try {
+            FileInputStream fis = openFileInput(videoName);
+            Log.i("download", "video varmış: " + videoName);
+
+
+            return false;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Log.i("download", "video yok inmemiş: " + videoName);
+
+        }
+
+
+        int count = 0;
+        try {
+            URL url = new URL(PublicVariables.videoBaseURL + videoName);
+            URLConnection conection = url.openConnection();
+            conection.connect();
+
+            // this will be useful so that you can show a tipical 0-100%
+            // progress bar
+            int lenghtOfFile = conection.getContentLength();
+
+            // download the file
+            InputStream input = new BufferedInputStream(url.openStream(),
+                    8192);
+
+            // Output stream
+            OutputStream output = openFileOutput(videoName, Context.MODE_PRIVATE);
+
+            byte data[] = new byte[1024];
+
+            long total = 0;
+
+            while ((count = input.read(data)) != -1) {
+                total += count;
+                // publishing the progress....
+                // After this onProgressUpdate will be called
+//                    publishProgress("" + (int) ((total * 100) / lenghtOfFile));
+
+                // writing data to file
+                output.write(data, 0, count);
+            }
+
+            // flushing output
+            output.flush();
+
+            // closing streams
+            output.close();
+            input.close();
+
+        } catch (Exception e) {
+            Log.e("Error: ", e.getMessage());
+            return false;
+        }
+        Log.i("download","video indi: " + videoName);
+        return true;
+    }
+
+    private class DownloadAllVideos extends AsyncTask {
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            Log.i("download", "indirme başladı");
+            downloadVideoFunction("http://bitirmeprojesi.azurewebsites.net/videos/20170613153014vlc-record-2017-04-23-20h15m09s-3snMOV_0026-.mp4");
+            Log.i("download", "indirme tamamlandı");
+            return null;
+        }
+    }
+
+    /**
+     * Background Async Task to download file
+     */
+    class DownloadFileFromURL extends AsyncTask<String, String, String> {
+
+
+        /**
+         * Before starting background thread Show Progress Bar Dialog
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            showDialog(progress_bar_type);
+        }
+
+        /**
+         * Downloading file in background thread
+         */
+        @Override
+        protected String doInBackground(String... f_url) {
+            int count;
+            try {
+                URL url = new URL(f_url[0]);
+                URLConnection conection = url.openConnection();
+                conection.connect();
+
+                // this will be useful so that you can show a tipical 0-100%
+                // progress bar
+                int lenghtOfFile = conection.getContentLength();
+
+                // download the file
+                InputStream input = new BufferedInputStream(url.openStream(),
+                        8192);
+
+                // Output stream
+                OutputStream output = new FileOutputStream(Environment
+                        .getExternalStorageDirectory().toString()
+                        + "/2011.kml");
+
+                byte data[] = new byte[1024];
+
+                long total = 0;
+
+                while ((count = input.read(data)) != -1) {
+                    total += count;
+                    // publishing the progress....
+                    // After this onProgressUpdate will be called
+//                    publishProgress("" + (int) ((total * 100) / lenghtOfFile));
+
+                    // writing data to file
+                    output.write(data, 0, count);
+                }
+
+                // flushing output
+                output.flush();
+
+                // closing streams
+                output.close();
+                input.close();
+
+            } catch (Exception e) {
+                Log.e("Error: ", e.getMessage());
+            }
+
+            return null;
+        }
+
+        /**
+         * Updating progress bar
+         */
+        protected void onProgressUpdate(String... progress) {
+            // setting progress percentage
+//            pDialog.setProgress(Integer.parseInt(progress[0]));
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         **/
+        @Override
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog after the file was downloaded
+//            dismissDialog(progress_bar_type);
+
+        }
+
+    }
+
+
 }

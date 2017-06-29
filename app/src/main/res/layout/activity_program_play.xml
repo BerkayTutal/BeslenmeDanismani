@@ -40,13 +40,22 @@
             <!--android:layout_margin="10dp"-->
             <!--android:layout_weight="1" />-->
     </LinearLayout>
-
-    <VideoView
-        android:id="@+id/circleVideo"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1.1"
         android:layout_margin="10dp"
-        android:layout_weight="1.1" />
+        android:gravity="center">
+        <VideoView
+            android:id="@+id/circleVideo"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            />
+    </LinearLayout>
+
+
+
+
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -18,13 +18,13 @@ public class ExercisePOJO extends CircleTekrarAbsPOJO implements Serializable {
     private byte[] photo2;
     private int restTime;
     private String title;
-    private byte[] video;
+    private String video;
 
     private Integer circleID;
     private Integer circleCount;
 
 
-    public ExercisePOJO(String description, String exerciseType, int exercises_ID, String name, int orderExercise, byte[] photo1, byte[] photo2, int restTime, String title, byte[] video, Integer circleID, Integer circleCount) {
+    public ExercisePOJO(String description, String exerciseType, int exercises_ID, String name, int orderExercise, byte[] photo1, byte[] photo2, int restTime, String title, String video, Integer circleID, Integer circleCount) {
         this.description = description;
         this.exerciseType = exerciseType;
         this.exercises_ID = exercises_ID;
@@ -127,11 +127,11 @@ public class ExercisePOJO extends CircleTekrarAbsPOJO implements Serializable {
         this.title = title;
     }
 
-    public byte[] getVideo() {
+    public String getVideo() {
         return video;
     }
 
-    public void setVideo(byte[] video) {
+    public void setVideo(String video) {
         this.video = video;
     }
 
