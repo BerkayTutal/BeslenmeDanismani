@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,9 +21,12 @@ import org.w3c.dom.Text;
 
 import java.util.HashMap;
 
+import tr.com.berkaytutal.beslenmedanismani.Utils.ChestPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ExercisePOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
+import tr.com.berkaytutal.beslenmedanismani.Utils.NotChestPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
 
 import static android.view.View.GONE;
 
@@ -38,6 +42,18 @@ public class ProgramPlayActivity extends AppCompatActivity {
     private Button nextButton;
     private Button pauseButton;
     private TextView name;
+    private TextView title;
+
+    private TextView description;
+    private TextView restTime;
+
+    private LinearLayout notChestLayout;
+    private TextView exerciseTime;
+
+    private LinearLayout chestLayout;
+    private TextView weightTextView;
+    private TextView setTextView;
+    private TextView repeatTextView;
 
     private int programID;
     private int currentExerciseIndex;
@@ -75,6 +91,17 @@ public class ProgramPlayActivity extends AppCompatActivity {
         pauseButton = (Button) findViewById(R.id.circleButtonPause);
         nextButton = (Button) findViewById(R.id.circleButtonNext);
         name = (TextView) findViewById(R.id.circleExerciseName);
+        title = (TextView) findViewById(R.id.circleExerciseTitle);
+        description = (TextView) findViewById(R.id.circleExerciseDescription);
+        restTime = (TextView) findViewById(R.id.circleExerciseRestTime);
+
+        chestLayout = (LinearLayout) findViewById(R.id.circleExerciseChestLayout);
+        weightTextView = (TextView) findViewById(R.id.circleExerciseWeight);
+        setTextView = (TextView) findViewById(R.id.circleExerciseSet);
+        repeatTextView = (TextView) findViewById(R.id.circleExerciseRepeat);
+
+        notChestLayout = (LinearLayout) findViewById(R.id.circleExerciseNotChestLayout);
+        exerciseTime = (TextView) findViewById(R.id.circleExerciseTime);
 
 
         programID = getIntent().getIntExtra("programID", 0);
@@ -151,6 +178,13 @@ public class ProgramPlayActivity extends AppCompatActivity {
 //        Toast.makeText(this,exercise.getName(),Toast.LENGTH_SHORT).show();
 
         name.setText(exercise.getName());
+        try {
+            title.setText(exercise.getTitle());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        description.setText(exercise.getDescription());
+        restTime.setText(exercise.getRestTime() + "s");
 
 
         photo1ImageView.setImageBitmap(exercise.getPhoto1());
@@ -176,6 +210,21 @@ public class ProgramPlayActivity extends AppCompatActivity {
                 }
             };
             handler.postDelayed(runnable, 500); //for initial delay..
+        }
+
+
+        if (PublicVariables.CHEST.equals(exercise.getExerciseType())) {
+            ChestPOJO chest = (ChestPOJO) exercise;
+            chestLayout.setVisibility(View.VISIBLE);
+            weightTextView.setText(chest.getAgirlik() + "kg");
+            setTextView.setText(chest.getSetSayisi() + "");
+            repeatTextView.setText(chest.getTekrarSayisi() + "");
+
+        }
+        else{
+            NotChestPOJO notChest = (NotChestPOJO) exercise;
+            notChestLayout.setVisibility(View.VISIBLE);
+            exerciseTime.setText(notChest.getExerciseTime() + "s");
         }
 
 
