@@ -3,9 +3,11 @@ package tr.com.berkaytutal.beslenmedanismani.Utils;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -80,6 +82,14 @@ public class FunctionUtils {
         }
 
         fileOrDirectory.delete();
+    }
+
+    public static boolean checkEmpty(EditText editText){
+        if(TextUtils.isEmpty(editText.getText().toString())) {
+            editText.setError("This can't be empty");
+            return false;
+        }
+        return true;
     }
 
 

@@ -30,6 +30,13 @@ public class UserDataPOJO implements Serializable {
 
     private ArrayList<ProgramPOJO> myPrograms;
 
+    private Boolean chartTall;
+    private Boolean chartWeight;
+    private Boolean chartMuscle;
+    private Boolean chartFat;
+    private Boolean chartWater;
+
+
     public UserDataPOJO(int user_ID, String name, String surname, String email, String sex, String birthday, byte[] photo, boolean isPrivate, int money, ArrayList<ProgramPOJO> myPrograms) {
 
         this.user_ID = user_ID;
@@ -43,6 +50,51 @@ public class UserDataPOJO implements Serializable {
         this.money = money;
 
         this.myPrograms = myPrograms;
+    }
+
+    public void setChartPreferences(boolean tall, boolean weight, boolean muscle, boolean fat, boolean water) {
+        chartTall = tall;
+        chartWeight = weight;
+        chartMuscle = muscle;
+        chartFat = fat;
+        chartWater = water;
+
+    }
+
+    public boolean getChartTall() {
+        if (chartTall == null) {
+            return true;
+        }
+        return chartTall;
+    }
+
+    public boolean getChartWeight() {
+        if (chartWeight == null) {
+            return true;
+        }
+        return chartWeight;
+    }
+
+    public boolean getChartMuscle() {
+        if (chartMuscle == null) {
+            return true;
+        }
+        return chartMuscle;
+    }
+
+    public boolean getChartFat() {
+        if (chartFat == null) {
+            return true;
+        }
+        return chartFat;
+    }
+
+    public boolean getChartWater() {
+
+        if (chartWater == null) {
+            return true;
+        }
+        return chartWater;
     }
 
     public static long getSerialVersionUID() {

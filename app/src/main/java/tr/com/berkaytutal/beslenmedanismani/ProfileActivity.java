@@ -2,8 +2,10 @@ package tr.com.berkaytutal.beslenmedanismani;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -19,6 +22,9 @@ import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.json.JSONObject;
 
@@ -27,8 +33,10 @@ import java.util.List;
 
 import tr.com.berkaytutal.beslenmedanismani.Adapters.ProgramListingAdapter;
 import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
+import tr.com.berkaytutal.beslenmedanismani.Utils.BodyRatioPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.DBHelper;
 import tr.com.berkaytutal.beslenmedanismani.Utils.DataSenderHelper;
+import tr.com.berkaytutal.beslenmedanismani.Utils.FunctionUtils;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
@@ -71,6 +79,23 @@ public class ProfileActivity extends BaseDrawerActivity {
 
 
     public static Activity profileActivity;
+
+
+    private ArrayList<Entry> weightDataset = new ArrayList<Entry>();
+    private ArrayList<Entry> fatDataset = new ArrayList<Entry>();
+    private ArrayList<Entry> muscleDataset = new ArrayList<Entry>();
+    private ArrayList<Entry> waterDataset = new ArrayList<Entry>();
+    private ArrayList<Entry> tallDataset = new ArrayList<Entry>();
+
+    private ArrayList<ILineDataSet> lines = new ArrayList<ILineDataSet>();
+
+    private LineChart lineChart;
+    private Dialog chartDialog;
+    private Dialog bodyRatioDialog;
+
+    private Button chartSettingsButton;
+    private Button chartAddNewButton;
+
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -115,7 +140,8 @@ public class ProfileActivity extends BaseDrawerActivity {
         seeAllMyProgramsButton = (Button) findViewById(R.id.seeAllMyProgramsButton);
         privateProfileTopBanner = (TextView) findViewById(R.id.privateProfileTopBanner);
 
-        if(userDataPOJO.isPrivate()){
+
+        if (userDataPOJO.isPrivate()) {
             privateProfileTopBanner.setVisibility(View.VISIBLE);
         }
 
@@ -150,7 +176,7 @@ public class ProfileActivity extends BaseDrawerActivity {
         seeAllMyProgramsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(view.getContext(),MyProgramsActivity.class);
+                Intent i = new Intent(view.getContext(), MyProgramsActivity.class);
                 startActivity(i);
             }
         });
@@ -220,34 +246,219 @@ public class ProfileActivity extends BaseDrawerActivity {
 //                } catch (JSONException e) {
 //                    e.printStackTrace();
 //                }
-//                MyAsyncClass2 async = new MyAsyncClass2();
+//                BodyRateUpdateOldAsync async = new BodyRateUpdateOldAsync();
 //                async.execute("test");
 //
 //
 //            }
 //        });
 
-//TODO linechart kısmı burada
-        LineChart lineChart = (LineChart) findViewById(R.id.bodyRatesChartProfile);
 
-        List<Entry> bodyRateEntries = new ArrayList<Entry>();
+        /*
+        *
+        *
+        *           LINE CHART BURADA BASLIYOR
+        *
+        *
+         */
+
+
+        //line chart için özel dialog burada
+
+        chartDialog = new Dialog(this);
+        chartDialog.setContentView(R.layout.custom_dialog_chart);
+
+        Button saveButton = (Button) chartDialog.findViewById(R.id.dialogChartSaveButton);
+        Button cancelButton = (Button) chartDialog.findViewById(R.id.dialogChartCancelButton);
+
+        final CheckBox tallCheck = (CheckBox) chartDialog.findViewById(R.id.checkBoxTall);
+        final CheckBox weightCheck = (CheckBox) chartDialog.findViewById(R.id.checkBoxWeight);
+        final CheckBox muscleCheck = (CheckBox) chartDialog.findViewById(R.id.checkBoxMuscle);
+        final CheckBox fatCheck = (CheckBox) chartDialog.findViewById(R.id.checkBoxFat);
+        final CheckBox waterCheck = (CheckBox) chartDialog.findViewById(R.id.checkBoxWater);
+        tallCheck.setChecked(userDataPOJO.getChartTall());
+        weightCheck.setChecked(userDataPOJO.getChartWeight());
+        muscleCheck.setChecked(userDataPOJO.getChartMuscle());
+        fatCheck.setChecked(userDataPOJO.getChartFat());
+        waterCheck.setChecked(userDataPOJO.getChartWater());
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chartDialog.dismiss();
+            }
+        });
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                userDataPOJO.setChartPreferences(tallCheck.isChecked(), weightCheck.isChecked(), muscleCheck.isChecked(), fatCheck.isChecked(), waterCheck.isChecked());
+                DBHelper dbHelper = new DBHelper(getApplicationContext());
+                dbHelper.updateUser(userDataPOJO);
+                setLineChart();
+                chartDialog.dismiss();
+            }
+        });
+
+
+        chartDialog.setCanceledOnTouchOutside(true);
+
+
+
+        // add new body ratio için dialog burası
+
+
+        bodyRatioDialog = new Dialog(this);
+        bodyRatioDialog.setContentView(R.layout.custom_dialog_bodyrate);
+
+        Button addNewButton = (Button) bodyRatioDialog.findViewById(R.id.bodyRateSaveButton);
+        Button bodyRatioDialogCancelButton = (Button) bodyRatioDialog.findViewById(R.id.bodyRateCancelButton);
+
+        final EditText tallEditText = (EditText) bodyRatioDialog.findViewById(R.id.bodyRateTall);
+        final EditText weightEditText = (EditText) bodyRatioDialog.findViewById(R.id.bodyRateWeight);
+        final EditText muscleEditText = (EditText) bodyRatioDialog.findViewById(R.id.bodyRateMuscle);
+        final EditText fatEditText = (EditText) bodyRatioDialog.findViewById(R.id.bodyRateFat);
+        final EditText waterEditText = (EditText) bodyRatioDialog.findViewById(R.id.bodyRateWater);
+
+        bodyRatioDialogCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bodyRatioDialog.dismiss();
+            }
+        });
+        addNewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(FunctionUtils.checkEmpty(tallEditText)&&FunctionUtils.checkEmpty(weightEditText)&&FunctionUtils.checkEmpty(muscleEditText)&&FunctionUtils.checkEmpty(fatEditText)&&FunctionUtils.checkEmpty(waterEditText)){
+                    userDataPOJO.setChartPreferences(tallCheck.isChecked(), weightCheck.isChecked(), muscleCheck.isChecked(), fatCheck.isChecked(), waterCheck.isChecked());
+                    DBHelper dbHelper = new DBHelper(getApplicationContext());
+                    dbHelper.updateUser(userDataPOJO);
+                    setLineChart();
+                    bodyRatioDialog.dismiss();
+                    //TODO internet varsa direkt yolla yoksa queue ekle her türlü userdatapojo ekle ki chart güncellensin sonra setchart çağır
+                }
+
+
+            }
+        });
+
+
+        bodyRatioDialog.setCanceledOnTouchOutside(true);
+
+
+        chartSettingsButton = (Button) findViewById(R.id.chartSettingsButton);
+        chartAddNewButton = (Button) findViewById(R.id.chartAddNewButton);
+        chartAddNewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bodyRatioDialog.show();
+            }
+        });
+
+        chartSettingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chartDialog.show();
+            }
+        });
+
+
+        setLineChart();
+
 
     }
+
+    private void setLineChart() {
+
+        //TODO linechart kısmı burada
+        lineChart = (LineChart) findViewById(R.id.bodyRatesChartProfile);
+
+
+        ArrayList<BodyRatioPOJO> bodyRatiosArrayList = userDataPOJO.getBodyRatios();
+        String[] xAxis = new String[bodyRatiosArrayList.size()];
+
+        weightDataset.clear();
+        fatDataset.clear();
+        muscleDataset.clear();
+        waterDataset.clear();
+        tallDataset.clear();
+
+
+        for (int i = 0; i < bodyRatiosArrayList.size(); i++) {
+            BodyRatioPOJO bodyRatio = bodyRatiosArrayList.get(i);
+
+
+            weightDataset.add(new Entry(i, bodyRatio.getWeight()));
+            fatDataset.add(new Entry(i, bodyRatio.getFatRate()));
+            muscleDataset.add(new Entry(i, bodyRatio.getMuscleRate()));
+            waterDataset.add(new Entry(i, bodyRatio.getWaterRate()));
+            tallDataset.add(new Entry(i, bodyRatio.getTall()));
+
+            xAxis[i] = "berkay" + bodyRatio.getDate();
+        }
+
+
+        lines.clear();
+        if (userDataPOJO.getChartWeight()) {
+
+            LineDataSet weightLine = new LineDataSet(weightDataset, "Weight (kg)");
+            weightLine.setColor(Color.RED);
+            weightLine.setCircleColor(Color.RED);
+            lines.add(weightLine);
+        }
+        if (userDataPOJO.getChartFat()) {
+            LineDataSet fatLine = new LineDataSet(fatDataset, "Fat (%)");
+            fatLine.setColor(Color.YELLOW);
+            fatLine.setCircleColor(Color.YELLOW);
+            lines.add(fatLine);
+        }
+        if (userDataPOJO.getChartMuscle()) {
+            LineDataSet muscleLine = new LineDataSet(muscleDataset, "Muscle (%)");
+            muscleLine.setColor(Color.GREEN);
+            muscleLine.setCircleColor(Color.GREEN);
+            lines.add(muscleLine);
+        }
+        if (userDataPOJO.getChartWater()) {
+            LineDataSet waterLine = new LineDataSet(waterDataset, "Water (%)");
+            waterLine.setColor(Color.BLUE);
+            waterLine.setCircleColor(Color.BLUE);
+            lines.add(waterLine);
+        }
+        if (userDataPOJO.getChartTall()) {
+            LineDataSet tallLine = new LineDataSet(tallDataset, "Tall (cm)");
+            tallLine.setColor(Color.DKGRAY);
+            tallLine.setCircleColor(Color.DKGRAY);
+            lines.add(tallLine);
+        }
+
+        LineData lineData = new LineData(lines);
+        lineChart.setData(lineData);
+
+
+        lineChart.notifyDataSetChanged();
+        lineChart.invalidate();
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+//        setLineChart();
+
+
     }
 
 
-    private class MyAsyncClass2 extends AsyncTask<String, Void, String> {
+    private class BodyRateUpdateOldAsync extends AsyncTask<JSONObject, Void, String> {
 
 
         @Override
-        protected String doInBackground(String... strings) {
+        protected String doInBackground(JSONObject... jsonObjects) {
             Log.i("body", "update isteği yollandı");
 //            Toast.makeText(getApplicationContext(), "istek Gönderildi", Toast.LENGTH_SHORT).show();
-            return DataSenderHelper.POST(PublicVariables.bodyRateUpdateURL, jsonObject);
+            return DataSenderHelper.POST(PublicVariables.bodyRateUpdateURL, jsonObjects[0]);
         }
 
         @Override

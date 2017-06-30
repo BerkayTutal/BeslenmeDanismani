@@ -91,7 +91,32 @@
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/bodyRatesChartProfile"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"></com.github.mikephil.charting.charts.LineChart>
+                android:layout_height="300dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"></com.github.mikephil.charting.charts.LineChart>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#fff"
+                    android:background="@color/gradientEnd"
+                    android:text="Settings"
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/chartSettingsButton"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#fff"
+                    android:background="@color/colorRedDark"
+                    android:text="Add New"
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/chartAddNewButton"/>
+            </LinearLayout>
 
             <!--<TextView-->
             <!--android:layout_width="match_parent"-->

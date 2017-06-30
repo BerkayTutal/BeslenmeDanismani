@@ -54,12 +54,14 @@
     </array>
 
     <!--Body Rates-->
-    <string name="tall">Tall</string>
-    <string name="weight">Weight</string>
-    <string name="muscleRate">Muscle Rate</string>
-    <string name="fatRate">Fat Rate</string>
-    <string name="waterRate">Water Rate</string>
+    <string name="tall">Tall (cm): </string>
+    <string name="weight">Weight (kg): </string>
+    <string name="muscleRate">Muscle (%): </string>
+    <string name="fatRate">Fat (%): </string>
+    <string name="waterRate">Water (%): </string>
     <string name="update">Update</string>
+    <string name="addNew">Add New</string>
+    <string name="send">Send</string>
 
     <!--program detay sayfası değişkenleri-->
     <string name="buythisprogram">Buy This Program</string>

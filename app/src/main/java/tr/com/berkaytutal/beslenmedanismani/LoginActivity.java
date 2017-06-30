@@ -254,7 +254,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 JSONArray bodyRatiosJSONArr = new JSONArray();
                 try {
-                    bodyRatiosJSONArr = jsonObject.getJSONArray("bodyRatesList");
+                    bodyRatiosJSONArr = jsonObject.getJSONArray("bodyRates");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
