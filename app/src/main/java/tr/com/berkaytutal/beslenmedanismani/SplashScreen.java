@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import tr.com.berkaytutal.beslenmedanismani.Utils.CertificatePOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.FunctionUtils;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.JSONParser;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramCategoryPOJO;
@@ -33,6 +34,8 @@ public class SplashScreen extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
 
+
+
         //TODO adaptörlerdeki type'lar gereksiz
 
         MyAsyncClass asy = new MyAsyncClass();
@@ -47,6 +50,10 @@ public class SplashScreen extends AppCompatActivity {
 
         @Override
         protected Object doInBackground(Object[] objects) {
+
+            if(!FunctionUtils.isInternetAvailable()){
+                return null;
+            }
 
 
             ArrayList<ProgramPOJO> allPrograms = new ArrayList<>();

@@ -360,6 +360,7 @@ public class EditProfileActivity extends BaseDrawerActivity {
 
                 UserDataPOJO newUserDataPOJO = new UserDataPOJO(userDataPOJO.getUser_ID(), nameEditText.getText().toString(), surnameEditText.getText().toString(), emailEditText.getText().toString()
                         , sex, birthdayEditText.getText().toString(), photoByte, isPrivateSwitch.isChecked(), userDataPOJO.getMoney(), userDataPOJO.getMyPrograms());
+                newUserDataPOJO.setBodyRatios(userDataPOJO.getBodyRatios());
 
                 ((GlobalVariables) getApplicationContext()).setUserDataPOJO(newUserDataPOJO);
 

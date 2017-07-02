@@ -165,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(Object o) {
 
             super.onPostExecute(o);
-            if (o.toString().equals("wrongLogin")) {
+            if ("wrongLogin".equals(o.toString())) {
                 Toast.makeText(getApplicationContext(), "Wrong Email or Password !", Toast.LENGTH_SHORT).show();
 
             } else {
@@ -196,6 +196,11 @@ public class LoginActivity extends AppCompatActivity {
 //TODO dbden mail ve password ile cekelim
             DBHelper dbhelper = new DBHelper(getApplicationContext());
             UserDataPOJO dbUser = dbhelper.getUser(email, password);
+            ((GlobalVariables) getApplicationContext()).setUserDataPOJO(dbUser);
+            if(!FunctionUtils.isInternetAvailable()){
+                return "";
+            }
+
 
             JSONParser jsonParser = new JSONParser();
 

@@ -1,6 +1,8 @@
 package tr.com.berkaytutal.beslenmedanismani.Utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.text.TextUtils;
@@ -17,7 +19,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 
 public class FunctionUtils {
 
@@ -90,6 +94,16 @@ public class FunctionUtils {
             return false;
         }
         return true;
+    }
+
+    public static boolean isInternetAvailable() {
+        try {
+            final InetAddress address = InetAddress.getByName("www.google.com");
+            return !address.equals("");
+        } catch (UnknownHostException e) {
+            // Log error
+        }
+        return false;
     }
 
 

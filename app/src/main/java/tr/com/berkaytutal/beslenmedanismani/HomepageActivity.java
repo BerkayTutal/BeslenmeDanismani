@@ -21,6 +21,7 @@ import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.TrainerPOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.UserDataPOJO;
 
 public class HomepageActivity extends BaseDrawerActivity {
 
@@ -55,11 +56,7 @@ public class HomepageActivity extends BaseDrawerActivity {
 //        startActivity(rates);
 
 
-
-
-
-
-
+        UserDataPOJO user = ((GlobalVariables)getApplicationContext()).getUserDataPOJO();
 
         ArrayList<TrainerPOJO> allUsers = ((GlobalVariables) getApplicationContext()).getAllUsers();
         ArrayList<ProgramPOJO> allPrograms = ((GlobalVariables) getApplicationContext()).getAllPrograms();
