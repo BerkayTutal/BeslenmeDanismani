@@ -165,7 +165,11 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(Object o) {
 
             super.onPostExecute(o);
-            if ("wrongLogin".equals(o.toString())) {
+            if("nointernet".equals(o.toString())){
+                Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(i);
+            }
+            else if ("wrongLogin".equals(o.toString())) {
                 Toast.makeText(getApplicationContext(), "Wrong Email or Password !", Toast.LENGTH_SHORT).show();
 
             } else {
@@ -198,7 +202,7 @@ public class LoginActivity extends AppCompatActivity {
             UserDataPOJO dbUser = dbhelper.getUser(email, password);
             ((GlobalVariables) getApplicationContext()).setUserDataPOJO(dbUser);
             if(!FunctionUtils.isInternetAvailable()){
-                return "";
+                return "nointernet";
             }
 
 
