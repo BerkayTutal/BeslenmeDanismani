@@ -1,10 +1,13 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
+import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -20,6 +23,9 @@ public class MyProgramsActivity extends BaseDrawerActivity {
     private ArrayList<ProgramPOJO> myProgramsArrayList;
     private UserDataPOJO userDataPOJO;
     private ProgramListingAdapter adapter;
+
+    private boolean doubleBackToExitPressedOnce = false;
+    private boolean nogoback ;
 
 
 
@@ -41,6 +47,13 @@ public class MyProgramsActivity extends BaseDrawerActivity {
 
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
+        Intent gelenIntent = getIntent();
+        if(gelenIntent!=null){
+            if(gelenIntent.hasExtra("nogoback")){
+                nogoback = gelenIntent.getBooleanExtra("nogoback",false);
+            }
+        }
+
         userDataPOJO = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
         myProgramsArrayList = userDataPOJO.getMyPrograms();
 
@@ -60,11 +73,29 @@ public class MyProgramsActivity extends BaseDrawerActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
 
+        if(nogoback) {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+            }
 
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 1500);
+        }
+        else{
+            super.onBackPressed();
+            overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+
+        }
     }
 
 

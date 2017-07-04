@@ -160,7 +160,6 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         ratingTextView = (TextView) findViewById(R.id.programDetailRatingTextView);
 
 
-
         commentsLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -189,7 +188,12 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
             }
 
         }
-        trainer = ((GlobalVariables) getApplicationContext()).getUserByID(program.getTrainerID());
+
+        try {
+            trainer = ((GlobalVariables) getApplicationContext()).getUserByID(program.getTrainerID());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         downloadButton = (Button) findViewById(R.id.programDetailDownload);
         startButton = (Button) findViewById(R.id.programDetailStart);
 
@@ -287,15 +291,21 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         programCategory.setText(program.getProgramSpec());
         programHardness.setText(program.getDifficulty());
         programDescription.setText(program.getProgramDescription());
+        try {
+            trainerImage.setImageBitmap(trainer.getPhoto());
+            trainerName.setText(trainer.getName() + " " + trainer.getSurname());
+        } catch (Exception e) {
+            trainerName.setText(program.getTrainerName() + " " + program.getTrainerSurname());
+            trainerImage.setImageDrawable(getResources().getDrawable(R.drawable.nonetwork));
+        }
 
-        trainerImage.setImageBitmap(trainer.getPhoto());
-        trainerName.setText(trainer.getName() + " " + trainer.getSurname());
         trainerSeeMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goTrainerPage();
             }
         });
+
         trainerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -317,7 +327,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
 
     private void goTrainerPage() {
         Intent i = new Intent(this, TrainerDetailPage.class);
-        i.putExtra("userID", trainer.getUserID());
+        i.putExtra("userID", program.getTrainerID());
         startActivity(i);
 
     }
@@ -371,7 +381,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                 Toast.makeText(getApplicationContext(), "Satın Alamadık", Toast.LENGTH_SHORT).show();
             } else {
                 int kalanPara = Integer.parseInt(s);
-                Toast.makeText(getApplicationContext(),kalanPara + " kadar para kaldı",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), kalanPara + " kadar para kaldı", Toast.LENGTH_SHORT).show();
                 Toast.makeText(getApplicationContext(), "Başarıyla satın aldık", Toast.LENGTH_SHORT).show();
                 buyThisProgramButton.setVisibility(View.GONE);
                 boughtProgramLinearLayout.setVisibility(View.VISIBLE);
@@ -427,7 +437,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         protected Object doInBackground(Object[] objects) {
 
             JSONParser jsonParser = new JSONParser();
-            jsonArray = jsonParser.getJSONArrayFromUrl(PublicVariables.getProgramDetailsURL + program.getProgramID() + "/" + user.getUser_ID());
+            jsonArray = jsonParser.getJSONArrayFromUrl(PublicVariables.getProgramDetailsURL + program.getProgramID() );
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject json = new JSONObject();
                 try {
@@ -640,7 +650,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
             Log.e("Error: ", e.getMessage());
             return false;
         }
-        Log.i("download","video indi: " + videoName);
+        Log.i("download", "video indi: " + videoName);
         return true;
     }
 
@@ -731,11 +741,11 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         }
 
         /**
-         * After completing background task Dismiss the progress dialog
+         * After completing background task Dismiss the progress progressDialog
          **/
         @Override
         protected void onPostExecute(String file_url) {
-            // dismiss the dialog after the file was downloaded
+            // dismiss the progressDialog after the file was downloaded
 //            dismissDialog(progress_bar_type);
 
         }

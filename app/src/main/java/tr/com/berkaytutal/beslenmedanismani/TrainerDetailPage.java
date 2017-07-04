@@ -1,6 +1,10 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,18 +32,86 @@ public class TrainerDetailPage extends BaseDrawerActivity {
     private TextView bioTextView;
     private TextView introTextVİew;
     private int userID;
+    private TrainerPOJO user;
+
+    private Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainer_detail_page);
 
+
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         userID = getIntent().getIntExtra("userID", -1);
 
+        this.activity = this;
+        try {
+            user = ((GlobalVariables) getApplicationContext()).getUserByID(userID);
+            setTheRest();
+        } catch (Exception e) {
+            e.printStackTrace();
+            TrainerCheckAsync asy = new TrainerCheckAsync();
+            asy.execute("test");
 
-        TrainerPOJO user = ((GlobalVariables) getApplicationContext()).getUserByID(userID);
+        }
 
+
+    }
+
+    private class TrainerCheckAsync extends AsyncTask {
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            if (FunctionUtils.isInternetAvailable()) {
+                //TODO download trainer details
+                return "OK";
+            } else {
+
+                return "nointernet";
+
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            if ("OK".equals(o.toString())) {
+                setTheRest();
+            } else {
+                //TODO internet yok canım progressDialog
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        activity);
+
+                // set title
+                // alertDialogBuilder.setTitle("Info");
+
+                // set progressDialog message
+                alertDialogBuilder
+                        .setMessage(R.string.needInternet)
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // if this button is clicked, close
+                                // current activity
+                                activity.finish();
+                                overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+                            }
+                        });
+
+
+                // create alert progressDialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+
+            }
+            super.onPostExecute(o);
+
+        }
+    }
+
+    private void setTheRest() {
         profileImage = (ImageView) findViewById(R.id.trainerProfileImage);
         profileName = (TextView) findViewById(R.id.trainerProfileName);
         trainerProgramsListView = (ListView) findViewById(R.id.trainerDetailProgramsListView);
@@ -54,13 +126,12 @@ public class TrainerDetailPage extends BaseDrawerActivity {
 
         String bioText = user.getBio();
 
-        try{
-            if(!bioText.equals("")){
+        try {
+            if (!bioText.equals("")) {
                 bioTextView.setText(bioText);
             }
 
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         String introText = user.getIntro();
@@ -77,10 +148,9 @@ public class TrainerDetailPage extends BaseDrawerActivity {
         //TODO rating
 
         ArrayList<CertificatePOJO> certificates = user.getCertificates();
-        CertificatesAdapter certAdapter = new CertificatesAdapter(this,certificates);
+        CertificatesAdapter certAdapter = new CertificatesAdapter(this, certificates);
         trainerCertificatesListView.setAdapter(certAdapter);
         FunctionUtils.setListViewHeightBasedOnItems(trainerCertificatesListView);
-
 
 
         ArrayList<ProgramPOJO> trainerPrograms = ((GlobalVariables) getApplicationContext()).getProgramsByTrainerID(userID);
@@ -90,7 +160,6 @@ public class TrainerDetailPage extends BaseDrawerActivity {
         trainerProgramsListView.setAdapter(adapter);
 
         FunctionUtils.setListViewHeightBasedOnItems(trainerProgramsListView);
-
     }
 
     @Override

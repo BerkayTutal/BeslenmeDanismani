@@ -68,6 +68,7 @@ public class ProgramListingAdapter extends BaseAdapter {
         TextView trainerName = (TextView) listeElemani.findViewById(R.id.listingProgramTrainer);
         TextView ratingTxt = (TextView) listeElemani.findViewById(R.id.listingRatingTextView);
         TextView commentTxt = (TextView) listeElemani.findViewById(R.id.listingCommentTextView);
+        TextView isPublishedTextView = (TextView) listeElemani.findViewById(R.id.listingPublishedTextview);
 
         ratingTxt.setText(programPOJO.getRating() + "/5");
         commentTxt.setText(programPOJO.getCommentCount() + "");
@@ -76,8 +77,11 @@ public class ProgramListingAdapter extends BaseAdapter {
         title.setText(programPOJO.getProgramTitle());
         difficulty.setText(programPOJO.getDifficulty());
         category.setText(programPOJO.getProgramSpec());
-        TrainerPOJO trainer = ((GlobalVariables)context.getApplicationContext()).getUserByID(programPOJO.getTrainerID());
-        trainerName.setText(trainer.getName() + " " + trainer.getSurname());
+        trainerName.setText(programPOJO.getTrainerName() + " " + programPOJO.getTrainerSurname());
+
+        if(!programPOJO.isPublished()){
+            isPublishedTextView.setVisibility(View.VISIBLE);
+        }
 
 
 

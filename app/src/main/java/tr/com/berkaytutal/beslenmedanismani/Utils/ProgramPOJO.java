@@ -19,12 +19,15 @@ public class ProgramPOJO implements Serializable {
     private String programDescription;
     private int programID;
     private int trainerID;
+    private boolean isPublished;
 
     private String trainerName;
     private String trainerSurname;
 
     private float rating;
     private int commentCount;
+
+
 
     private ArrayList<ExercisePOJO> exercisez = null;
 
@@ -46,6 +49,14 @@ public class ProgramPOJO implements Serializable {
     public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle, String programDescription, int programID, int trainerID, String trainerName, String trainerSurname, float rating, int commentCount, ArrayList<ExercisePOJO> exercisez) {
         this(difficulty, programPhoto, programSpec, programTitle, programDescription, programID, trainerID, trainerName, trainerSurname,  rating,  commentCount);
         this.exercisez = exercisez;
+    }
+
+    public boolean isPublished() {
+        return isPublished;
+    }
+
+    public void setPublished(boolean published) {
+        isPublished = published;
     }
 
     public float getRating() {

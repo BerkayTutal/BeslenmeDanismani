@@ -173,7 +173,7 @@ public class ProgramCommentsActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
 
-            //TODO loading dialog
+            //TODO loading progressDialog
             return null;
         }
 

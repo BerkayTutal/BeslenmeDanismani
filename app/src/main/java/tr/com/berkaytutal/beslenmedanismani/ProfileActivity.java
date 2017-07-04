@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -96,6 +97,10 @@ public class ProfileActivity extends BaseDrawerActivity {
     private Button chartSettingsButton;
     private Button chartAddNewButton;
 
+    private boolean doubleBackToExitPressedOnce = false;
+    private boolean nogoback ;
+
+
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -116,6 +121,13 @@ public class ProfileActivity extends BaseDrawerActivity {
         setContentView(R.layout.activity_profile);
 
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+
+        Intent gelenIntent = getIntent();
+        if(gelenIntent!=null){
+            if(gelenIntent.hasExtra("nogoback")){
+                nogoback = gelenIntent.getBooleanExtra("nogoback",false);
+            }
+        }
 
 
     }
@@ -154,7 +166,7 @@ public class ProfileActivity extends BaseDrawerActivity {
                 // set title
                 alertDialogBuilder.setTitle(R.string.privateProfile);
 
-                // set dialog message
+                // set progressDialog message
                 alertDialogBuilder
                         .setMessage(R.string.infoPrivateProfile)
                         .setCancelable(true)
@@ -165,7 +177,7 @@ public class ProfileActivity extends BaseDrawerActivity {
                                 }
                         );
 
-                // create alert dialog
+                // create alert progressDialog
                 AlertDialog alertDialog = alertDialogBuilder.create();
 
                 // show it
@@ -263,7 +275,7 @@ public class ProfileActivity extends BaseDrawerActivity {
          */
 
 
-        //line chart için özel dialog burada
+        //line chart için özel progressDialog burada
 
         chartDialog = new Dialog(this);
         chartDialog.setContentView(R.layout.custom_dialog_chart);
@@ -306,7 +318,7 @@ public class ProfileActivity extends BaseDrawerActivity {
 
 
 
-        // add new body ratio için dialog burası
+        // add new body ratio için progressDialog burası
 
 
         bodyRatioDialog = new Dialog(this);
@@ -443,11 +455,29 @@ public class ProfileActivity extends BaseDrawerActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
-//        setLineChart();
 
+        if(nogoback) {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+            }
 
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 1500);
+        }
+        else{
+            super.onBackPressed();
+            overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+
+        }
     }
 
 

@@ -1,5 +1,6 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
@@ -66,6 +67,8 @@ public class EditProfileActivity extends BaseDrawerActivity {
     private SharedPreferences userDetails;
     private String userPass;
 
+    private Activity activity;
+
 
     UserDataPOJO userDataPOJO;
 
@@ -98,8 +101,16 @@ public class EditProfileActivity extends BaseDrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
+        this.activity = this;
+
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
+       InternetCheckAsync asyn = new InternetCheckAsync();
+        asyn.execute("test");
+
+    }
+
+    private void setTheRest() {
 
         userDataPOJO = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
 
@@ -125,7 +136,7 @@ public class EditProfileActivity extends BaseDrawerActivity {
         infoPrivate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO dialog
+                //TODO progressDialog
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         view.getContext());
@@ -133,7 +144,7 @@ public class EditProfileActivity extends BaseDrawerActivity {
                 // set title
                 alertDialogBuilder.setTitle(R.string.privateProfile);
 
-                // set dialog message
+                // set progressDialog message
                 alertDialogBuilder
                         .setMessage(R.string.infoPrivateProfile)
                         .setCancelable(true)
@@ -144,7 +155,7 @@ public class EditProfileActivity extends BaseDrawerActivity {
                                 }
                         );
 
-                // create alert dialog
+                // create alert progressDialog
                 AlertDialog alertDialog = alertDialogBuilder.create();
 
                 // show it
@@ -312,13 +323,64 @@ public class EditProfileActivity extends BaseDrawerActivity {
 
             }
         });
-
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+    }
+
+    private class InternetCheckAsync extends AsyncTask {
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            if (FunctionUtils.isInternetAvailable()) {
+                //TODO download trainer details
+                return "OK";
+            } else {
+
+                return "nointernet";
+
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            if ("OK".equals(o.toString())) {
+                setTheRest();
+            } else if("nointernet".equals(o.toString())){
+                //TODO "nointernetinternet yok canım progressDialog
+                android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(
+                        activity);
+
+                // set title
+                // alertDialogBuilder.setTitle("Info");
+
+                // set progressDialog message
+                alertDialogBuilder
+                        .setMessage(R.string.needInternet)
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // if this button is clicked, close
+                                // current activity
+                                activity.finish();
+                                overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+                            }
+                        });
+
+
+                // create alert progressDialog
+                android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+
+            }
+            super.onPostExecute(o);
+
+        }
     }
 
 

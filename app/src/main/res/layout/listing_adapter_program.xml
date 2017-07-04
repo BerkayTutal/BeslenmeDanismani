@@ -21,14 +21,19 @@
         android:gravity="center_vertical"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/listingTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/listingTextMarginBottom"
-            android:text="Title"
-            android:textColor="@color/primary_text"
-            android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/listingTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/listingTextMarginBottom"
+                android:text="Title"
+                android:textColor="@color/primary_text"
+                android:textSize="16sp" />
+
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,14 +44,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#ff9900"
+                    android:textColor="#fff"
+                    android:text="Not Published"
+                    android:padding="2dp"
+                    android:id="@+id/listingPublishedTextview"
+                    android:visibility="gone"
+                    />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
 
                     <ImageView
                         android:layout_width="15dp"

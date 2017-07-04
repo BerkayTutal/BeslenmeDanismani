@@ -1,8 +1,9 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -22,7 +23,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import tr.com.berkaytutal.beslenmedanismani.Utils.BodyRatioPOJO;
@@ -158,19 +158,87 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private class MyLoginAsync extends AsyncTask {
+
+
         JSONObject jsonObject;
+
+        ProgressDialog progressDialog = ProgressDialog.show(loginActivity, "",
+                "Logging in...", true);
 
 
         @Override
         protected void onPostExecute(Object o) {
 
             super.onPostExecute(o);
-            if("nointernet".equals(o.toString())){
-                Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                startActivity(i);
-            }
-            else if ("wrongLogin".equals(o.toString())) {
-                Toast.makeText(getApplicationContext(), "Wrong Email or Password !", Toast.LENGTH_SHORT).show();
+            if ("nointernet".equals(o.toString())) {
+                UserDataPOJO user = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
+                if(user!=null){
+                    if(user.isTrainer()){
+                        Intent i = new Intent(getApplicationContext(), MyProgramsActivity.class);
+                        i.putExtra("nogoback",true);
+                        startActivity(i);
+                        finish();
+                    }
+                    else{
+                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                        i.putExtra("nogoback",true);
+                        startActivity(i);
+                        finish();
+                    }
+                }
+                else{
+
+                    progressDialog.cancel();
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                            loginActivity);
+
+                    // set title
+                   // alertDialogBuilder.setTitle(R.string.privateProfile);
+
+                    // set progressDialog message
+                    alertDialogBuilder
+                            .setMessage("You need internet connection or already logged in account to use our application")
+                            .setCancelable(true)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.dismiss();
+                                        }
+                                    }
+                            );
+
+                    // create alert progressDialog
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    // show it
+                    alertDialog.show();
+
+                }
+
+
+            } else if ("wrongLogin".equals(o.toString())) {
+                progressDialog.cancel();
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        loginActivity);
+
+                // set title
+                //alertDialogBuilder.setTitle(R.string.privateProfile);
+
+                // set progressDialog message
+                alertDialogBuilder
+                        .setMessage("Wrong email or password.")
+                        .setCancelable(true)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.dismiss();
+                                    }
+                                }
+                        );
+
+                // create alert progressDialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
 
             } else {
                 //Giris basarili...
@@ -197,11 +265,14 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected Object doInBackground(Object[] objects) {
+
+
+
 //TODO dbden mail ve password ile cekelim
             DBHelper dbhelper = new DBHelper(getApplicationContext());
             UserDataPOJO dbUser = dbhelper.getUser(email, password);
             ((GlobalVariables) getApplicationContext()).setUserDataPOJO(dbUser);
-            if(!FunctionUtils.isInternetAvailable()){
+            if (!FunctionUtils.isInternetAvailable()) {
                 return "nointernet";
             }
 
@@ -300,13 +371,20 @@ public class LoginActivity extends AppCompatActivity {
                         String programTittle = program.getString("programTittle");
                         int program_ID = program.getInt("program_ID");
                         String trainerName = program.getString("trainerName");
-                        String trainerSurname = program.getString("trainerName");
+                        String trainerSurname = program.getString("trainerSurname");
                         int trainer_id = program.getInt("trainer_ID");
                         String programDescription = program.getString("programDescription");
                         float rating = program.getLong("ratingAvg");
                         int commentCount = program.getInt("commentCount");
+                        boolean isPublished = true;
 
+                        try {
+                            isPublished = program.getBoolean("isPublish");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         ProgramPOJO myProgram = new ProgramPOJO(programDiff, imageByte, programSpecName, programTittle, programDescription, program_ID, trainer_id, trainerName, trainerSurname, rating, commentCount);
+                        myProgram.setPublished(isPublished);
                         myPrograms.add(myProgram);
                     }
 
