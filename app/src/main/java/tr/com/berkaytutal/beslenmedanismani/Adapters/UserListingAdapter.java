@@ -71,7 +71,7 @@ public class UserListingAdapter extends BaseAdapter {
             public void onClick(View view) {
 
                 Intent intent = new Intent(view.getContext(), TrainerDetailPage.class);
-                intent.putExtra("userID",user.getUserID());
+                intent.putExtra("trainerID",user.getUserID());
                 view.getContext().startActivity(intent);
 
             }

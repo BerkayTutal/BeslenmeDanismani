@@ -1,9 +1,13 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +24,7 @@ import org.json.JSONObject;
 import java.util.Calendar;
 
 import tr.com.berkaytutal.beslenmedanismani.Utils.DataSenderHelper;
+import tr.com.berkaytutal.beslenmedanismani.Utils.FunctionUtils;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PasswordHashingMD5;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
 
@@ -33,6 +38,10 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText birthdayEditText;
     private RadioButton maleRadioButton;
     private RadioButton femaleRadioButton;
+    private Activity registerActivity;
+    private ProgressDialog progressDialog;
+
+    private AlertDialog alertDialog;
     private Button registerButton;
 
     private int yearM = -1;
@@ -47,6 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        registerActivity = this;
 
         nameEditText = (EditText) findViewById(R.id.nameRegisterScreen);
         surnameEditText = (EditText) findViewById(R.id.surnameRegisterScreen);
@@ -120,36 +130,61 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO buradan login'e email ve password ile yönlendirip loginde direkt login olma kımına geçeceğiz
+                if (FunctionUtils.checkEmpty(nameEditText) && FunctionUtils.checkEmpty(surnameEditText) && FunctionUtils.checkEmpty(emailEditText) && FunctionUtils.checkEmpty(passwordEditText) && FunctionUtils.checkEmpty(passwordAgainEditText) && FunctionUtils.checkEmpty(birthdayEditText)) {
+                    if (!passwordEditText.getText().toString().equals(passwordAgainEditText.getText().toString())) {
 
-                if (!passwordEditText.getText().toString().equals(passwordAgainEditText.getText().toString())) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.passwordsMustbeSame), Toast.LENGTH_SHORT).show();
-                } else {
-                    JSONObject json = new JSONObject();
-                    String sex = "M";
-                    if (maleRadioButton.isChecked()) {
-                        sex = "M";
-                    } else if (femaleRadioButton.isChecked()){
-                        sex = "F";
+                        android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(
+                                registerActivity);
+
+                        // set title
+                        // alertDialogBuilder.setTitle(R.string.privateProfile);
+
+                        // set progressDialog message
+                        alertDialogBuilder
+                                .setMessage(R.string.passwordsMustbeSame)
+                                .setCancelable(true)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.dismiss();
+                                            }
+                                        }
+                                );
+
+                        // create alert progressDialog
+                        android.app.AlertDialog alertDialog = alertDialogBuilder.create();
+
+                        // show it
+                        alertDialog.show();
+                    } else {
+
+                        progressDialog = ProgressDialog.show(registerActivity, "",
+                                "Registering...", true);
+                        JSONObject json = new JSONObject();
+                        String sex = "M";
+                        if (maleRadioButton.isChecked()) {
+                            sex = "M";
+                        } else if (femaleRadioButton.isChecked()) {
+                            sex = "F";
+                        }
+                        try {
+                            json.accumulate("birthday", yearM + "-" + (monthM + 1) + "-" + dayM);
+                            json.accumulate("email", emailEditText.getText());
+                            json.accumulate("name", nameEditText.getText());
+                            json.accumulate("password", PasswordHashingMD5.md5(passwordEditText.getText().toString()));
+                            json.accumulate("sex", sex);
+                            json.accumulate("surname", surnameEditText.getText());
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.i("register", json.toString());
+                        jsonObject = json;
+                        MyRegisterAsync registerAsync = new MyRegisterAsync();
+                        registerAsync.execute("test");
                     }
-                    try {
-                        json.accumulate("birthday", yearM + "-" + (monthM + 1) + "-" + dayM);
-                        json.accumulate("email", emailEditText.getText());
-                        json.accumulate("name", nameEditText.getText());
-                        json.accumulate("password", PasswordHashingMD5.md5(passwordEditText.getText().toString()));
-                        json.accumulate("sex", sex);
-                        json.accumulate("surname", surnameEditText.getText());
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    Log.i("register", json.toString());
-                    jsonObject = json;
-                    MyRegisterAsync registerAsync = new MyRegisterAsync();
-                    registerAsync.execute("test");
 
                 }
-                Toast.makeText(getApplicationContext(), "register olduk", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -160,7 +195,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
-
 
 
     private class MyRegisterAsync extends AsyncTask<String, Void, String> {
@@ -175,7 +209,29 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             if (result.equals("false")) {
-                Toast.makeText(getApplicationContext(), "kayıt olunmuş zaten", Toast.LENGTH_SHORT).show();
+                progressDialog.cancel();
+                android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(
+                        registerActivity);
+
+                // set title
+                // alertDialogBuilder.setTitle(R.string.privateProfile);
+
+                // set progressDialog message
+                alertDialogBuilder
+                        .setMessage("This email is already registered!")
+                        .setCancelable(true)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.dismiss();
+                                    }
+                                }
+                        );
+
+                // create alert progressDialog
+                android.app.AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
             } else if (result.equals("true")) {
 
                 SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", MODE_PRIVATE);

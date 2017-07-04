@@ -39,7 +39,7 @@ public class BaseDrawerActivity extends AppCompatActivity
     protected SearchView searchView;
     private TextView textViewUserName;
     private ImageView userProfileImageView;
-    private LinearLayout moneyLinearLayout ;
+    private LinearLayout moneyLinearLayout;
     private TextView moneyText;
     protected Intent searchIntent;
     protected boolean isTrainer = false;
@@ -101,6 +101,13 @@ public class BaseDrawerActivity extends AppCompatActivity
             navigationView.getMenu().findItem(R.id.icon_profil).setVisible(false);
         }
 
+        if (!((GlobalVariables) getApplicationContext()).isOnline()) {
+            navigationView.getMenu().findItem(R.id.icon_home).setVisible(false);
+            navigationView.getMenu().findItem(R.id.icon_all_trainers).setVisible(false);
+            navigationView.getMenu().findItem(R.id.icon_all_programs).setVisible(false);
+
+        }
+
 
         if (isTrainer) {
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -134,8 +141,7 @@ public class BaseDrawerActivity extends AppCompatActivity
             moneyText.setText(money + "");
 
 
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         super.onResume();
@@ -188,6 +194,7 @@ public class BaseDrawerActivity extends AppCompatActivity
             return true;
         }
         if (id == R.id.appBarLogoutButton) {
+            //// TODO: 4.07.2017  dialog
             Toast.makeText(getApplicationContext(), "Logout Yapıldı", Toast.LENGTH_SHORT).show();
             SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", MODE_PRIVATE);
             SharedPreferences.Editor edit = userDetails.edit();
@@ -201,9 +208,15 @@ public class BaseDrawerActivity extends AppCompatActivity
 
             ((GlobalVariables) getApplicationContext()).setUserDataPOJO(null);
 
+            if (((GlobalVariables) getApplicationContext()).isOnline()) {
 
-            Intent i = new Intent(this, HomepageActivity.class);
-            startActivity(i);
+                Intent i = new Intent(this, HomepageActivity.class);
+                startActivity(i);
+
+            } else {
+                int pid = android.os.Process.myPid();
+                android.os.Process.killProcess(pid);
+            }
             finish();
             return true;
         }
@@ -236,6 +249,7 @@ public class BaseDrawerActivity extends AppCompatActivity
             Intent i = new Intent(getApplicationContext(), MyProgramsActivity.class);
             startActivity(i);
         } else if (id == R.id.icon_logout) {
+            //// TODO: 4.07.2017  dialog
             Toast.makeText(getApplicationContext(), "Logout Yapıldı", Toast.LENGTH_SHORT).show();
             SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", MODE_PRIVATE);
             SharedPreferences.Editor edit = userDetails.edit();

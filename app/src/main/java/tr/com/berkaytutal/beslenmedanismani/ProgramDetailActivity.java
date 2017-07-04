@@ -152,6 +152,13 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         setContentView(R.layout.activity_program_detail);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         programID = getIntent().getIntExtra("programID", 0);
+
+        setTheRest();
+
+    }
+
+    private void setTheRest() {
+
         buyThisProgramButton = (Button) findViewById(R.id.programBuyButton);
         boughtProgramLinearLayout = (LinearLayout) findViewById(R.id.boughtProgramLinearLayout);
         deleteProgramButton = (Button) findViewById(R.id.programDetailDelete);
@@ -315,7 +322,6 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
 
         commentCountTextView.setText(program.getCommentCount() + "");
         ratingTextView.setText(program.getRating() + "/5");
-
     }
 
     @Override

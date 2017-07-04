@@ -64,6 +64,7 @@ public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefr
                 getResources().getColor(android.R.color.holo_orange_light),
                 getResources().getColor(android.R.color.holo_red_light));
 
+
 //        swipeRefreshLayout.setRefreshing(true);
 
         ArrayList<ProgramPOJO> allPrograms = ((GlobalVariables)getApplicationContext()).getAllPrograms();

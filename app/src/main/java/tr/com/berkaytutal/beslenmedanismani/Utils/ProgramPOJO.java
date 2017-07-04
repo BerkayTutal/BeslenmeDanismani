@@ -26,6 +26,7 @@ public class ProgramPOJO implements Serializable {
 
     private float rating;
     private int commentCount;
+    private ArrayList<CommentPOJO> comments;
 
 
 
@@ -49,6 +50,17 @@ public class ProgramPOJO implements Serializable {
     public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle, String programDescription, int programID, int trainerID, String trainerName, String trainerSurname, float rating, int commentCount, ArrayList<ExercisePOJO> exercisez) {
         this(difficulty, programPhoto, programSpec, programTitle, programDescription, programID, trainerID, trainerName, trainerSurname,  rating,  commentCount);
         this.exercisez = exercisez;
+    }
+
+    public ArrayList<CommentPOJO> getComments() {
+        if(comments == null){
+            comments = new ArrayList<>();
+        }
+        return comments;
+    }
+
+    public void setComments(ArrayList<CommentPOJO> comments) {
+        this.comments = comments;
     }
 
     public boolean isPublished() {

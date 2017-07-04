@@ -21,8 +21,10 @@ public class TrainerPOJO {
     private String bio;
     private String intro;
     private ArrayList<CertificatePOJO> certificates;
+    private boolean isBanned;
 
-    public TrainerPOJO(String name, String surname, String sex, Bitmap photo, int userID, String birthday, String bio, String intro, ArrayList<CertificatePOJO> certificates)
+
+    public TrainerPOJO(String name, String surname, String sex, Bitmap photo, int userID, String birthday, String bio, String intro, ArrayList<CertificatePOJO> certificates,boolean isBanned)
     {
         this.name = name;
         this.surname = surname;
@@ -33,6 +35,16 @@ public class TrainerPOJO {
         this.certificates = certificates;
         this.bio = bio;
         this.intro = intro;
+        this.isBanned = isBanned;
+    }
+
+
+    public boolean isBanned() {
+        return isBanned;
+    }
+
+    public void setBanned(boolean banned) {
+        isBanned = banned;
     }
 
     public int getCertificateCount(){

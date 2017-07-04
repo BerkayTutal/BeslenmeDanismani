@@ -174,28 +174,26 @@ public class LoginActivity extends AppCompatActivity {
             if ("nointernet".equals(o.toString())) {
                 ((GlobalVariables) getApplicationContext()).setOnline(false);
                 UserDataPOJO user = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
-                if(user!=null){
-                    if(user.isTrainer()){
+                if (user != null) {
+                    if (user.isTrainer()) {
                         Intent i = new Intent(getApplicationContext(), MyProgramsActivity.class);
-                        i.putExtra("nogoback",true);
+                        i.putExtra("nogoback", true);
                         startActivity(i);
                         finish();
-                    }
-                    else{
+                    } else {
                         Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        i.putExtra("nogoback",true);
+                        i.putExtra("nogoback", true);
                         startActivity(i);
                         finish();
                     }
-                }
-                else{
+                } else {
 
                     progressDialog.cancel();
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                             loginActivity);
 
                     // set title
-                   // alertDialogBuilder.setTitle(R.string.privateProfile);
+                    // alertDialogBuilder.setTitle(R.string.privateProfile);
 
                     // set progressDialog message
                     alertDialogBuilder
@@ -252,9 +250,45 @@ public class LoginActivity extends AppCompatActivity {
                 edit.putString("userPass", password);
                 edit.commit();
                 Toast.makeText(getApplicationContext(), "Login details are saved..", Toast.LENGTH_LONG).show();
+                UserDataPOJO userDataPOJO = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
                 if (isTrainer) {
-                    Intent intent = new Intent(getApplicationContext(), MyProgramsActivity.class);
-                    startActivity(intent);
+                    if (userDataPOJO.isBanned()) {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                                loginActivity);
+
+                        // set title
+                        //alertDialogBuilder.setTitle(R.string.privateProfile);
+
+                        // set progressDialog message
+
+                        String message = "This account is banned";
+                        if (!userDataPOJO.getBannedDate().equals("")) {
+                            message += " till " + userDataPOJO.getBannedDate();
+                        }
+                        message += " for \"" + userDataPOJO.getBannedReason() + "\"";
+                        alertDialogBuilder
+                                .setTitle("You are banned")
+                                .setMessage(message)
+                                .setCancelable(true)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.dismiss();
+                                                finish();
+                                            }
+                                        }
+                                );
+
+                        // create alert progressDialog
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+
+                        // show it
+                        alertDialog.show();
+
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), MyProgramsActivity.class);
+                        startActivity(intent);
+
+                    }
                 } else {
                     BodyRatioSender bodyRatioAsync = new BodyRatioSender();
                     bodyRatioAsync.execute(loginActivity);
@@ -262,14 +296,17 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(i);
                 }
 
+                if (!userDataPOJO.isBanned()) {
 
-                finish();
+                    finish();
+                }
+
+
             }
         }
 
         @Override
         protected Object doInBackground(Object[] objects) {
-
 
 
 //TODO dbden mail ve password ile cekelim
@@ -359,6 +396,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     isTrainer = jsonObject.getBoolean("isTrainer");
 
+
                     int money = jsonObject.getInt("money");
 
 
@@ -423,12 +461,37 @@ public class LoginActivity extends AppCompatActivity {
                         ArrayList<ProgramPOJO> updatedPrograms = dbUser.getMyPrograms();
                         UserDataPOJO tempUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, photo, isPrivate, money, updatedPrograms);
                         tempUser.setOfflineBodyRatios(dbUser.getOfflineBodyRatios());
-                        tempUser.setChartPreferences(dbUser.getChartTall(),dbUser.getChartWeight(),dbUser.getChartMuscle(),dbUser.getChartFat(),dbUser.getChartWater());
+                        tempUser.setChartPreferences(dbUser.getChartTall(), dbUser.getChartWeight(), dbUser.getChartMuscle(), dbUser.getChartFat(), dbUser.getChartWater());
                         dbUser = tempUser;
                     }
 
                     dbUser.setBodyRatios(bodyRatios);
                     dbUser.setTrainer(isTrainer);
+
+
+                    boolean isBanned = false;
+                    try {
+                        isBanned = jsonObject.getBoolean("isBanned");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    dbUser.setBanned(isBanned);
+
+                    String bannedReason = "";
+                    try {
+                        bannedReason = jsonObject.getString("bannedReason");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    dbUser.setBannedReason(bannedReason);
+
+                    String bannedDate = "";
+                    try {
+                        bannedReason = jsonObject.getString("bannedDate");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    dbUser.setBannedDate(bannedDate);
 
 
                     ((GlobalVariables) getApplicationContext()).setUserDataPOJO(dbUser);

@@ -182,8 +182,8 @@ public class SplashScreenYEDEKBEFOREHIZLANDIRMA extends AppCompatActivity {
 //                    }
 
 
-                    user = new TrainerPOJO(name, surname, sex, photo, userID, birthday, bio, intro, null);
-                    allUsers.add(user);
+//                    user = new TrainerPOJO(name, surname, sex, photo, userID, birthday, bio, intro, null);
+//                    allUsers.add(user);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

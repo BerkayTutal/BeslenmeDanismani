@@ -100,6 +100,20 @@ public class GlobalVariables extends Application {
         this.allUsers = allUsers;
     }
 
+    public boolean updateUser(TrainerPOJO trainer){
+
+        for (TrainerPOJO user: allUsers) {
+
+            if(user.getUserID() == trainer.getUserID()){
+                int index = allUsers.indexOf(user);
+                allUsers.remove(index);
+                allUsers.add(index,trainer);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public TrainerPOJO getUserByID(int userID){
         for (TrainerPOJO user: allUsers) {
 

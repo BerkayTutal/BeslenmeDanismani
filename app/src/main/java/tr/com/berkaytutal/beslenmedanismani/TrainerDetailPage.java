@@ -1,15 +1,22 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.util.Base64;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -19,10 +26,12 @@ import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
 import tr.com.berkaytutal.beslenmedanismani.Utils.CertificatePOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.FunctionUtils;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
+import tr.com.berkaytutal.beslenmedanismani.Utils.JSONParser;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.TrainerPOJO;
 
-public class TrainerDetailPage extends BaseDrawerActivity {
+public class TrainerDetailPage extends BaseDrawerActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private ImageView profileImage;
     private TextView profileName;
@@ -31,24 +40,45 @@ public class TrainerDetailPage extends BaseDrawerActivity {
     private TextView ratingTextView;
     private TextView bioTextView;
     private TextView introTextVİew;
-    private int userID;
-    private TrainerPOJO user;
+    private int trainerID;
+    private TrainerPOJO trainer;
 
     private Activity activity;
+    private ProgressDialog progressDialog;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainer_detail_page);
 
-
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-        userID = getIntent().getIntExtra("userID", -1);
 
         this.activity = this;
+
+
+        progressDialog = ProgressDialog.show(activity, "",
+                "Loading...", true);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayoutTrainer);
+
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(android.R.color.holo_blue_bright),
+                getResources().getColor(android.R.color.holo_green_light),
+                getResources().getColor(android.R.color.holo_orange_light),
+                getResources().getColor(android.R.color.holo_red_light));
+        trainerID = getIntent().getIntExtra("trainerID", -1);
+
+
         try {
-            user = ((GlobalVariables) getApplicationContext()).getUserByID(userID);
-            setTheRest();
+            trainer = ((GlobalVariables) getApplicationContext()).getUserByID(trainerID);
+            if (trainer.getCertificates() == null) {
+                TrainerCheckAsync asy = new TrainerCheckAsync();
+                asy.execute("test");
+            } else {
+                setTheRest();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             TrainerCheckAsync asy = new TrainerCheckAsync();
@@ -59,18 +89,107 @@ public class TrainerDetailPage extends BaseDrawerActivity {
 
     }
 
+    @Override
+    public void onRefresh() {
+        progressDialog.show();
+        TrainerCheckAsync asy = new TrainerCheckAsync();
+        asy.execute("test");
+
+    }
+
     private class TrainerCheckAsync extends AsyncTask {
+
 
         @Override
         protected Object doInBackground(Object[] objects) {
-            if (FunctionUtils.isInternetAvailable()) {
-                //TODO download trainer details
+
+            if (((GlobalVariables) getApplicationContext()).isOnline()) {
+                TrainerPOJO user;
+                JSONParser jsonParser = new JSONParser();
+                JSONObject jobj = null;
+                try {
+                    jobj = jsonParser.getJSONObjectFromUrl(PublicVariables.getTrainerDetailsURL + trainerID);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                String sex = null;
+                try {
+                    sex = jobj.getString("sex");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                byte[] imageByte = null;
+                try {
+                    imageByte = Base64.decode(jobj.getString("photo"), Base64.DEFAULT);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Bitmap photo = null;
+                if (imageByte != null) {
+                    photo = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+                } else {
+                    if ("M".equals(sex)) {
+                        photo = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.profile_man);
+                    } else {
+                        photo = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.profile_woman);
+
+                    }
+                }
+                String bio = null;
+                String intro = null;
+
+                try {
+                    bio = jobj.getString("bio");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    intro = jobj.getString("intro");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+
+
+                    String birthday = jobj.getString("birthday");
+                    int userID = jobj.getInt("trainer_ID");
+                    String name = jobj.getString("name");
+                    String surname = jobj.getString("surname");
+                    JSONArray certificatesJsonArr = jobj.getJSONArray("certificates");
+                    ArrayList<CertificatePOJO> certificatePOJOs = new ArrayList<>();
+                    for (int j = 0; j < certificatesJsonArr.length(); j++) {
+
+                        JSONObject jsonObject = (JSONObject) certificatesJsonArr.get(j);
+                        String certificateInstution = jsonObject.getString("certificateInstution");
+                        String certificateName = jsonObject.getString("certificateName");
+                        int certificateID = jsonObject.getInt("id");
+
+                        CertificatePOJO certificate = new CertificatePOJO(certificateInstution, certificateName, certificateID);
+                        certificatePOJOs.add(certificate);
+
+                    }
+
+                    boolean isBanned = jobj.getBoolean("isBanned");
+
+
+                    user = new TrainerPOJO(name, surname, sex, photo, userID, birthday, bio, intro, certificatePOJOs, isBanned);
+                    ((GlobalVariables) getApplicationContext()).updateUser(user);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return "";
+                }
                 return "OK";
             } else {
 
                 return "nointernet";
 
             }
+
         }
 
         @Override
@@ -120,11 +239,13 @@ public class TrainerDetailPage extends BaseDrawerActivity {
         ratingTextView = (TextView) findViewById(R.id.trainerProfileRating);
         trainerCertificatesListView = (ListView) findViewById(R.id.trainerDetailCertificatesListView);
 
+        trainer = ((GlobalVariables) getApplicationContext()).getUserByID(trainerID);
 
-        profileImage.setImageBitmap(user.getPhoto());
-        profileName.setText(user.getName() + " " + user.getSurname());
 
-        String bioText = user.getBio();
+        profileImage.setImageBitmap(trainer.getPhoto());
+        profileName.setText(trainer.getName() + " " + trainer.getSurname());
+
+        String bioText = trainer.getBio();
 
         try {
             if (!bioText.equals("")) {
@@ -134,7 +255,7 @@ public class TrainerDetailPage extends BaseDrawerActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String introText = user.getIntro();
+        String introText = trainer.getIntro();
 
         try {
             if (!introText.equals("")) {
@@ -147,19 +268,21 @@ public class TrainerDetailPage extends BaseDrawerActivity {
 
         //TODO rating
 
-        ArrayList<CertificatePOJO> certificates = user.getCertificates();
+        ArrayList<CertificatePOJO> certificates = trainer.getCertificates();
         CertificatesAdapter certAdapter = new CertificatesAdapter(this, certificates);
         trainerCertificatesListView.setAdapter(certAdapter);
         FunctionUtils.setListViewHeightBasedOnItems(trainerCertificatesListView);
 
 
-        ArrayList<ProgramPOJO> trainerPrograms = ((GlobalVariables) getApplicationContext()).getProgramsByTrainerID(userID);
+        ArrayList<ProgramPOJO> trainerPrograms = ((GlobalVariables) getApplicationContext()).getProgramsByTrainerID(trainerID);
 
 
         ProgramListingAdapter adapter = new ProgramListingAdapter(this, trainerPrograms);
         trainerProgramsListView.setAdapter(adapter);
 
         FunctionUtils.setListViewHeightBasedOnItems(trainerProgramsListView);
+        progressDialog.cancel();
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

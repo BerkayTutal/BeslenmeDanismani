@@ -23,6 +23,11 @@ public class UserDataPOJO implements Serializable {
 
 
     private boolean isTrainer = false;
+
+    private boolean isBanned;
+    private String bannedReason;
+    private String bannedDate;
+
     private boolean isPrivate;
 
     private ArrayList<BodyRatioPOJO> bodyRatios = new ArrayList<>();
@@ -70,6 +75,30 @@ public class UserDataPOJO implements Serializable {
         this.money = money;
 
         this.myPrograms = myPrograms;
+    }
+
+    public boolean isBanned() {
+        return isBanned;
+    }
+
+    public void setBanned(boolean banned) {
+        isBanned = banned;
+    }
+
+    public String getBannedReason() {
+        return bannedReason;
+    }
+
+    public void setBannedReason(String bannedReason) {
+        this.bannedReason = bannedReason;
+    }
+
+    public String getBannedDate() {
+        return bannedDate;
+    }
+
+    public void setBannedDate(String bannedDate) {
+        this.bannedDate = bannedDate;
     }
 
     public ArrayList<BodyRatioPOJO> getOfflineBodyRatios() {

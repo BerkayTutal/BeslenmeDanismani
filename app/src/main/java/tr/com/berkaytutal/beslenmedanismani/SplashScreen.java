@@ -54,7 +54,6 @@ public class SplashScreen extends AppCompatActivity {
     private boolean allCategoriesSet;
 
 
-
     private class AllCategoriesAsync extends AsyncTask {
         JSONArray jsonArray;
 
@@ -122,7 +121,7 @@ public class SplashScreen extends AppCompatActivity {
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
             allCategoriesSet = true;
-            if(allCategoriesSet && allProgramsSet && allTrainersSet){
+            if (allCategoriesSet && allProgramsSet && allTrainersSet) {
                 Intent i = new Intent(getApplication(), LoginActivity.class);
                 i.putExtra("isMainLogin", true);
                 startActivity(i);
@@ -214,9 +213,14 @@ public class SplashScreen extends AppCompatActivity {
 //                        certificatePOJOs.add(certificate);
 //
 //                    }
+                    boolean isBanned = false;
+                    try {
+                        isBanned = jobj.getBoolean("isBanned");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
-
-                    user = new TrainerPOJO(name, surname, sex, photo, userID, birthday, bio, intro, null);
+                    user = new TrainerPOJO(name, surname, sex, photo, userID, birthday, bio, intro, null, isBanned);
                     allUsers.add(user);
 
                 } catch (JSONException e) {
@@ -229,11 +233,12 @@ public class SplashScreen extends AppCompatActivity {
 
             return null;
         }
+
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
             allTrainersSet = true;
-            if(allCategoriesSet && allProgramsSet && allTrainersSet){
+            if (allCategoriesSet && allProgramsSet && allTrainersSet) {
                 Intent i = new Intent(getApplication(), LoginActivity.class);
                 i.putExtra("isMainLogin", true);
                 startActivity(i);
@@ -290,11 +295,12 @@ public class SplashScreen extends AppCompatActivity {
             ((GlobalVariables) getApplicationContext()).setAllPrograms(allPrograms);
             return null;
         }
+
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
             allProgramsSet = true;
-            if(allCategoriesSet && allProgramsSet && allTrainersSet){
+            if (allCategoriesSet && allProgramsSet && allTrainersSet) {
                 Intent i = new Intent(getApplication(), LoginActivity.class);
                 i.putExtra("isMainLogin", true);
                 startActivity(i);
@@ -355,7 +361,7 @@ public class SplashScreen extends AppCompatActivity {
 
                 // show it
                 alertDialog.show();
-            } else if("yesinternet".equals(o.toString())) {
+            } else if ("yesinternet".equals(o.toString())) {
 
                 AllProgramsAsync allProgramsAsync = new AllProgramsAsync();
                 allProgramsAsync.execute("");
@@ -364,8 +370,7 @@ public class SplashScreen extends AppCompatActivity {
                 AllCategoriesAsync allCategoriesAsync = new AllCategoriesAsync();
                 allCategoriesAsync.execute("");
 
-            }
-            else if("nointernetyesuser".equals(o.toString())){
+            } else if ("nointernetyesuser".equals(o.toString())) {
                 Intent i = new Intent(getApplication(), LoginActivity.class);
                 i.putExtra("isMainLogin", true);
                 startActivity(i);
@@ -376,9 +381,10 @@ public class SplashScreen extends AppCompatActivity {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB) // API 11
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+        // API 11
     void startMyTask(AsyncTask asyncTask, Object... params) {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
             asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
         else
             asyncTask.execute(params);
