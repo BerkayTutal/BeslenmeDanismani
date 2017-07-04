@@ -5,6 +5,8 @@ package tr.com.berkaytutal.beslenmedanismani.Utils;
  */
 
 public interface PublicVariables {
+
+
     int TYPE_LISTINGS_ALL = 1;
     int TYPE_LISTINGS_HOMEPAGE  = 2;
 
@@ -22,6 +24,8 @@ public interface PublicVariables {
 
 
     int homepageListingCount = 3;
+
+    String insertBodyRatioURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/insertUserBodyRates/";
 
     String programDiffURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/getProgramDiffParameters";
     String programCategoriesURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/getProgramSpecParameters";

@@ -11,6 +11,8 @@ import java.util.HashMap;
 
 public class GlobalVariables extends Application {
 
+    private boolean isOnline = true;
+
     public HashMap<Integer,Integer> circleCountHolder;
 
 
@@ -20,6 +22,14 @@ public class GlobalVariables extends Application {
     private UserDataPOJO userDataPOJO;
     private ArrayList<ProgramDifficultyPOJO> programDifficulties;
     private ArrayList<ProgramCategoryPOJO> programCategories;
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(boolean online) {
+        isOnline = online;
+    }
 
     public ArrayList<ProgramDifficultyPOJO> getProgramDifficulties() {
 

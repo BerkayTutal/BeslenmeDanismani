@@ -30,11 +30,13 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import tr.com.berkaytutal.beslenmedanismani.Adapters.ProgramListingAdapter;
 import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
 import tr.com.berkaytutal.beslenmedanismani.Utils.BodyRatioPOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.BodyRatioSender;
 import tr.com.berkaytutal.beslenmedanismani.Utils.DBHelper;
 import tr.com.berkaytutal.beslenmedanismani.Utils.DataSenderHelper;
 import tr.com.berkaytutal.beslenmedanismani.Utils.FunctionUtils;
@@ -44,6 +46,8 @@ import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.UserDataPOJO;
 
 public class ProfileActivity extends BaseDrawerActivity {
+
+    private Activity activity;
 
     private ProgramListingAdapter adapter;
 
@@ -98,8 +102,7 @@ public class ProfileActivity extends BaseDrawerActivity {
     private Button chartAddNewButton;
 
     private boolean doubleBackToExitPressedOnce = false;
-    private boolean nogoback ;
-
+    private boolean nogoback;
 
 
     @Override
@@ -121,11 +124,12 @@ public class ProfileActivity extends BaseDrawerActivity {
         setContentView(R.layout.activity_profile);
 
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        this.activity = this;
 
         Intent gelenIntent = getIntent();
-        if(gelenIntent!=null){
-            if(gelenIntent.hasExtra("nogoback")){
-                nogoback = gelenIntent.getBooleanExtra("nogoback",false);
+        if (gelenIntent != null) {
+            if (gelenIntent.hasExtra("nogoback")) {
+                nogoback = gelenIntent.getBooleanExtra("nogoback", false);
             }
         }
 
@@ -135,6 +139,9 @@ public class ProfileActivity extends BaseDrawerActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        CheckOnline onlineAsyn = new CheckOnline();
+        onlineAsyn.execute("");
 
 
         profileActivity = this;
@@ -317,7 +324,6 @@ public class ProfileActivity extends BaseDrawerActivity {
         chartDialog.setCanceledOnTouchOutside(true);
 
 
-
         // add new body ratio için progressDialog burası
 
 
@@ -343,12 +349,36 @@ public class ProfileActivity extends BaseDrawerActivity {
             @Override
             public void onClick(View view) {
 
-                if(FunctionUtils.checkEmpty(tallEditText)&&FunctionUtils.checkEmpty(weightEditText)&&FunctionUtils.checkEmpty(muscleEditText)&&FunctionUtils.checkEmpty(fatEditText)&&FunctionUtils.checkEmpty(waterEditText)){
-                    userDataPOJO.setChartPreferences(tallCheck.isChecked(), weightCheck.isChecked(), muscleCheck.isChecked(), fatCheck.isChecked(), waterCheck.isChecked());
+                if (FunctionUtils.checkEmpty(tallEditText) && FunctionUtils.checkEmpty(weightEditText) && FunctionUtils.checkEmpty(muscleEditText) && FunctionUtils.checkEmpty(fatEditText) && FunctionUtils.checkEmpty(waterEditText)) {
+
+
+                    Calendar mcurrentTime = Calendar.getInstance();
+
+                    int yearM = mcurrentTime.get(Calendar.YEAR);//Güncel Yılı alıyoruz
+                    int monthM = mcurrentTime.get(Calendar.MONTH);//Güncel Ayı alıyoruz
+                    int dayM = mcurrentTime.get(Calendar.DAY_OF_MONTH);//Güncel Günü alıyoruz
+
+                    String date = yearM + "-" + (monthM + 1) + "-" + dayM;
+
+                    float fatRate = Float.valueOf(fatEditText.getText().toString());
+                    float muscleRate = Float.valueOf(muscleEditText.getText().toString());
+                    int tall = Integer.parseInt(tallEditText.getText().toString());
+                    float waterRate = Float.valueOf(waterEditText.getText().toString());
+                    float weight = Float.valueOf(weightEditText.getText().toString());
+
+                    BodyRatioPOJO bodyRatio = new BodyRatioPOJO(date,fatRate,muscleRate,tall,userDataPOJO.getUser_ID(),waterRate,weight);
+                    userDataPOJO.getOfflineBodyRatios().add(bodyRatio);
+
                     DBHelper dbHelper = new DBHelper(getApplicationContext());
                     dbHelper.updateUser(userDataPOJO);
                     setLineChart();
                     bodyRatioDialog.dismiss();
+                    //todo online ise yolla hemen hepsini
+                    if(((GlobalVariables) getApplicationContext()).isOnline()){
+                        BodyRatioSender async = new BodyRatioSender();
+                        async.execute(activity);
+                    }
+
                     //TODO internet varsa direkt yolla yoksa queue ekle her türlü userdatapojo ekle ki chart güncellensin sonra setchart çağır
                 }
 
@@ -456,7 +486,7 @@ public class ProfileActivity extends BaseDrawerActivity {
     @Override
     public void onBackPressed() {
 
-        if(nogoback) {
+        if (nogoback) {
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed();
                 overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
@@ -472,8 +502,7 @@ public class ProfileActivity extends BaseDrawerActivity {
                     doubleBackToExitPressedOnce = false;
                 }
             }, 1500);
-        }
-        else{
+        } else {
             super.onBackPressed();
             overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
 
@@ -512,6 +541,17 @@ public class ProfileActivity extends BaseDrawerActivity {
 
             }
 
+        }
+    }
+
+    private class CheckOnline extends AsyncTask {
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            if (FunctionUtils.isInternetAvailable()) {
+                ((GlobalVariables) getApplicationContext()).setOnline(true);
+            }
+            return null;
         }
     }
 }

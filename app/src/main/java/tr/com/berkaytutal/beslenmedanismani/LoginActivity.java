@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import tr.com.berkaytutal.beslenmedanismani.Utils.BodyRatioPOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.BodyRatioSender;
 import tr.com.berkaytutal.beslenmedanismani.Utils.DBHelper;
 import tr.com.berkaytutal.beslenmedanismani.Utils.DataSenderHelper;
 import tr.com.berkaytutal.beslenmedanismani.Utils.FunctionUtils;
@@ -171,6 +172,7 @@ public class LoginActivity extends AppCompatActivity {
 
             super.onPostExecute(o);
             if ("nointernet".equals(o.toString())) {
+                ((GlobalVariables) getApplicationContext()).setOnline(false);
                 UserDataPOJO user = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
                 if(user!=null){
                     if(user.isTrainer()){
@@ -254,6 +256,8 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), MyProgramsActivity.class);
                     startActivity(intent);
                 } else {
+                    BodyRatioSender bodyRatioAsync = new BodyRatioSender();
+                    bodyRatioAsync.execute(loginActivity);
                     Intent i = new Intent(getApplicationContext(), HomepageActivity.class);
                     startActivity(i);
                 }
@@ -417,7 +421,10 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         dbUser.deleteProgramsExcept(myPrograms);
                         ArrayList<ProgramPOJO> updatedPrograms = dbUser.getMyPrograms();
-                        dbUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, photo, isPrivate, money, updatedPrograms);
+                        UserDataPOJO tempUser = new UserDataPOJO(user_id, name, surname, email, sex, birthday, photo, isPrivate, money, updatedPrograms);
+                        tempUser.setOfflineBodyRatios(dbUser.getOfflineBodyRatios());
+                        tempUser.setChartPreferences(dbUser.getChartTall(),dbUser.getChartWeight(),dbUser.getChartMuscle(),dbUser.getChartFat(),dbUser.getChartWater());
+                        dbUser = tempUser;
                     }
 
                     dbUser.setBodyRatios(bodyRatios);

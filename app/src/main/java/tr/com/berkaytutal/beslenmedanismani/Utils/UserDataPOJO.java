@@ -12,7 +12,6 @@ import java.util.ArrayList;
  */
 
 public class UserDataPOJO implements Serializable {
-    static final long serialVersionUID = 1453L;
     private int user_ID;
     private String name;
     private String surname;
@@ -26,7 +25,8 @@ public class UserDataPOJO implements Serializable {
     private boolean isTrainer = false;
     private boolean isPrivate;
 
-    private ArrayList<BodyRatioPOJO> bodyRatios;
+    private ArrayList<BodyRatioPOJO> bodyRatios = new ArrayList<>();
+    private ArrayList<BodyRatioPOJO> offlineBodyRatios ;
 
     private ArrayList<ProgramPOJO> myPrograms;
 
@@ -36,6 +36,26 @@ public class UserDataPOJO implements Serializable {
     private Boolean chartFat;
     private Boolean chartWater;
 
+    public UserDataPOJO(int user_ID, String name, String surname, String email, String sex, String birthday, byte[] photo, int money, boolean isTrainer, boolean isPrivate, ArrayList<BodyRatioPOJO> bodyRatios, ArrayList<BodyRatioPOJO> offlineBodyRatios, ArrayList<ProgramPOJO> myPrograms, Boolean chartTall, Boolean chartWeight, Boolean chartMuscle, Boolean chartFat, Boolean chartWater) {
+        this.user_ID = user_ID;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.sex = sex;
+        this.birthday = birthday;
+        this.photo = photo;
+        this.money = money;
+        this.isTrainer = isTrainer;
+        this.isPrivate = isPrivate;
+        this.bodyRatios = bodyRatios;
+        this.offlineBodyRatios = offlineBodyRatios;
+        this.myPrograms = myPrograms;
+        this.chartTall = chartTall;
+        this.chartWeight = chartWeight;
+        this.chartMuscle = chartMuscle;
+        this.chartFat = chartFat;
+        this.chartWater = chartWater;
+    }
 
     public UserDataPOJO(int user_ID, String name, String surname, String email, String sex, String birthday, byte[] photo, boolean isPrivate, int money, ArrayList<ProgramPOJO> myPrograms) {
 
@@ -50,6 +70,37 @@ public class UserDataPOJO implements Serializable {
         this.money = money;
 
         this.myPrograms = myPrograms;
+    }
+
+    public ArrayList<BodyRatioPOJO> getOfflineBodyRatios() {
+        if(offlineBodyRatios==null){
+            offlineBodyRatios = new ArrayList<>();
+        }
+        return offlineBodyRatios;
+    }
+
+    public void setOfflineBodyRatios(ArrayList<BodyRatioPOJO> offlineBodyRatios) {
+        this.offlineBodyRatios = offlineBodyRatios;
+    }
+
+    public void setChartTall(Boolean chartTall) {
+        this.chartTall = chartTall;
+    }
+
+    public void setChartWeight(Boolean chartWeight) {
+        this.chartWeight = chartWeight;
+    }
+
+    public void setChartMuscle(Boolean chartMuscle) {
+        this.chartMuscle = chartMuscle;
+    }
+
+    public void setChartFat(Boolean chartFat) {
+        this.chartFat = chartFat;
+    }
+
+    public void setChartWater(Boolean chartWater) {
+        this.chartWater = chartWater;
     }
 
     public void setChartPreferences(boolean tall, boolean weight, boolean muscle, boolean fat, boolean water) {
@@ -97,9 +148,6 @@ public class UserDataPOJO implements Serializable {
         return chartWater;
     }
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
 
     public int getMoney() {
         return money;
@@ -130,8 +178,17 @@ public class UserDataPOJO implements Serializable {
     }
 
     public ArrayList<BodyRatioPOJO> getBodyRatios() {
+
+        ArrayList<BodyRatioPOJO> tempBodyRatiosPOJO = new ArrayList<>();
+        tempBodyRatiosPOJO.addAll(bodyRatios);
+        tempBodyRatiosPOJO.addAll(getOfflineBodyRatios());
+        return tempBodyRatiosPOJO;
+    }
+    public ArrayList<BodyRatioPOJO> getBodyRatiosArrayList() {
+
         return bodyRatios;
     }
+
 
     public void setBodyRatios(ArrayList<BodyRatioPOJO> bodyRatios) {
         this.bodyRatios = bodyRatios;
