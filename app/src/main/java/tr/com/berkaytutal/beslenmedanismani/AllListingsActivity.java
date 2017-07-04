@@ -95,6 +95,8 @@ public class AllListingsActivity extends BaseDrawerActivity implements SwipeRefr
 
         pla = new ProgramListingAdapter(this, allPrograms);
         listView.setAdapter(pla);
+        View empty = findViewById(R.id.empty);
+        listView.setEmptyView(empty);
 
     }
 

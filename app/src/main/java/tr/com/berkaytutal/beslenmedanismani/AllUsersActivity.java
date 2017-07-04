@@ -66,6 +66,10 @@ public class AllUsersActivity extends BaseDrawerActivity implements SwipeRefresh
         ula = new UserListingAdapter(this, allUsers);
         listView.setAdapter(ula);
 
+        View empty = findViewById(R.id.empty);
+        listView.setEmptyView(empty);
+
+
     }
 
     @Override

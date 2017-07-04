@@ -272,8 +272,9 @@ public class LoginActivity extends AppCompatActivity {
                                 .setCancelable(true)
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
+                                                progressDialog.dismiss();
                                                 dialog.dismiss();
-                                                finish();
+//                                                finish();
                                             }
                                         }
                                 );

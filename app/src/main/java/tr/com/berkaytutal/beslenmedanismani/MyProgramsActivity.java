@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -63,6 +64,11 @@ public class MyProgramsActivity extends BaseDrawerActivity {
         adapter = new ProgramListingAdapter(this,myProgramsArrayList);
 
         myProgramsListview.setAdapter(adapter);
+        View empty = findViewById(R.id.empty);
+        myProgramsListview.setEmptyView(empty);
+
+
+
     }
 
     @Override

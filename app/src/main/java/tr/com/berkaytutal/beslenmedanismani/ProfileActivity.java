@@ -224,6 +224,8 @@ public class ProfileActivity extends BaseDrawerActivity {
         myProgramsArrayList = userDataPOJO.getMyPrograms();
         adapter = new ProgramListingAdapter(this, myProgramsArrayList);
         myProgramsListview.setAdapter(adapter);
+        View empty = findViewById(R.id.empty);
+        myProgramsListview.setEmptyView(empty);
 //        myProgramsListview.setMinimumHeight(getResources().getDimensionPixelOffset(R.dimen.homeListingHeight));
 
 
@@ -366,7 +368,7 @@ public class ProfileActivity extends BaseDrawerActivity {
                     float waterRate = Float.valueOf(waterEditText.getText().toString());
                     float weight = Float.valueOf(weightEditText.getText().toString());
 
-                    BodyRatioPOJO bodyRatio = new BodyRatioPOJO(date,fatRate,muscleRate,tall,userDataPOJO.getUser_ID(),waterRate,weight);
+                    BodyRatioPOJO bodyRatio = new BodyRatioPOJO(date, fatRate, muscleRate, tall, userDataPOJO.getUser_ID(), waterRate, weight);
                     userDataPOJO.getOfflineBodyRatios().add(bodyRatio);
 
                     DBHelper dbHelper = new DBHelper(getApplicationContext());
@@ -374,7 +376,7 @@ public class ProfileActivity extends BaseDrawerActivity {
                     setLineChart();
                     bodyRatioDialog.dismiss();
                     //todo online ise yolla hemen hepsini
-                    if(((GlobalVariables) getApplicationContext()).isOnline()){
+                    if (((GlobalVariables) getApplicationContext()).isOnline()) {
                         BodyRatioSender async = new BodyRatioSender();
                         async.execute(activity);
                     }
@@ -414,73 +416,83 @@ public class ProfileActivity extends BaseDrawerActivity {
 
     private void setLineChart() {
 
+
         //TODO linechart kısmı burada
         lineChart = (LineChart) findViewById(R.id.bodyRatesChartProfile);
 
 
         ArrayList<BodyRatioPOJO> bodyRatiosArrayList = userDataPOJO.getBodyRatios();
-        String[] xAxis = new String[bodyRatiosArrayList.size()];
+
 
         weightDataset.clear();
         fatDataset.clear();
         muscleDataset.clear();
         waterDataset.clear();
         tallDataset.clear();
+        if (bodyRatiosArrayList != null) {
+            if (bodyRatiosArrayList.size() > 0) {
+
+                String[] xAxis = new String[bodyRatiosArrayList.size()];
+                for (int i = 0; i < bodyRatiosArrayList.size(); i++) {
+                    BodyRatioPOJO bodyRatio = bodyRatiosArrayList.get(i);
 
 
-        for (int i = 0; i < bodyRatiosArrayList.size(); i++) {
-            BodyRatioPOJO bodyRatio = bodyRatiosArrayList.get(i);
+                    weightDataset.add(new Entry(i, bodyRatio.getWeight()));
+                    fatDataset.add(new Entry(i, bodyRatio.getFatRate()));
+                    muscleDataset.add(new Entry(i, bodyRatio.getMuscleRate()));
+                    waterDataset.add(new Entry(i, bodyRatio.getWaterRate()));
+                    tallDataset.add(new Entry(i, bodyRatio.getTall()));
+
+                    xAxis[i] = "berkay" + bodyRatio.getDate();
+                }
 
 
-            weightDataset.add(new Entry(i, bodyRatio.getWeight()));
-            fatDataset.add(new Entry(i, bodyRatio.getFatRate()));
-            muscleDataset.add(new Entry(i, bodyRatio.getMuscleRate()));
-            waterDataset.add(new Entry(i, bodyRatio.getWaterRate()));
-            tallDataset.add(new Entry(i, bodyRatio.getTall()));
+                lines.clear();
+                if (userDataPOJO.getChartWeight()) {
 
-            xAxis[i] = "berkay" + bodyRatio.getDate();
+                    LineDataSet weightLine = new LineDataSet(weightDataset, "Weight (kg)");
+                    weightLine.setColor(Color.RED);
+                    weightLine.setCircleColor(Color.RED);
+                    lines.add(weightLine);
+                }
+                if (userDataPOJO.getChartFat()) {
+                    LineDataSet fatLine = new LineDataSet(fatDataset, "Fat (%)");
+                    fatLine.setColor(Color.YELLOW);
+                    fatLine.setCircleColor(Color.YELLOW);
+                    lines.add(fatLine);
+                }
+                if (userDataPOJO.getChartMuscle()) {
+                    LineDataSet muscleLine = new LineDataSet(muscleDataset, "Muscle (%)");
+                    muscleLine.setColor(Color.GREEN);
+                    muscleLine.setCircleColor(Color.GREEN);
+                    lines.add(muscleLine);
+                }
+                if (userDataPOJO.getChartWater()) {
+                    LineDataSet waterLine = new LineDataSet(waterDataset, "Water (%)");
+                    waterLine.setColor(Color.BLUE);
+                    waterLine.setCircleColor(Color.BLUE);
+                    lines.add(waterLine);
+                }
+                if (userDataPOJO.getChartTall()) {
+                    LineDataSet tallLine = new LineDataSet(tallDataset, "Tall (cm)");
+                    tallLine.setColor(Color.DKGRAY);
+                    tallLine.setCircleColor(Color.DKGRAY);
+                    lines.add(tallLine);
+                }
+
+                LineData lineData = new LineData(lines);
+                lineChart.setData(lineData);
+
+
+                lineChart.notifyDataSetChanged();
+                lineChart.invalidate();
+
+            }
+
+
         }
 
 
-        lines.clear();
-        if (userDataPOJO.getChartWeight()) {
-
-            LineDataSet weightLine = new LineDataSet(weightDataset, "Weight (kg)");
-            weightLine.setColor(Color.RED);
-            weightLine.setCircleColor(Color.RED);
-            lines.add(weightLine);
-        }
-        if (userDataPOJO.getChartFat()) {
-            LineDataSet fatLine = new LineDataSet(fatDataset, "Fat (%)");
-            fatLine.setColor(Color.YELLOW);
-            fatLine.setCircleColor(Color.YELLOW);
-            lines.add(fatLine);
-        }
-        if (userDataPOJO.getChartMuscle()) {
-            LineDataSet muscleLine = new LineDataSet(muscleDataset, "Muscle (%)");
-            muscleLine.setColor(Color.GREEN);
-            muscleLine.setCircleColor(Color.GREEN);
-            lines.add(muscleLine);
-        }
-        if (userDataPOJO.getChartWater()) {
-            LineDataSet waterLine = new LineDataSet(waterDataset, "Water (%)");
-            waterLine.setColor(Color.BLUE);
-            waterLine.setCircleColor(Color.BLUE);
-            lines.add(waterLine);
-        }
-        if (userDataPOJO.getChartTall()) {
-            LineDataSet tallLine = new LineDataSet(tallDataset, "Tall (cm)");
-            tallLine.setColor(Color.DKGRAY);
-            tallLine.setCircleColor(Color.DKGRAY);
-            lines.add(tallLine);
-        }
-
-        LineData lineData = new LineData(lines);
-        lineChart.setData(lineData);
-
-
-        lineChart.notifyDataSetChanged();
-        lineChart.invalidate();
     }
 
     @Override

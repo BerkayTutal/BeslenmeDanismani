@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Base64;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -271,6 +272,10 @@ public class TrainerDetailPage extends BaseDrawerActivity implements SwipeRefres
         ArrayList<CertificatePOJO> certificates = trainer.getCertificates();
         CertificatesAdapter certAdapter = new CertificatesAdapter(this, certificates);
         trainerCertificatesListView.setAdapter(certAdapter);
+
+        View empty = findViewById(R.id.empty);
+        trainerCertificatesListView.setEmptyView(empty);
+
         FunctionUtils.setListViewHeightBasedOnItems(trainerCertificatesListView);
 
 
@@ -279,6 +284,9 @@ public class TrainerDetailPage extends BaseDrawerActivity implements SwipeRefres
 
         ProgramListingAdapter adapter = new ProgramListingAdapter(this, trainerPrograms);
         trainerProgramsListView.setAdapter(adapter);
+
+        View emptyPrograms = findViewById(R.id.emptyPrograms);
+        trainerProgramsListView.setEmptyView(emptyPrograms);
 
         FunctionUtils.setListViewHeightBasedOnItems(trainerProgramsListView);
         progressDialog.cancel();
