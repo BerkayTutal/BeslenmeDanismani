@@ -358,11 +358,11 @@ public class SplashScreen extends AppCompatActivity {
             } else if("yesinternet".equals(o.toString())) {
 
                 AllProgramsAsync allProgramsAsync = new AllProgramsAsync();
-                startMyTask(allProgramsAsync);
+                allProgramsAsync.execute("");
                 AllTrainersAsync allTrainersAsync = new AllTrainersAsync();
-                startMyTask(allTrainersAsync);
+                allTrainersAsync.execute("");
                 AllCategoriesAsync allCategoriesAsync = new AllCategoriesAsync();
-                startMyTask(allCategoriesAsync);
+                allCategoriesAsync.execute("");
 
             }
             else if("nointernetyesuser".equals(o.toString())){

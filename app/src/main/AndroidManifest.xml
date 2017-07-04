@@ -8,23 +8,30 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:configChanges="orientation|screenSize"
         android:name=".Utils.GlobalVariables"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".SplashScreen">
+        android:theme="@style/AppTheme.NoActionBar"
+
+        >
+
+        <activity android:name=".SplashScreen"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".LoginActivity"
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".Utils.BaseDrawerActivity"
-            android:label="@string/title_activity_base_drawer" />
+            android:label="@string/title_activity_base_drawer"
+            android:configChanges="orientation|screenSize"/>
         <activity android:name=".HomepageActivity" />
         <activity android:name=".AllListingsActivity" />
         <activity android:name=".AllUsersActivity" />
@@ -38,7 +45,7 @@
         <activity android:name=".ProgramOverviewActivity" />
         <activity android:name=".MyProgramsActivity" />
         <activity android:name=".ProgramPlayActivity" />
-        <activity android:name=".ProgramCommentsActivity"></activity>
+        <activity android:name=".ProgramCommentsActivity"/>
     </application>
 
 </manifest>
