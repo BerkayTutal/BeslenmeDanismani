@@ -164,7 +164,7 @@ public class LoginActivity extends AppCompatActivity {
         JSONObject jsonObject;
 
         ProgressDialog progressDialog = ProgressDialog.show(loginActivity, "",
-                "Logging in...", true);
+                "Signing in...", true);
 
 
         @Override

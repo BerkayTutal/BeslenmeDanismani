@@ -235,7 +235,7 @@ public class TrainerDetailPage extends BaseDrawerActivity implements SwipeRefres
         profileName = (TextView) findViewById(R.id.trainerProfileName);
         trainerProgramsListView = (ListView) findViewById(R.id.trainerDetailProgramsListView);
         bioTextView = (TextView) findViewById(R.id.trainerProfileBio);
-        introTextVİew = (TextView) findViewById(R.id.trainerProfileBio);
+        introTextVİew = (TextView) findViewById(R.id.trainerProfileIntro);
         ratingTextView = (TextView) findViewById(R.id.trainerProfileRating);
         trainerCertificatesListView = (ListView) findViewById(R.id.trainerDetailCertificatesListView);
 

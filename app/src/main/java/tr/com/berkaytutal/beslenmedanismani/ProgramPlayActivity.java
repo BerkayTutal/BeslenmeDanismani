@@ -110,34 +110,63 @@ public class ProgramPlayActivity extends AppCompatActivity {
 
         program = ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getProgramByID(programID);
         exercise = program.getExercisez().get(currentExerciseIndex);
+        if (exercise.getVideo() != null) {
+
+            //Video ile ilgili kısımlar
+            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.setLooping(true);
+                }
+            });
+
+            //video görünmeme hatasını giderir
+            videoView.setZOrderOnTop(true);
+
+            //Creating MediaController
+            MediaController mediaController = new MediaController(this);
+            mediaController.setAnchorView(videoView);
 
 
-        //Video ile ilgili kısımlar
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.setLooping(true);
+            //specify the location of media file
+            Uri uri = Uri.parse(getFilesDir() + "/" + exercise.getVideo());
+
+            //Setting MediaController and URI, then starting the videoView
+            videoView.setMediaController(mediaController);
+            videoView.setVideoURI(uri);
+            videoView.requestFocus();
+            videoView.start();
+
+        } else {
+            photo1ImageView.setVisibility(View.VISIBLE);
+            videoView.setVisibility(GONE);
+
+            photo1ImageView.setImageBitmap(exercise.getPhoto1());
+            Bitmap photo2 = exercise.getPhoto2();
+            if (photo2 != null) {
+//            photo2ImageView.setImageBitmap(photo2);
+
+
+                final Bitmap[] imageArray = new Bitmap[2];
+                imageArray[0] = exercise.getPhoto1();
+                imageArray[1] = exercise.getPhoto2();
+                final Handler handler = new Handler();
+                Runnable runnable = new Runnable() {
+                    int i = 0;
+
+                    public void run() {
+                        photo1ImageView.setImageBitmap(imageArray[i]);
+                        i++;
+                        if (i > imageArray.length - 1) {
+                            i = 0;
+                        }
+                        handler.postDelayed(this, 500);  //for interval...
+                    }
+                };
+                handler.postDelayed(runnable, 500); //for initial delay..
             }
-        });
 
-        //video görünmeme hatasını giderir
-        videoView.setZOrderOnTop(true);
-
-        //Creating MediaController
-        MediaController mediaController = new MediaController(this);
-        mediaController.setAnchorView(videoView);
-
-
-        //specify the location of media file
-        Uri uri = Uri.parse(getFilesDir() + "/" + exercise.getVideo());
-
-        //Setting MediaController and URI, then starting the videoView
-        videoView.setMediaController(mediaController);
-        videoView.setVideoURI(uri);
-        videoView.requestFocus();
-        videoView.start();
-
-
+        }
         maxExerciseIndex = program.getExercisez().size() - 1;
 
         if (exercise.getCircleID() == null) {
@@ -187,30 +216,7 @@ public class ProgramPlayActivity extends AppCompatActivity {
         restTime.setText(exercise.getRestTime() + "s");
 
 
-        photo1ImageView.setImageBitmap(exercise.getPhoto1());
-        Bitmap photo2 = exercise.getPhoto2();
-        if (photo2 != null) {
-//            photo2ImageView.setImageBitmap(photo2);
 
-
-            final Bitmap[] imageArray = new Bitmap[2];
-            imageArray[0] = exercise.getPhoto1();
-            imageArray[1] = exercise.getPhoto2();
-            final Handler handler = new Handler();
-            Runnable runnable = new Runnable() {
-                int i = 0;
-
-                public void run() {
-                    photo1ImageView.setImageBitmap(imageArray[i]);
-                    i++;
-                    if (i > imageArray.length - 1) {
-                        i = 0;
-                    }
-                    handler.postDelayed(this, 500);  //for interval...
-                }
-            };
-            handler.postDelayed(runnable, 500); //for initial delay..
-        }
 
 
         if (PublicVariables.CHEST.equals(exercise.getExerciseType())) {
@@ -220,8 +226,7 @@ public class ProgramPlayActivity extends AppCompatActivity {
             setTextView.setText(chest.getSetSayisi() + "");
             repeatTextView.setText(chest.getTekrarSayisi() + "");
 
-        }
-        else{
+        } else {
             NotChestPOJO notChest = (NotChestPOJO) exercise;
             notChestLayout.setVisibility(View.VISIBLE);
             exerciseTime.setText(notChest.getExerciseTime() + "s");
