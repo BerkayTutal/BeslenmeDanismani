@@ -108,7 +108,6 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
-                        // TODO Auto-generated method stub
                         birthdayEditText.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);//Ayarla butonu tıklandığında textview'a yazdırıyoruz
                         dayM = dayOfMonth;
                         monthM = monthOfYear;
@@ -129,7 +128,6 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO buradan login'e email ve password ile yönlendirip loginde direkt login olma kımına geçeceğiz
                 if (FunctionUtils.checkEmpty(nameEditText) && FunctionUtils.checkEmpty(surnameEditText) && FunctionUtils.checkEmpty(emailEditText) && FunctionUtils.checkEmpty(passwordEditText) && FunctionUtils.checkEmpty(passwordAgainEditText) && FunctionUtils.checkEmpty(birthdayEditText)) {
                     if (!passwordEditText.getText().toString().equals(passwordAgainEditText.getText().toString())) {
 
