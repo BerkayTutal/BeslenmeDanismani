@@ -40,7 +40,7 @@ public class TrainerDetailPage extends BaseDrawerActivity implements SwipeRefres
     private ListView trainerCertificatesListView;
     private TextView ratingTextView;
     private TextView bioTextView;
-    private TextView introTextVİew;
+    private TextView introTextView;
     private int trainerID;
     private TrainerPOJO trainer;
 
@@ -235,7 +235,7 @@ public class TrainerDetailPage extends BaseDrawerActivity implements SwipeRefres
         profileName = (TextView) findViewById(R.id.trainerProfileName);
         trainerProgramsListView = (ListView) findViewById(R.id.trainerDetailProgramsListView);
         bioTextView = (TextView) findViewById(R.id.trainerProfileBio);
-        introTextVİew = (TextView) findViewById(R.id.trainerProfileIntro);
+        introTextView = (TextView) findViewById(R.id.trainerProfileIntro);
         ratingTextView = (TextView) findViewById(R.id.trainerProfileRating);
         trainerCertificatesListView = (ListView) findViewById(R.id.trainerDetailCertificatesListView);
 
@@ -259,7 +259,7 @@ public class TrainerDetailPage extends BaseDrawerActivity implements SwipeRefres
 
         try {
             if (!introText.equals("")) {
-                introTextVİew.setText(introText);
+                introTextView.setText(introText);
             }
 
         } catch (Exception e) {

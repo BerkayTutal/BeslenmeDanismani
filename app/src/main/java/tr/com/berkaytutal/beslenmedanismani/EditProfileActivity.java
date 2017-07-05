@@ -89,6 +89,7 @@ public class EditProfileActivity extends BaseDrawerActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         selectedBitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
         if (selectedBitmap != null) {
+            selectedBitmap = FunctionUtils.scaleDown(selectedBitmap, 300, true);
             profileImage.setImageBitmap(selectedBitmap);
         }
     }
