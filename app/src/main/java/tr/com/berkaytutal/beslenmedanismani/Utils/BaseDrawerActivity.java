@@ -127,7 +127,7 @@ public class BaseDrawerActivity extends AppCompatActivity
     protected void onResume() {
         userDataPOJO = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
         try {
-            textViewUserName.setText(((GlobalVariables) getApplicationContext()).getUserDataPOJO().getName() + " " + ((GlobalVariables) getApplicationContext()).getUserDataPOJO().getSurname());
+            textViewUserName.setText(((GlobalVariables) getApplicationContext()).getUserDataPOJO().getName());
 
         } catch (Exception e) {
             textViewUserName.setText("Welcome !");
