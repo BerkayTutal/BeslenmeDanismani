@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,14 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import org.w3c.dom.Text;
-
 import java.util.HashMap;
 
 import tr.com.berkaytutal.beslenmedanismani.Utils.ChestPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ExercisePOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
-import tr.com.berkaytutal.beslenmedanismani.Utils.NotChestPOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.CardioPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
 
@@ -219,7 +216,7 @@ public class ProgramPlayActivity extends AppCompatActivity {
 
 
 
-        if (PublicVariables.CHEST.equals(exercise.getExerciseType())) {
+        if (!PublicVariables.CARDIO.equals(exercise.getExerciseType())) {
             ChestPOJO chest = (ChestPOJO) exercise;
             chestLayout.setVisibility(View.VISIBLE);
             weightTextView.setText(chest.getAgirlik() + "kg");
@@ -227,7 +224,7 @@ public class ProgramPlayActivity extends AppCompatActivity {
             repeatTextView.setText(chest.getTekrarSayisi() + "");
 
         } else {
-            NotChestPOJO notChest = (NotChestPOJO) exercise;
+            CardioPOJO notChest = (CardioPOJO) exercise;
             notChestLayout.setVisibility(View.VISIBLE);
             exerciseTime.setText(notChest.getExerciseTime() + "s");
         }

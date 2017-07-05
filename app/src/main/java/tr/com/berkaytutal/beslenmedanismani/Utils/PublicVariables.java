@@ -12,7 +12,7 @@ public interface PublicVariables {
 
     String videoBaseURL = "http://bitirmeprojesi.azurewebsites.net/videos/";
 
-    String CHEST = "Chest";
+    String CARDIO = "Cardio";
 
     int ALL_ID = 0;
 

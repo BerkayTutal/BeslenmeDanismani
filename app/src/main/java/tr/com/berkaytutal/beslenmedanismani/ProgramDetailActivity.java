@@ -45,7 +45,7 @@ import tr.com.berkaytutal.beslenmedanismani.Utils.ExercisePOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.FunctionUtils;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.JSONParser;
-import tr.com.berkaytutal.beslenmedanismani.Utils.NotChestPOJO;
+import tr.com.berkaytutal.beslenmedanismani.Utils.CardioPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.PublicVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.TrainerPOJO;
@@ -634,7 +634,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                 }
 
 
-                if (PublicVariables.CHEST.equals(exerciseType)) {
+                if (!PublicVariables.CARDIO.equals(exerciseType)) {
 
                     int agirlik = 0;
                     int setSayisi = 0;
@@ -662,8 +662,8 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    NotChestPOJO notChestPOJO = new NotChestPOJO(description, exerciseType, exercises_ID, name, orderExercise, photo1, photo2, restTime, title, video, exerciseTime, circleID, circleCount);
-                    exercisePOJOs.add(notChestPOJO);
+                    CardioPOJO cardioPOJO = new CardioPOJO(description, exerciseType, exercises_ID, name, orderExercise, photo1, photo2, restTime, title, video, exerciseTime, circleID, circleCount);
+                    exercisePOJOs.add(cardioPOJO);
 
 
                 }
