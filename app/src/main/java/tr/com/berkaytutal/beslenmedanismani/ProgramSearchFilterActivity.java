@@ -1,6 +1,7 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -62,6 +63,8 @@ public class ProgramSearchFilterActivity extends AppCompatActivity {
     private String sortName;
 
     private JSONObject jsonObject;
+    private ProgressDialog progressDialog;
+    private Activity activity;
 
 
     @Override
@@ -70,6 +73,7 @@ public class ProgramSearchFilterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_filter);
 
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+        activity = this;
 
         categories = ((GlobalVariables) getApplicationContext()).getProgramCategories();
         difficulties = ((GlobalVariables) getApplicationContext()).getProgramDifficulties();
@@ -150,6 +154,9 @@ public class ProgramSearchFilterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //buraya settings kısmını koyup burayı finish edip önceki activity'ye intent ile göndericez
+
+                progressDialog = ProgressDialog.show(activity, "",
+                        "Loading...", true);
 
                 searchQueryString = searchQueryEditText.getText().toString();
 
@@ -321,6 +328,10 @@ public class ProgramSearchFilterActivity extends AppCompatActivity {
             intent.putExtra("catPos", catPos);
             intent.putExtra("diffPos", diffPos);
             intent.putExtra("sortPos", sortPos);
+
+            progressDialog.cancel();
+
+
             startActivity(intent);
             finish();
 

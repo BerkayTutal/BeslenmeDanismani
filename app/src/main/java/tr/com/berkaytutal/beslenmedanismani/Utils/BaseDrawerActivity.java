@@ -1,5 +1,7 @@
 package tr.com.berkaytutal.beslenmedanismani.Utils;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.LayoutRes;
@@ -205,29 +207,62 @@ public class BaseDrawerActivity extends AppCompatActivity
         }
         if (id == R.id.appBarLogoutButton) {
             //// TODO : 4.07.2017  dialog
-            Toast.makeText(getApplicationContext(), "Signed out", Toast.LENGTH_SHORT).show();
-            SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", MODE_PRIVATE);
-            SharedPreferences.Editor edit = userDetails.edit();
-            edit.clear();
-            edit.putString("userEmail", "");
-            edit.putString("userPass", "");
-            edit.commit();
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    getApplicationContext());
+
+            // set title
+            alertDialogBuilder.setTitle(R.string.privateProfile);
+
+            // set progressDialog message
+            alertDialogBuilder
+                    .setTitle("Logout")
+                    .setMessage("Are you sure you want to logout?")
+                    .setCancelable(true)
+                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                    Toast.makeText(getApplicationContext(), "Signed out", Toast.LENGTH_SHORT).show();
+                                    SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", MODE_PRIVATE);
+                                    SharedPreferences.Editor edit = userDetails.edit();
+                                    edit.clear();
+                                    edit.putString("userEmail", "");
+                                    edit.putString("userPass", "");
+                                    edit.commit();
 
 //            DBHelper dbHelper = new DBHelper(getApplicationContext());
 //            dbHelper.deleteUser(((GlobalVariables) getApplicationContext()).getUserDataPOJO().getUser_ID());
 
-            ((GlobalVariables) getApplicationContext()).setUserDataPOJO(null);
+                                    ((GlobalVariables) getApplicationContext()).setUserDataPOJO(null);
 
-            if (((GlobalVariables) getApplicationContext()).isOnline()) {
+                                    if (((GlobalVariables) getApplicationContext()).isOnline()) {
 
-                Intent i = new Intent(this, HomepageActivity.class);
-                startActivity(i);
+                                        Intent i = new Intent(getApplicationContext(), HomepageActivity.class);
+                                        startActivity(i);
 
-            } else {
-                int pid = android.os.Process.myPid();
-                android.os.Process.killProcess(pid);
-            }
-            finish();
+                                    } else {
+                                        int pid = android.os.Process.myPid();
+                                        android.os.Process.killProcess(pid);
+                                    }
+                                    finish();
+
+                                    dialog.dismiss();
+                                }
+                            }
+                    );
+
+            // create alert progressDialog
+            AlertDialog alertDialog = alertDialogBuilder.create();
+
+            // show it
+            alertDialog.show();
+
             return true;
         }
 
@@ -260,30 +295,65 @@ public class BaseDrawerActivity extends AppCompatActivity
             startActivity(i);
         } else if (id == R.id.icon_logout) {
             //// TODO: 4.07.2017  dialog
-            Toast.makeText(getApplicationContext(), "Signed out", Toast.LENGTH_SHORT).show();
-            SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", MODE_PRIVATE);
-            SharedPreferences.Editor edit = userDetails.edit();
-            edit.clear();
-            edit.putString("userEmail", "");
-            edit.putString("userPass", "");
-            edit.commit();
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    getApplicationContext());
+
+            // set title
+            alertDialogBuilder.setTitle(R.string.privateProfile);
+
+            // set progressDialog message
+            alertDialogBuilder
+                    .setTitle("Logout")
+                    .setMessage("Are you sure you want to logout?")
+                    .setCancelable(true)
+                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+
+
+                                    Toast.makeText(getApplicationContext(), "Signed out", Toast.LENGTH_SHORT).show();
+                                    SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", MODE_PRIVATE);
+                                    SharedPreferences.Editor edit = userDetails.edit();
+                                    edit.clear();
+                                    edit.putString("userEmail", "");
+                                    edit.putString("userPass", "");
+                                    edit.commit();
 
 //            DBHelper dbHelper = new DBHelper(getApplicationContext());
 //            dbHelper.deleteUser(((GlobalVariables) getApplicationContext()).getUserDataPOJO().getUser_ID());
 
-            ((GlobalVariables) getApplicationContext()).setUserDataPOJO(null);
+                                    ((GlobalVariables) getApplicationContext()).setUserDataPOJO(null);
 
 
-            if (((GlobalVariables) getApplicationContext()).isOnline()) {
+                                    if (((GlobalVariables) getApplicationContext()).isOnline()) {
 
-                Intent i = new Intent(this, LoginActivity.class);
-                startActivity(i);
+                                        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                                        startActivity(i);
 
-            } else {
-                int pid = android.os.Process.myPid();
-                android.os.Process.killProcess(pid);
-            }
-            finish();
+                                    } else {
+                                        int pid = android.os.Process.myPid();
+                                        android.os.Process.killProcess(pid);
+                                    }
+                                    finish();
+
+                                    dialog.dismiss();
+                                }
+                            }
+                    );
+
+            // create alert progressDialog
+            AlertDialog alertDialog = alertDialogBuilder.create();
+
+            // show it
+            alertDialog.show();
+
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
