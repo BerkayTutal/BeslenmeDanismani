@@ -95,18 +95,25 @@ public class ProgramCommentsActivity extends AppCompatActivity implements SwipeR
         }
 
         if (globalVariables.isOnline()) {
-            if (myProgram.getComments().size() == 0) {
-                progressDialog = ProgressDialog.show(activity, "",
-                        "Loading...", true);
-                MyAsyncClass async = new MyAsyncClass();
-                async.execute("test");
-            } else {
-                setTheRest();
-            }
+            progressDialog = ProgressDialog.show(activity, "",
+                    "Loading...", true);
+            MyAsyncClass async = new MyAsyncClass();
+            async.execute("test");
+
+//            if (myProgram.getComments().size() == 0) {
+//                progressDialog = ProgressDialog.show(activity, "",
+//                        "Loading...", true);
+//                MyAsyncClass async = new MyAsyncClass();
+//                async.execute("test");
+//            } else {
+//                comments = myProgram.getComments();
+//                setTheRest();
+//            }
 
         } else {
-            if (myProgram.getComments().size() > 0) {
-
+            if (false) {
+//            if (myProgram.getComments().size() > 0) {
+                comments = myProgram.getComments();
                 setTheRest();
             } else {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
@@ -211,6 +218,7 @@ public class ProgramCommentsActivity extends AppCompatActivity implements SwipeR
             }
         });
 
+        //comments = myProgram.getComments();
 
         ProgramCommentsAdapter adapter = new ProgramCommentsAdapter(activity, comments);
         programCommentsListView.setAdapter(adapter);

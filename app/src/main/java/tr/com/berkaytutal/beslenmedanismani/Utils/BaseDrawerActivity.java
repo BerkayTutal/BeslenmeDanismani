@@ -198,14 +198,14 @@ public class BaseDrawerActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.appBarProfileButton) {
-            Toast.makeText(getApplicationContext(), "Profiiiiil", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "Profiiiiil", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);
             return true;
         }
         if (id == R.id.appBarLogoutButton) {
-            //// TODO: 4.07.2017  dialog
-            Toast.makeText(getApplicationContext(), "Logout Yapıldı", Toast.LENGTH_SHORT).show();
+            //// TODO : 4.07.2017  dialog
+            Toast.makeText(getApplicationContext(), "Signed out", Toast.LENGTH_SHORT).show();
             SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", MODE_PRIVATE);
             SharedPreferences.Editor edit = userDetails.edit();
             edit.clear();
@@ -260,7 +260,7 @@ public class BaseDrawerActivity extends AppCompatActivity
             startActivity(i);
         } else if (id == R.id.icon_logout) {
             //// TODO: 4.07.2017  dialog
-            Toast.makeText(getApplicationContext(), "Logout Yapıldı", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Signed out", Toast.LENGTH_SHORT).show();
             SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", MODE_PRIVATE);
             SharedPreferences.Editor edit = userDetails.edit();
             edit.clear();

@@ -112,7 +112,7 @@ public class ProgramListingAdapter extends BaseAdapter {
         listeElemani.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), i + "", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(view.getContext(), i + "", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(view.getContext(), ProgramDetailActivity.class);
                 intent.putExtra("programID",programPOJO.getProgramID());

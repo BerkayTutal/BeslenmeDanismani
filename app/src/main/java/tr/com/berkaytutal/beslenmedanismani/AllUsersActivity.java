@@ -84,7 +84,7 @@ public class AllUsersActivity extends BaseDrawerActivity implements SwipeRefresh
     @Override
     public void onRefresh() {
 
-        Toast.makeText(this, "Refresh yapıldı", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Refresh yapıldı", Toast.LENGTH_SHORT).show();
         swipeRefreshLayout.setRefreshing(false);
 
     }
@@ -93,7 +93,7 @@ public class AllUsersActivity extends BaseDrawerActivity implements SwipeRefresh
     @Override
     public boolean onQueryTextSubmit(String query) {
 
-        Toast.makeText(this,query,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,query,Toast.LENGTH_SHORT).show();
         return false;
     }
 

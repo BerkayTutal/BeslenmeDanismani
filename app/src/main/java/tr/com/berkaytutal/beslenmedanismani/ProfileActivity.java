@@ -544,7 +544,7 @@ public class ProfileActivity extends BaseDrawerActivity {
             super.onPostExecute(result);
             if (result.equals("false")) {
                 Log.e("body", "sorun oluştu");
-                Toast.makeText(getApplicationContext(), "sorun oluştu", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "sorun oluştu", Toast.LENGTH_SHORT).show();
             } else if (result.equals("true")) {
                 Log.i("body", "update başarılı");
 //                userDataPOJO.setFatRate(fatRate);
@@ -555,7 +555,7 @@ public class ProfileActivity extends BaseDrawerActivity {
                 DBHelper dbHelper = new DBHelper(getApplicationContext());
                 dbHelper.updateUser(userDataPOJO);
                 ((GlobalVariables) getApplicationContext()).setUserDataPOJO(userDataPOJO);
-                Toast.makeText(getApplicationContext(), "Başarılı", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "Succesfully sent your ", Toast.LENGTH_SHORT).show();
 
 
             }
