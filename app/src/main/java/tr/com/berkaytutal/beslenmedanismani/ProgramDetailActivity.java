@@ -2,6 +2,7 @@ package tr.com.berkaytutal.beslenmedanismani;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -51,10 +52,11 @@ import tr.com.berkaytutal.beslenmedanismani.Utils.TrainerPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.UserDataPOJO;
 
 public class ProgramDetailActivity extends BaseDrawerActivity {
-//
+    //
 //    // Progress Dialog
 //    private ProgressDialog pDialog;
 //    public static final int progress_bar_type = 0;
+    private ProgressDialog progressDialog;
 
     private ImageView programImageView;
     private Button downloadButton;
@@ -221,6 +223,12 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         if (program == null) {
             buyThisProgramButton.setVisibility(View.VISIBLE);
             program = ((GlobalVariables) getApplicationContext()).getProgramByID(programID);
+            if(program.getPrice()==0){
+                buyThisProgramButton.setText("BUY THIS FOR FREE");
+            }
+            else{
+                buyThisProgramButton.setText("BUY THIS FOR " + program.getPrice() + " TL");
+            }
         } else {
             boughtProgramLinearLayout.setVisibility(View.VISIBLE);
             if (!isTrainer) {
@@ -292,23 +300,56 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         buyThisProgramButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        activity);
 
-                if (user == null) {
-                    Intent intent = new Intent(view.getContext(), LoginActivity.class);
-                    startActivity(intent);
-                } else {
-                    //TODO progressdialog
-                    JSONObject jsonObject = new JSONObject();
-                    try {
-                        jsonObject.accumulate("user_ID", user.getUser_ID());
-                        jsonObject.accumulate("program_ID", programID);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                // set title
+                // alertDialogBuilder.setTitle("Info");
 
-                    BuyAsyncClass async = new BuyAsyncClass();
-                    async.execute(jsonObject);
-                }
+                // set progressDialog message
+                alertDialogBuilder
+                        .setTitle("Buy Program")
+                        .setMessage("Do you want to buy this program for " + program.getPrice() + " TL ?")
+                        .setCancelable(false)
+                        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                if (user == null) {
+                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                    startActivity(intent);
+                                    dialog.dismiss();
+                                } else {
+                                    progressDialog = ProgressDialog.show(activity, "",
+                                            "Loading...", true);
+                                    JSONObject jsonObject = new JSONObject();
+                                    try {
+                                        jsonObject.accumulate("user_ID", user.getUser_ID());
+                                        jsonObject.accumulate("program_ID", programID);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    BuyAsyncClass async = new BuyAsyncClass();
+                                    async.execute(jsonObject);
+                                }
+                                dialog.dismiss();
+                            }
+                        });
+
+
+                // create alert progressDialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+
+
 
 
             }
@@ -338,6 +379,50 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         } catch (Exception e) {
             trainerName.setText(program.getTrainerName() + " " + program.getTrainerSurname());
             trainerImage.setImageDrawable(getResources().getDrawable(R.drawable.nonetwork));
+        }
+
+        if (program.isTrainerBanned()) {
+            findViewById(R.id.trainerBannedTextView).setVisibility(View.VISIBLE);
+        }
+        if (program.isBanned()) {
+
+            TextView programBanned = (TextView) findViewById(R.id.programIsBanned);
+
+            programBanned.setVisibility(View.VISIBLE);
+            String reason = null;
+            if (program.getBannedReasonForProgram() != null) {
+                reason = program.getBannedReasonForProgram();
+            }
+
+            final String finalReason = reason;
+            programBanned.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(
+                            view.getContext());
+
+                    // set title
+                    alertDialogBuilder.setTitle(R.string.bannedProgram);
+                    String message = "If you still want to use this program be aware of its banned";
+                    message += " for \"" + finalReason + "\"";
+                    // set progressDialog message
+                    alertDialogBuilder
+                            .setMessage(message)
+                            .setCancelable(true)
+                            .setPositiveButton("I'm aware", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.dismiss();
+                                        }
+                                    }
+                            );
+
+                    // create alert progressDialog
+                    android.app.AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    // show it
+                    alertDialog.show();
+                }
+            });
         }
 
         trainerSeeMore.setOnClickListener(new View.OnClickListener() {
@@ -421,7 +506,9 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                 Toast.makeText(getApplicationContext(), "Satın Alamadık", Toast.LENGTH_SHORT).show();
             } else {
                 int kalanPara = Integer.parseInt(s);
-                Toast.makeText(getApplicationContext(), kalanPara + " kadar para kaldı", Toast.LENGTH_SHORT).show();
+                moneyText.setText(kalanPara + " TL");
+
+                // Toast.makeText(getApplicationContext(), kalanPara + " kadar para kaldı", Toast.LENGTH_SHORT).show();
                 Toast.makeText(getApplicationContext(), "Başarıyla satın aldık", Toast.LENGTH_SHORT).show();
                 buyThisProgramButton.setVisibility(View.GONE);
                 boughtProgramLinearLayout.setVisibility(View.VISIBLE);
@@ -430,6 +517,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
                 DBHelper dbHelper = new DBHelper(getApplicationContext());
                 dbHelper.updateUser(user);
             }
+            progressDialog.cancel();
             super.onPostExecute(s);
         }
     }

@@ -28,11 +28,15 @@ public class ProgramPOJO implements Serializable {
     private int commentCount;
     private ArrayList<CommentPOJO> comments;
 
+    private boolean isBanned = false; //"programIsBanned"
+    private boolean isTrainerBanned = false; //"trainerIsBanned"
+    private String bannedReasonForProgram; //programBannedReason
+private int price;
 
 
     private ArrayList<ExercisePOJO> exercisez = null;
 
-    public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle, String programDescription, int programID, int trainerID, String trainerName, String trainerSurname, float rating, int commentCount) {
+    public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle, String programDescription, int programID, int trainerID, String trainerName, String trainerSurname, float rating, int commentCount,boolean isBanned,boolean isTrainerBanned, String bannedReasonForProgram, int price) {
         this.difficulty = difficulty;
         this.programPhoto = programPhoto;
         this.programSpec = programSpec;
@@ -45,10 +49,15 @@ public class ProgramPOJO implements Serializable {
         this.programDescription = programDescription;
         this.rating = rating;
         this.commentCount = commentCount;
+
+        this.isBanned = isBanned;
+        this.isTrainerBanned = isTrainerBanned;
+        this.bannedReasonForProgram = bannedReasonForProgram;
+        this.price = price;
     }
 
-    public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle, String programDescription, int programID, int trainerID, String trainerName, String trainerSurname, float rating, int commentCount, ArrayList<ExercisePOJO> exercisez) {
-        this(difficulty, programPhoto, programSpec, programTitle, programDescription, programID, trainerID, trainerName, trainerSurname,  rating,  commentCount);
+    public ProgramPOJO(String difficulty, byte[] programPhoto, String programSpec, String programTitle, String programDescription, int programID, int trainerID, String trainerName, String trainerSurname, float rating, int commentCount, ArrayList<ExercisePOJO> exercisez,boolean isBanned,boolean isTrainerBanned, String bannedReasonForProgram,int price) {
+        this(difficulty, programPhoto, programSpec, programTitle, programDescription, programID, trainerID, trainerName, trainerSurname,  rating,  commentCount, isBanned, isTrainerBanned,  bannedReasonForProgram,price);
         this.exercisez = exercisez;
     }
 
@@ -57,6 +66,14 @@ public class ProgramPOJO implements Serializable {
             comments = new ArrayList<>();
         }
         return comments;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public void setComments(ArrayList<CommentPOJO> comments) {
@@ -176,6 +193,30 @@ public class ProgramPOJO implements Serializable {
             }
         }
         return null;
+    }
+
+    public boolean isBanned() {
+        return isBanned;
+    }
+
+    public void setBanned(boolean banned) {
+        isBanned = banned;
+    }
+
+    public boolean isTrainerBanned() {
+        return isTrainerBanned;
+    }
+
+    public void setTrainerBanned(boolean trainerBanned) {
+        isTrainerBanned = trainerBanned;
+    }
+
+    public String getBannedReasonForProgram() {
+        return bannedReasonForProgram;
+    }
+
+    public void setBannedReasonForProgram(String bannedReasonForProgram) {
+        this.bannedReasonForProgram = bannedReasonForProgram;
     }
 }
 

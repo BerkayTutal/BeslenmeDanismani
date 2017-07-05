@@ -280,7 +280,31 @@ public class ProgramSearchFilterActivity extends AppCompatActivity {
                     int commentCount = jobj.getInt("commentCount");
 
 
-                    program = new ProgramPOJO(diff, photo, programSpec, programTitle, programDescription, programID, trainerID, trainerName, trainerSurname,rating,commentCount);
+                    boolean isProgramBanned = false;
+                    boolean isTrainerBanned = false;
+                    String reason = null;
+                    try {
+                        isProgramBanned = jobj.getBoolean("programIsBanned");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        isTrainerBanned = jobj.getBoolean("trainerIsBanned");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        reason = jobj.getString("programBannedReason");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    int price = 0;
+                    try {
+                        price = jobj.getInt("programPrice");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    program = new ProgramPOJO(diff, photo, programSpec, programTitle, programDescription, programID, trainerID, trainerName, trainerSurname, rating, commentCount, isProgramBanned, isTrainerBanned, reason, price);
                     program.setPublished(true);
                     allPrograms.add(program);
                 } catch (JSONException e) {

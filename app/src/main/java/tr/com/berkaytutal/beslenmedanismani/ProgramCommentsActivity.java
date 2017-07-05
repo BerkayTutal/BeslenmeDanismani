@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -30,6 +31,7 @@ import tr.com.berkaytutal.beslenmedanismani.Adapters.ProgramCommentsAdapter;
 import tr.com.berkaytutal.beslenmedanismani.Utils.CommentPOJO;
 import tr.com.berkaytutal.beslenmedanismani.Utils.DBHelper;
 import tr.com.berkaytutal.beslenmedanismani.Utils.DataSenderHelper;
+import tr.com.berkaytutal.beslenmedanismani.Utils.FunctionUtils;
 import tr.com.berkaytutal.beslenmedanismani.Utils.GlobalVariables;
 import tr.com.berkaytutal.beslenmedanismani.Utils.JSONParser;
 import tr.com.berkaytutal.beslenmedanismani.Utils.ProgramPOJO;
@@ -76,12 +78,10 @@ public class ProgramCommentsActivity extends AppCompatActivity implements SwipeR
             myProgram = globalVariables.getUserDataPOJO().getProgramByID(programID);
             if (myProgram != null) {
                 isBought = true;
-            }
-            else {
+            } else {
                 myProgram = globalVariables.getProgramByID(programID);
             }
-        }
-        else{
+        } else {
             myProgram = globalVariables.getProgramByID(programID);
         }
 
@@ -94,23 +94,21 @@ public class ProgramCommentsActivity extends AppCompatActivity implements SwipeR
             commentFAB.setVisibility(GONE);
         }
 
-        if(globalVariables.isOnline()){
-            if(myProgram.getComments().size()==0){
+        if (globalVariables.isOnline()) {
+            if (myProgram.getComments().size() == 0) {
                 progressDialog = ProgressDialog.show(activity, "",
                         "Loading...", true);
                 MyAsyncClass async = new MyAsyncClass();
                 async.execute("test");
-            }else{
+            } else {
                 setTheRest();
             }
 
-        }
-        else{
-            if(myProgram.getComments().size()>0){
+        } else {
+            if (myProgram.getComments().size() > 0) {
 
                 setTheRest();
-            }
-            else{
+            } else {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         activity);
 
@@ -140,7 +138,6 @@ public class ProgramCommentsActivity extends AppCompatActivity implements SwipeR
         }
 
 
-
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayoutComments);
 
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -148,8 +145,6 @@ public class ProgramCommentsActivity extends AppCompatActivity implements SwipeR
                 getResources().getColor(android.R.color.holo_green_light),
                 getResources().getColor(android.R.color.holo_orange_light),
                 getResources().getColor(android.R.color.holo_red_light));
-
-
 
 
     }
@@ -221,11 +216,11 @@ public class ProgramCommentsActivity extends AppCompatActivity implements SwipeR
         programCommentsListView.setAdapter(adapter);
         View empty = findViewById(R.id.empty);
         programCommentsListView.setEmptyView(empty);
-        if(comments.size()==0){
+        if (comments.size() == 0) {
             empty.setVisibility(View.VISIBLE);
             programCommentsListView.setVisibility(GONE);
         }
-        if(progressDialog!=null){
+        if (progressDialog != null) {
             progressDialog.cancel();
         }
         swipeRefreshLayout.setRefreshing(false);
@@ -284,7 +279,7 @@ public class ProgramCommentsActivity extends AppCompatActivity implements SwipeR
             JSONArray jsonArray = jsonParser.getJSONArrayFromUrl(PublicVariables.getCommentsURL + myProgram.getProgramID());
 
             comments = new ArrayList<>();
-            for(int i = 0; i<jsonArray.length();i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 try {
 
                     JSONObject json = (JSONObject) jsonArray.get(i);
@@ -292,8 +287,14 @@ public class ProgramCommentsActivity extends AppCompatActivity implements SwipeR
                     String name = json.getString("name");
                     String surname = json.getString("surname");
                     int rating = json.getInt("rating");
-                    byte[] photo = Base64.decode(json.getString("photo"), Base64.DEFAULT);
-                    comments.add(new CommentPOJO(photo, name + " " + surname,comment,rating));
+                    byte[] photo = null;
+                    try {
+                        photo = Base64.decode(json.getString("photo"), Base64.DEFAULT);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        photo = FunctionUtils.bitmapToByte(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.profile_man));
+                    }
+                    comments.add(new CommentPOJO(photo, name + " " + surname, comment, rating));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -305,9 +306,9 @@ public class ProgramCommentsActivity extends AppCompatActivity implements SwipeR
 
         @Override
         protected void onPostExecute(String s) {
-           // Toast.makeText(context, "postExecute", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(context, "postExecute", Toast.LENGTH_SHORT).show();
 
-           setTheRest();
+            setTheRest();
             super.onPostExecute(s);
         }
     }

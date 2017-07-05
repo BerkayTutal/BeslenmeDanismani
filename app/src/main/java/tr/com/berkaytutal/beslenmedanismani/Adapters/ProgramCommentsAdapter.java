@@ -59,11 +59,11 @@ public class ProgramCommentsAdapter extends BaseAdapter {
         TextView commentText = (TextView) item.findViewById(R.id.commentItemComment);
         TextView commentPoints = (TextView) item.findViewById(R.id.commentStarPoint);
 
-//        commentNumber.setText("#" + (i+1));
-//        commenterPhoto.setImageBitmap(comment.getCommenterPhoto());
-//        commenterName.setText(comment.getCommenterName());
-//        commentText.setText(comment.getCommentText());
-//        commentPoints.setText(comment.getStarPoints() + "/5");
+        commentNumber.setText("#" + (i+1));
+        commenterPhoto.setImageBitmap(comment.getCommenterPhoto());
+        commenterName.setText(comment.getCommenterName());
+        commentText.setText(comment.getCommentText());
+        commentPoints.setText(comment.getStarPoints() + "/5");
 
 
         return item;

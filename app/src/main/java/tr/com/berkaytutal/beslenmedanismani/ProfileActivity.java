@@ -222,7 +222,14 @@ public class ProfileActivity extends BaseDrawerActivity {
 
 
         myProgramsArrayList = userDataPOJO.getMyPrograms();
-        adapter = new ProgramListingAdapter(this, myProgramsArrayList);
+        ArrayList<ProgramPOJO> downloadedPrograms = new ArrayList<>();
+        for(ProgramPOJO programPOJO : myProgramsArrayList){
+            if(programPOJO.getExercisez()!= null){
+                downloadedPrograms.add(programPOJO);
+            }
+        }
+
+        adapter = new ProgramListingAdapter(this, downloadedPrograms);
         myProgramsListview.setAdapter(adapter);
         View empty = findViewById(R.id.empty);
         myProgramsListview.setEmptyView(empty);

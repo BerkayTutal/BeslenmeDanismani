@@ -34,6 +34,9 @@ public class CommentPOJO implements Serializable {
     }
 
     public Bitmap getCommenterPhoto() {
+        if(commenterPhoto==null){
+
+        }
         return BitmapFactory.decodeByteArray(commenterPhoto, 0, commenterPhoto.length);
     }
 

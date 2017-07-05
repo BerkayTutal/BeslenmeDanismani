@@ -3,6 +3,7 @@ package tr.com.berkaytutal.beslenmedanismani.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +70,28 @@ public class ProgramListingAdapter extends BaseAdapter {
         TextView ratingTxt = (TextView) listeElemani.findViewById(R.id.listingRatingTextView);
         TextView commentTxt = (TextView) listeElemani.findViewById(R.id.listingCommentTextView);
         TextView isPublishedTextView = (TextView) listeElemani.findViewById(R.id.listingPublishedTextview);
+        TextView isDownloadedTextView = (TextView) listeElemani.findViewById(R.id.listingDownloadedTextview);
+        TextView isBannedTextView = (TextView) listeElemani.findViewById(R.id.listingBannedTextview);
+        TextView priceTextView = (TextView) listeElemani.findViewById(R.id.listingPriceTextView);
+
+
+        if(programPOJO.getPrice()==0){
+            priceTextView.setText("FREE");
+            priceTextView.setTextColor(Color.GREEN);
+        }
+        else{
+            priceTextView.setText(programPOJO.getPrice() + " TL");
+        }
+
+
+        if(programPOJO.isBanned()){
+            isBannedTextView.setVisibility(View.VISIBLE);
+        }
+        if(programPOJO.getExercisez()!=null){
+            isDownloadedTextView.setVisibility(View.VISIBLE);
+        }
+
+
 
         ratingTxt.setText(programPOJO.getRating() + "/5");
         commentTxt.setText(programPOJO.getCommentCount() + "");

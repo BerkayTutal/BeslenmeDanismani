@@ -234,7 +234,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/myPrograms"
+                android:text="@string/downloadedPrograms"
                 android:textColor="#fff" />
 
             <ListView
@@ -246,7 +246,7 @@
             </ListView>
             <TextView
                 android:id="@+id/empty"
-                android:text="You have no programs."
+                android:text="You have downloaded no programs."
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:gravity="center"

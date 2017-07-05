@@ -31,6 +31,8 @@ public class AlertDialogActivity extends AppCompatActivity {
                     .setCancelable(false)
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
+                            ((GlobalVariables)getApplicationContext()).setShowingOnlineOfflineDialog(false);
+
                             // if this button is clicked, close
                             // current activity
                             dialog.dismiss();
@@ -60,6 +62,7 @@ public class AlertDialogActivity extends AppCompatActivity {
                     .setCancelable(false)
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
+                            ((GlobalVariables)getApplicationContext()).setShowingOnlineOfflineDialog(false);
                             // if this button is clicked, close
                             // current activity
                             dialog.dismiss();

@@ -3,6 +3,7 @@ package tr.com.berkaytutal.beslenmedanismani;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -42,6 +43,8 @@ public class EditProfileActivity extends BaseDrawerActivity {
 
     private Bitmap selectedBitmap;
     private byte[] photoByte;
+
+    private ProgressDialog progressDialog;
 
     private ImageView profileImage;
     private EditText nameEditText;
@@ -88,7 +91,6 @@ public class EditProfileActivity extends BaseDrawerActivity {
         if (selectedBitmap != null) {
             profileImage.setImageBitmap(selectedBitmap);
         }
-        // TODO do something with the bitmap
     }
 
     public void onPickImage(View view) {
@@ -105,7 +107,7 @@ public class EditProfileActivity extends BaseDrawerActivity {
 
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
 
-       InternetCheckAsync asyn = new InternetCheckAsync();
+        InternetCheckAsync asyn = new InternetCheckAsync();
         asyn.execute("test");
 
     }
@@ -136,7 +138,7 @@ public class EditProfileActivity extends BaseDrawerActivity {
         infoPrivate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO progressDialog
+
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         view.getContext());
@@ -221,7 +223,6 @@ public class EditProfileActivity extends BaseDrawerActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
-                        // TODO Auto-generated method stub
                         birthdayEditText.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);//Ayarla butonu tıklandığında textview'a yazdırıyoruz
                         dayM = dayOfMonth;
                         monthM = monthOfYear;
@@ -242,83 +243,178 @@ public class EditProfileActivity extends BaseDrawerActivity {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "magic happens here", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(view.getContext(), "magic happens here", Toast.LENGTH_SHORT).show();
 
-                if (currentPasswordEditText.getText().toString().equals(userPass)) {
+                android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(
+                        activity);
 
+                // set title
+                // alertDialogBuilder.setTitle("Info");
 
-                    jsonObject = new JSONObject();
-                    boolean isPrivate = isPrivateSwitch.isChecked();
-                    if (isPrivate) {
-                        try {
-                            jsonObject.accumulate("isPrivate", "Y");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        try {
-                            jsonObject.accumulate("isPrivate", "N");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    try {
-
-                        jsonObject.accumulate("user_ID", userDataPOJO.getUser_ID() + "");
-                        jsonObject.accumulate("name", nameEditText.getText().toString());
-                        jsonObject.accumulate("surname", surnameEditText.getText().toString());
-                        jsonObject.accumulate("birthday", birthdayEditText.getText().toString());
-                        jsonObject.accumulate("email", emailEditText.getText().toString());
-                        if (maleRadio.isChecked()) {
-                            jsonObject.accumulate("sex", "M");
-                        } else if (femaleRadio.isChecked()) {
-                            jsonObject.accumulate("sex", "F");
-
-                        }
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    if (!passwordEditText.getText().toString().replaceAll("[\\D]", "").equals("")) {
-                        if (passwordEditText.getText().toString().equals(passwordAgainEditText.getText().toString())) {
-                            try {
-                                jsonObject.accumulate("password", PasswordHashingMD5.md5(passwordEditText.getText().toString()));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                // set progressDialog message
+                alertDialogBuilder
+                        .setTitle("Update")
+                        .setMessage("Are you sure to update your profile?")
+                        .setCancelable(true)
+                        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
                             }
-                        } else {
-                            Toast.makeText(getApplicationContext(), "iki şifre de aynı olmalı", Toast.LENGTH_SHORT).show();
+                        })
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
 
-                        }
-                    } else {
-                        try {
-                            jsonObject.accumulate("password", PasswordHashingMD5.md5(userPass));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                                if (FunctionUtils.checkEmpty(nameEditText) && FunctionUtils.checkEmpty(surnameEditText) && FunctionUtils.checkEmpty(emailEditText) && FunctionUtils.checkEmpty(currentPasswordEditText)) {
+
+                                    if (currentPasswordEditText.getText().toString().equals(userPass)) {
+                                        boolean canIGo = true;
+                                        if (!passwordEditText.getText().toString().replaceAll("[\\D]", "").equals("")) {
+                                            if (!FunctionUtils.checkEmpty(passwordEditText) && !FunctionUtils.checkEmpty(passwordAgainEditText)) {
+                                                canIGo = false;
+                                            } else if (!passwordEditText.getText().toString().equals(passwordAgainEditText.getText().toString())) {
+                                                canIGo = false;
+
+                                                android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(
+                                                        activity);
+
+                                                // set title
+                                                // alertDialogBuilder.setTitle("Info");
+
+                                                // set progressDialog message
+                                                alertDialogBuilder
+
+                                                        .setMessage("Both of new password and new password (again) must be same!")
+                                                        .setCancelable(false)
+
+                                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int id) {
+                                                                dialog.dismiss();
+                                                            }
+                                                        });
 
 
-                    if (selectedBitmap != null) {
-                        photoByte = FunctionUtils.bitmapToByte(selectedBitmap);
-                    } else {
-                        photoByte = userDataPOJO.getPhotoByte();
-                    }
+                                                // create alert progressDialog
+                                                android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
 
-                    try {
-                        jsonObject.accumulate("userPhoto", Base64.encodeToString(photoByte, Base64.DEFAULT));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                                                // show it
+                                                alertDialog.show();
 
-                    MyRegisterAsync async = new MyRegisterAsync();
-                    async.execute("test");
+                                            }
+                                        }
+                                        if (canIGo) {
+
+                                            progressDialog = ProgressDialog.show(activity, "",
+                                                    "Loading...", true);
+                                            jsonObject = new JSONObject();
+                                            boolean isPrivate = isPrivateSwitch.isChecked();
+                                            if (isPrivate) {
+                                                try {
+                                                    jsonObject.accumulate("isPrivate", "Y");
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            } else {
+                                                try {
+                                                    jsonObject.accumulate("isPrivate", "N");
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                            try {
+
+                                                jsonObject.accumulate("user_ID", userDataPOJO.getUser_ID() + "");
+                                                jsonObject.accumulate("name", nameEditText.getText().toString());
+                                                jsonObject.accumulate("surname", surnameEditText.getText().toString());
+                                                jsonObject.accumulate("birthday", birthdayEditText.getText().toString());
+                                                jsonObject.accumulate("email", emailEditText.getText().toString());
+                                                if (maleRadio.isChecked()) {
+                                                    jsonObject.accumulate("sex", "M");
+                                                } else if (femaleRadio.isChecked()) {
+                                                    jsonObject.accumulate("sex", "F");
+
+                                                }
 
 
-                } else {
-                    Toast.makeText(getApplicationContext(), "şifren yanlış", Toast.LENGTH_SHORT).show();
-                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                            if (!passwordEditText.getText().toString().replaceAll("[\\D]", "").equals("")) {
+                                                if (passwordEditText.getText().toString().equals(passwordAgainEditText.getText().toString())) {
+                                                    try {
+                                                        jsonObject.accumulate("password", PasswordHashingMD5.md5(passwordEditText.getText().toString()));
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), "iki şifre de aynı olmalı", Toast.LENGTH_SHORT).show();
+
+                                                }
+                                            } else {
+                                                try {
+                                                    jsonObject.accumulate("password", PasswordHashingMD5.md5(userPass));
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+
+
+                                            if (selectedBitmap != null) {
+                                                photoByte = FunctionUtils.bitmapToByte(selectedBitmap);
+                                            } else {
+                                                photoByte = userDataPOJO.getPhotoByte();
+                                            }
+
+                                            try {
+                                                jsonObject.accumulate("userPhoto", Base64.encodeToString(photoByte, Base64.DEFAULT));
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+
+                                            MyRegisterAsync async = new MyRegisterAsync();
+                                            async.execute("test");
+
+
+                                        }
+
+                                    } else {
+
+                                        android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(
+                                                activity);
+
+                                        // set title
+                                        // alertDialogBuilder.setTitle("Info");
+
+                                        // set progressDialog message
+                                        alertDialogBuilder
+
+                                                .setMessage("Your password is wrong!")
+                                                .setCancelable(false)
+
+                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        dialog.dismiss();
+                                                    }
+                                                });
+
+
+                                        // create alert progressDialog
+                                        android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
+
+                                        // show it
+                                        alertDialog.show();
+                                    }
+                                }
+                            }
+                        });
+
+
+                // create alert progressDialog
+                android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
 
 
             }
@@ -336,7 +432,6 @@ public class EditProfileActivity extends BaseDrawerActivity {
         @Override
         protected Object doInBackground(Object[] objects) {
             if (FunctionUtils.isInternetAvailable()) {
-                //TODO download trainer details
                 return "OK";
             } else {
 
@@ -349,8 +444,7 @@ public class EditProfileActivity extends BaseDrawerActivity {
         protected void onPostExecute(Object o) {
             if ("OK".equals(o.toString())) {
                 setTheRest();
-            } else if("nointernet".equals(o.toString())){
-                //TODO "nointernetinternet yok canım progressDialog
+            } else if ("nointernet".equals(o.toString())) {
                 android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(
                         activity);
 
@@ -397,7 +491,31 @@ public class EditProfileActivity extends BaseDrawerActivity {
         @Override
         protected void onPostExecute(String result) {
             if (result.equals("false")) {
-                Toast.makeText(getApplicationContext(), "sorun oluştu", Toast.LENGTH_SHORT).show();
+                android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(
+                        activity);
+
+                // set title
+                // alertDialogBuilder.setTitle("Info");
+
+                // set progressDialog message
+                progressDialog.cancel();
+                alertDialogBuilder
+
+                        .setMessage("A problem occured.")
+                        .setCancelable(false)
+
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                            }
+                        });
+
+
+                // create alert progressDialog
+                android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
             } else if (result.equals("true")) {
 
                 SharedPreferences userDetails = getApplicationContext().getSharedPreferences("userdetails", MODE_PRIVATE);
@@ -410,6 +528,7 @@ public class EditProfileActivity extends BaseDrawerActivity {
                     edit.putString("userPass", passwordEditText.getText().toString());
                 }
                 edit.commit();
+                progressDialog.cancel();
                 Toast.makeText(getApplicationContext(), "Login details are saved..", Toast.LENGTH_LONG).show();
 
                 String sex = "M";

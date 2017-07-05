@@ -3,30 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp">
+    android:padding="5dp"
+>
+
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
         <TextView
+            android:id="@+id/commentItemNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="#1"
 
 
-            android:id="@+id/commentItemNumber"/>
+            android:text="#1" />
+
         <ImageView
             android:layout_width="15dp"
             android:layout_height="15dp"
-            app:srcCompat="@drawable/ic_star"/>
+            app:srcCompat="@drawable/ic_star" />
+
         <TextView
+            android:id="@+id/commentStarPoint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/commentStarPoint"
             android:text="4/5"
-            android:textSize="10dp"/>
+            android:textSize="10dp" />
     </LinearLayout>
 
     <ImageView

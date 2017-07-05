@@ -97,9 +97,9 @@ public class SplashScreenYEDEKBEFOREHIZLANDIRMA extends AppCompatActivity {
                     int commentCount = jobj.getInt("commentCount");
 
 
-                    program = new ProgramPOJO(diff, photo, programSpec, programTitle, programDescription, programID, trainerID, trainerName, trainerSurname, rating, commentCount);
-                    program.setPublished(true);
-                    allPrograms.add(program);
+//                    program = new ProgramPOJO(diff, photo, programSpec, programTitle, programDescription, programID, trainerID, trainerName, trainerSurname, rating, commentCount);
+//                    program.setPublished(true);
+//                    allPrograms.add(program);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

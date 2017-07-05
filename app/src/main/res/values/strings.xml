@@ -71,14 +71,16 @@
     <string name="indirildi">In Library!</string>
     <string name="baslat">Workout!</string>
     <string name="aboutTrainer">About Trainer</string>
+    <string name="bannedProgram">Banned Program</string>
 
     <!--profil detay sayfası değişkenleri-->
     <string name="bodyRates">Body Rates</string>
     <string name="myPrograms">My Programs</string>
+    <string name="downloadedPrograms">Downloaded Programs</string>
     <string name="editDetails">Edit Details</string>
     <string name="updateDetails">Update Details</string>
 
-    <string name="infoPrivateProfile">If you make your profile private no one can see your profile photo, name and body ratio data.</string>
+    <string name="infoPrivateProfile">If you make your profile private you will hide your full name and photo.</string>
     <string name="privateProfile">Private Profile</string>
     <string name="thisisprivateprofile">Your profile is private. Click to learn more</string>
 

@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import tr.com.berkaytutal.beslenmedanismani.AddMoneyActivity;
 import tr.com.berkaytutal.beslenmedanismani.AllListingsActivity;
 import tr.com.berkaytutal.beslenmedanismani.AllUsersActivity;
 import tr.com.berkaytutal.beslenmedanismani.HomepageActivity;
@@ -40,10 +41,11 @@ public class BaseDrawerActivity extends AppCompatActivity
     private TextView textViewUserName;
     private ImageView userProfileImageView;
     private LinearLayout moneyLinearLayout;
-    private TextView moneyText;
+    protected TextView moneyText;
     protected Intent searchIntent;
     protected boolean isTrainer = false;
     private UserDataPOJO userDataPOJO;
+    private ImageView addMoneyImageView;
 
     @Override
     public void setContentView(@LayoutRes int layoutID) {
@@ -89,6 +91,7 @@ public class BaseDrawerActivity extends AppCompatActivity
         userProfileImageView = (ImageView) header.findViewById(R.id.imageView);
         moneyLinearLayout = (LinearLayout) header.findViewById(R.id.navDraverMoneyLinearLayout);
         moneyText = (TextView) header.findViewById(R.id.nav_user_money);
+        addMoneyImageView = (ImageView) header.findViewById(R.id.headerAddMoney);
 
 
         userDataPOJO = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
@@ -138,7 +141,14 @@ public class BaseDrawerActivity extends AppCompatActivity
         try {
             int money = userDataPOJO.getMoney();
             moneyLinearLayout.setVisibility(View.VISIBLE);
-            moneyText.setText(money + "");
+            moneyText.setText(money + " TL");
+            addMoneyImageView.setVisibility(View.VISIBLE);
+            addMoneyImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(getApplicationContext(), AddMoneyActivity.class));
+                }
+            });
 
 
         } catch (Exception e) {
@@ -262,7 +272,6 @@ public class BaseDrawerActivity extends AppCompatActivity
 //            dbHelper.deleteUser(((GlobalVariables) getApplicationContext()).getUserDataPOJO().getUser_ID());
 
             ((GlobalVariables) getApplicationContext()).setUserDataPOJO(null);
-
 
 
             if (((GlobalVariables) getApplicationContext()).isOnline()) {

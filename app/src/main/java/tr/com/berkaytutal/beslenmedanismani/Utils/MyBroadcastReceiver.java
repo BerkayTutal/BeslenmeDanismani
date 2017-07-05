@@ -7,6 +7,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -33,8 +35,53 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         if (isAppForground(context)) {
             this.context = context;
             globalVariables = ((GlobalVariables) context.getApplicationContext());
-            NetworkCheckAsyncClass asyncCalss = new NetworkCheckAsyncClass();
-            asyncCalss.execute("");
+
+            if (!globalVariables.isShowingOnlineOfflineDialog()) {
+                globalVariables.setShowingOnlineOfflineDialog(true);
+                NetworkCheckAsyncClass asyncCalss = new NetworkCheckAsyncClass();
+                asyncCalss.execute("");
+            }
+
+
+//
+//
+//
+//            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+//            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+//
+//            if(activeNetworkInfo == null){
+//                //no network
+//            } else {
+//                NetworkInfo.State state = activeNetworkInfo.getState();
+//                if(state == NetworkInfo.State.CONNECTED){
+//                    globalVariables.setShowingOnlineOfflineDialog(true);
+//                    NetworkCheckAsyncClass asyncCalss = new NetworkCheckAsyncClass();
+//                    asyncCalss.execute("");
+//                }
+//
+//                switch (state){
+//                    case CONNECTED:
+//
+//                        break;
+//                    case CONNECTING:
+//                        break;
+//                    case DISCONNECTED:
+//                        break;
+//                    case DISCONNECTING:
+//                        break;
+//                    case SUSPENDED:
+//                        break;
+//                    case UNKNOWN:
+//                        break;
+//                }
+//            }
+////
+////            if(!globalVariables.isShowingOnlineOfflineDialog()){
+////                globalVariables.setShowingOnlineOfflineDialog(true);
+////                NetworkCheckAsyncClass asyncCalss = new NetworkCheckAsyncClass();
+////                asyncCalss.execute("");
+////            }
+
 
         } else {
             // App is in Background
@@ -80,7 +127,6 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             Log.d("CURRENTACTIVITY", "CURRENT Activity ::" + taskInfo.get(0).topActivity.getClassName() + "   Package Name :  " + componentInfo.getPackageName());
 
 
-
             if (o.toString().equals("yesinternet")) {
                 Toast.makeText(context, "internet geldi", Toast.LENGTH_SHORT).show();
 
@@ -90,10 +136,11 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                         globalVariables.setSwitchFromOffline(true);
                     }
                 } else {
-                   //offline to online
+
+                    //offline to online
                     Intent i = new Intent(context, AlertDialogActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    i.putExtra("fromOffline",true);
+                    i.putExtra("fromOffline", true);
                     context.startActivity(i);
                 }
 
@@ -110,7 +157,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                     //online to offline
                     Intent i = new Intent(context, AlertDialogActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    i.putExtra("fromOffline",false);
+                    i.putExtra("fromOffline", false);
                     context.startActivity(i);
 
                 }

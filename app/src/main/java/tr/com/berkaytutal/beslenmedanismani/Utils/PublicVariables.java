@@ -25,6 +25,11 @@ public interface PublicVariables {
 
     int homepageListingCount = 3;
 
+
+
+    String addMoneyURL= "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/loadMoney/";
+
+
     String insertBodyRatioURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/insertUserBodyRates/";
 
     String programDiffURL = "http://denememustafa.azurewebsites.net/bitirmewebservice/webapi/myresource/getProgramDiffParameters";

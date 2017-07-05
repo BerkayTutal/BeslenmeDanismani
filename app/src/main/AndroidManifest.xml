@@ -53,9 +53,10 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".Utils.AlertDialogActivity"
-            android:theme="@style/Theme.AppCompat.Translucent"
-            />
+        <activity
+            android:name=".Utils.AlertDialogActivity"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+        <activity android:name=".AddMoneyActivity"></activity>
     </application>
 
 </manifest>

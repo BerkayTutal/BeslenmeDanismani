@@ -107,11 +107,11 @@ public class LoginActivity extends AppCompatActivity {
                 email = emailEditText.getText().toString();
                 password = passwordEditText.getText().toString();
 
-                Toast.makeText(getApplicationContext(), email + " " + password + " login", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), email + " " + password + " login", Toast.LENGTH_SHORT).show();
 
-                if (isMainLogin) {
-                    Toast.makeText(getApplicationContext(), "main login", Toast.LENGTH_SHORT).show();
-                }
+//                if (isMainLogin) {
+//                    Toast.makeText(getApplicationContext(), "main login", Toast.LENGTH_SHORT).show();
+//                }
 
                 MyLoginAsync loginAsync = new MyLoginAsync();
                 loginAsync.execute("test2");
@@ -426,7 +426,33 @@ public class LoginActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        ProgramPOJO myProgram = new ProgramPOJO(programDiff, imageByte, programSpecName, programTittle, programDescription, program_ID, trainer_id, trainerName, trainerSurname, rating, commentCount);
+
+                        boolean isProgramBanned = false;
+                        boolean isTrainerBanned = false;
+                        String reason = null;
+                        try {
+                            isProgramBanned = program.getBoolean("programIsBanned");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            isTrainerBanned = program.getBoolean("trainerIsBanned");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            reason = program.getString("programBannedReason");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        int price = 0;
+                        try {
+                            price = program.getInt("programPrice");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        ProgramPOJO myProgram = new ProgramPOJO(programDiff, imageByte, programSpecName, programTittle, programDescription, program_ID, trainer_id, trainerName, trainerSurname, rating, commentCount, isProgramBanned, isTrainerBanned, reason, price);
                         myProgram.setPublished(isPublished);
                         myPrograms.add(myProgram);
                     }

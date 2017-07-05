@@ -35,5 +35,6 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.5'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     compile 'com.github.Mariovc:ImagePicker:1.1.1'
+
     testCompile 'junit:junit:4.12'
 }

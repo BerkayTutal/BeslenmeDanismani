@@ -15,8 +15,15 @@ public class GlobalVariables extends Application {
 
     private boolean switchOnlineOffline = false;
     private boolean switchFromOffline = false;
+    private boolean isShowingOnlineOfflineDialog = false;
 
+    public boolean isShowingOnlineOfflineDialog() {
+        return isShowingOnlineOfflineDialog;
+    }
 
+    public void setShowingOnlineOfflineDialog(boolean showingOnlineOfflineDialog) {
+        isShowingOnlineOfflineDialog = showingOnlineOfflineDialog;
+    }
 
     public HashMap<Integer,Integer> circleCountHolder;
 
