@@ -9,6 +9,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import tr.com.berkaytutal.beslenmedanismani.Adapters.ProgramOverviewAdapter;
+import tr.com.berkaytutal.beslenmedanismani.Utils.AlertDialogActivity;
 import tr.com.berkaytutal.beslenmedanismani.Utils.BaseDrawerActivity;
 import tr.com.berkaytutal.beslenmedanismani.Utils.CircleMakerHelper;
 import tr.com.berkaytutal.beslenmedanismani.Utils.CircleTekrarAbsPOJO;
@@ -28,6 +29,24 @@ public class ProgramOverviewActivity extends BaseDrawerActivity {
 
     private Button programStartButton;
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (((GlobalVariables) getApplicationContext()).isSwitchOnlineOffline()) {
+            if (((GlobalVariables) getApplicationContext()).isSwitchFromOffline()) {
+                Intent i = new Intent(this, AlertDialogActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.putExtra("fromOffline", true);
+                startActivity(i);
+            } else {
+                Intent i = new Intent(this, AlertDialogActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.putExtra("fromOffline", false);
+                startActivity(i);
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +77,8 @@ public class ProgramOverviewActivity extends BaseDrawerActivity {
         programStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),ProgramPlayActivity.class);
-                intent.putExtra("programID",programID);
+                Intent intent = new Intent(getApplicationContext(), ProgramPlayActivity.class);
+                intent.putExtra("programID", programID);
                 startActivity(intent);
             }
         });

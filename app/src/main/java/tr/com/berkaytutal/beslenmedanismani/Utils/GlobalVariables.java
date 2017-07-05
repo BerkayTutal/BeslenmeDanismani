@@ -13,6 +13,11 @@ public class GlobalVariables extends Application {
 
     private boolean isOnline = true;
 
+    private boolean switchOnlineOffline = false;
+    private boolean switchFromOffline = false;
+
+
+
     public HashMap<Integer,Integer> circleCountHolder;
 
 
@@ -22,6 +27,31 @@ public class GlobalVariables extends Application {
     private UserDataPOJO userDataPOJO;
     private ArrayList<ProgramDifficultyPOJO> programDifficulties;
     private ArrayList<ProgramCategoryPOJO> programCategories;
+
+
+    public boolean isSwitchFromOffline() {
+        return switchFromOffline;
+    }
+
+    public void setSwitchFromOffline(boolean switchFromOffline) {
+        this.switchFromOffline = switchFromOffline;
+    }
+
+    public boolean isSwitchOnlineOffline() {
+        return switchOnlineOffline;
+    }
+
+    public void setSwitchOnlineOffline(boolean switchOnlineOffline) {
+        this.switchOnlineOffline = switchOnlineOffline;
+    }
+
+    public HashMap<Integer, Integer> getCircleCountHolder() {
+        return circleCountHolder;
+    }
+
+    public void setCircleCountHolder(HashMap<Integer, Integer> circleCountHolder) {
+        this.circleCountHolder = circleCountHolder;
+    }
 
     public boolean isOnline() {
         return isOnline;

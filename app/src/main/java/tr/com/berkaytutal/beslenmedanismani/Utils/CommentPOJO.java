@@ -12,15 +12,14 @@ import java.io.Serializable;
 public class CommentPOJO implements Serializable {
 
     private byte[] commenterPhoto;
-    private int commentID;
+
     private String commenterName;
     private String commentText;
     private int starPoints;
 
 
-    public CommentPOJO(byte[] commenterPhoto, int commentID, String commenterName, String commentText, int starPoints) {
+    public CommentPOJO(byte[] commenterPhoto, String commenterName, String commentText, int starPoints) {
         this.commenterPhoto = commenterPhoto;
-        this.commentID = commentID;
         this.commenterName = commenterName;
         this.commentText = commentText;
         this.starPoints = starPoints;
@@ -42,13 +41,6 @@ public class CommentPOJO implements Serializable {
         this.commenterPhoto = commenterPhoto;
     }
 
-    public int getCommentID() {
-        return commentID;
-    }
-
-    public void setCommentID(int commentID) {
-        this.commentID = commentID;
-    }
 
     public String getCommenterName() {
         return commenterName;

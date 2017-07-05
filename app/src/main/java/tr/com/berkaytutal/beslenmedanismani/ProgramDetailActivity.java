@@ -1,11 +1,14 @@
 package tr.com.berkaytutal.beslenmedanismani;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
@@ -85,43 +88,74 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
     private TextView commentCountTextView;
     private TextView ratingTextView;
 
+    private Activity activity;
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.appBarReportButton) {
-            Toast.makeText(getApplicationContext(), "report", Toast.LENGTH_SHORT).show();
-            final Dialog dialog = new Dialog(this);
-            dialog.setContentView(R.layout.custom_dialog_report);
+//            Toast.makeText(getApplicationContext(), "report", Toast.LENGTH_SHORT).show();
+            if (((GlobalVariables) getApplicationContext()).isOnline()) {
 
-            Button cancelButton = (Button) dialog.findViewById(R.id.dialogReportCancelButton);
-            Button reportButton = (Button) dialog.findViewById(R.id.dialogReportYesButton);
-            final EditText reasonEditText = (EditText) dialog.findViewById(R.id.dialogReportEditText);
+                final Dialog dialog = new Dialog(this);
+                dialog.setContentView(R.layout.custom_dialog_report);
 
-            cancelButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-            });
-            reportButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String reason = reasonEditText.getText().toString();
+                Button cancelButton = (Button) dialog.findViewById(R.id.dialogReportCancelButton);
+                Button reportButton = (Button) dialog.findViewById(R.id.dialogReportYesButton);
+                final EditText reasonEditText = (EditText) dialog.findViewById(R.id.dialogReportEditText);
 
-                    Toast.makeText(view.getContext(), reason, Toast.LENGTH_SHORT).show();
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                reportButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String reason = reasonEditText.getText().toString();
 
-                    ReportAsyncClass async = new ReportAsyncClass();
-                    async.execute(reason);
+                        Toast.makeText(view.getContext(), reason, Toast.LENGTH_SHORT).show();
 
-                    //TODO buraya async yazılacak rapor atması için
-                    dialog.dismiss();
-                }
-            });
-            dialog.setCanceledOnTouchOutside(true);
+                        ReportAsyncClass async = new ReportAsyncClass();
+                        async.execute(reason);
 
-            dialog.show();
+                        //TODO buraya async yazılacak rapor atması için
+                        dialog.dismiss();
+                    }
+                });
+                dialog.setCanceledOnTouchOutside(true);
+
+                dialog.show();
+
+            } else {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        activity);
+
+                // set title
+                // alertDialogBuilder.setTitle("Info");
+
+                // set progressDialog message
+                alertDialogBuilder
+                        .setMessage("You need internet to report this program.")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // if this button is clicked, close
+                                // current activity
+                                dialog.dismiss();
+                            }
+                        });
+
+
+                // create alert progressDialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+            }
             return true;
         }
 
@@ -152,7 +186,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         setContentView(R.layout.activity_program_detail);
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         programID = getIntent().getIntExtra("programID", 0);
-
+        this.activity = this;
         setTheRest();
 
     }
@@ -333,7 +367,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
 
     private void goTrainerPage() {
         Intent i = new Intent(this, TrainerDetailPage.class);
-        i.putExtra("userID", program.getTrainerID());
+        i.putExtra("trainerID", program.getTrainerID());
         startActivity(i);
 
     }
@@ -443,7 +477,7 @@ public class ProgramDetailActivity extends BaseDrawerActivity {
         protected Object doInBackground(Object[] objects) {
 
             JSONParser jsonParser = new JSONParser();
-            jsonArray = jsonParser.getJSONArrayFromUrl(PublicVariables.getProgramDetailsURL + program.getProgramID() );
+            jsonArray = jsonParser.getJSONArrayFromUrl(PublicVariables.getProgramDetailsURL + program.getProgramID());
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject json = new JSONObject();
                 try {

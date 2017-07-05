@@ -33,6 +33,14 @@ import tr.com.berkaytutal.beslenmedanismani.Utils.TrainerPOJO;
 public class SplashScreen extends AppCompatActivity {
     private Activity activity;
 
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        int pid = android.os.Process.myPid();
+//        android.os.Process.killProcess(pid);
+//    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

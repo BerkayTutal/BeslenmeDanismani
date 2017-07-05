@@ -19,7 +19,7 @@ public class ProgramPOJO implements Serializable {
     private String programDescription;
     private int programID;
     private int trainerID;
-    private boolean isPublished;
+    private boolean isPublished = true;
 
     private String trainerName;
     private String trainerSurname;

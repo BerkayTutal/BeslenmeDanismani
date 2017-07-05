@@ -198,7 +198,6 @@ public class TrainerDetailPage extends BaseDrawerActivity implements SwipeRefres
             if ("OK".equals(o.toString())) {
                 setTheRest();
             } else {
-                //TODO internet yok canım progressDialog
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         activity);
 

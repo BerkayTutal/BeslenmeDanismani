@@ -281,7 +281,7 @@ public class ProgramSearchFilterActivity extends AppCompatActivity {
 
 
                     program = new ProgramPOJO(diff, photo, programSpec, programTitle, programDescription, programID, trainerID, trainerName, trainerSurname,rating,commentCount);
-
+                    program.setPublished(true);
                     allPrograms.add(program);
                 } catch (JSONException e) {
                     e.printStackTrace();

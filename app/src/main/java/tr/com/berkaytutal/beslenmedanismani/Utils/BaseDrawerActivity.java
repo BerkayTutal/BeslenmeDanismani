@@ -264,10 +264,16 @@ public class BaseDrawerActivity extends AppCompatActivity
             ((GlobalVariables) getApplicationContext()).setUserDataPOJO(null);
 
 
-            //TODO buraya databaseden silme kısmını da eklemem lazım
 
-            Intent i = new Intent(this, LoginActivity.class);
-            startActivity(i);
+            if (((GlobalVariables) getApplicationContext()).isOnline()) {
+
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
+
+            } else {
+                int pid = android.os.Process.myPid();
+                android.os.Process.killProcess(pid);
+            }
             finish();
         }
 
