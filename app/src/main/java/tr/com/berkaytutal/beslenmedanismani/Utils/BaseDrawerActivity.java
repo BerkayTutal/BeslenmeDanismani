@@ -320,8 +320,8 @@ public class BaseDrawerActivity extends AppCompatActivity
 //                overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
 
 
-                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+//                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                            .setAction("Action", null).show();
                 }
             });
         } else if (type == PublicVariables.FILTER_BUTTON_TYPE_USER) {
