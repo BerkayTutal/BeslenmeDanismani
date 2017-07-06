@@ -128,7 +128,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
 
 
             if (o.toString().equals("yesinternet")) {
-                Toast.makeText(context, "internet geldi", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "internet geldi", Toast.LENGTH_SHORT).show();
 
                 if (taskInfo.get(0).topActivity.getClassName().equals("tr.com.berkaytutal.beslenmedanismani.ProgramPlayActivity")) {
                     if (globalVariables.isOnline()) {
@@ -146,7 +146,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
 
                 //yesinternet sonu
             } else {
-                Toast.makeText(context, "internet gitti", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "internet gitti", Toast.LENGTH_SHORT).show();
                 if (taskInfo.get(0).topActivity.getClassName().equals("tr.com.berkaytutal.beslenmedanismani.ProgramPlayActivity")) {
                     if (globalVariables.isOnline()) {
                         globalVariables.setSwitchOnlineOffline(true);

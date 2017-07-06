@@ -3,7 +3,10 @@ package tr.com.berkaytutal.beslenmedanismani;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +33,15 @@ import static android.view.View.GONE;
 public class ProgramPlayActivity extends AppCompatActivity {
 
     private boolean doubleBackToExitPressedOnce = false;
+
+    private boolean isFinished = false;
+
+    private CountDownTimer cdt;
+    private CountDownTimer cdt2;
+    private CountDownTimer cdt3;
+
+    private Button startButton;
+    private Button finishButton;
 
 
     private ImageView photo1ImageView;
@@ -65,6 +77,9 @@ public class ProgramPlayActivity extends AppCompatActivity {
     private int maxExerciseIndex;
 
 
+    private LinearLayout remainingTimeLinearLayout;
+    private TextView remainingTimeTextView;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +114,11 @@ public class ProgramPlayActivity extends AppCompatActivity {
 
         notChestLayout = (LinearLayout) findViewById(R.id.circleExerciseNotChestLayout);
         exerciseTime = (TextView) findViewById(R.id.circleExerciseTime);
+
+        remainingTimeLinearLayout = (LinearLayout) findViewById(R.id.remainingTimeLinearLayout);
+        remainingTimeTextView = (TextView) findViewById(R.id.remainingTimeTextView);
+
+        startButton = (Button) findViewById(R.id.circleButtonStart);
 
 
         programID = getIntent().getIntExtra("programID", 0);
@@ -171,6 +191,7 @@ public class ProgramPlayActivity extends AppCompatActivity {
                 nextExerciseIndex = currentExerciseIndex + 1;
             } else {
                 nextButton.setVisibility(GONE);
+                isFinished = true;
 
             }
         } else {
@@ -188,12 +209,12 @@ public class ProgramPlayActivity extends AppCompatActivity {
                 if (currentExerciseIndex != maxExerciseIndex) {
                     nextExerciseIndex = currentExerciseIndex + 1;
                 } else {
-                    //TODO finish kismi
+                    isFinished = true;
                 }
             } else if (currentExerciseIndex != maxExerciseIndex) {
                 nextExerciseIndex = currentExerciseIndex + 1;
             } else {
-                //TODO buraya finish kismi ile ilgili seyler koyulacak
+                isFinished = true;
 
             }
 
@@ -213,8 +234,34 @@ public class ProgramPlayActivity extends AppCompatActivity {
         restTime.setText(exercise.getRestTime() + "s");
 
 
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callExercise(true);
+            }
+        });
 
+        cdt2 = new CountDownTimer(exercise.getRestTime() * 1000, 1000) { //Sets 10 second remaining
 
+            public void onTick(long millisUntilFinished) {
+                remainingTimeTextView.setText("Remaining Rest Time: " + millisUntilFinished / 1000 + "s");
+            }
+
+            public void onFinish() {
+
+                //todo sound
+                //nextButton.callOnClick();
+                try {
+                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                    Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                    r.play();
+                    r.play();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                remainingTimeTextView.setText("DONE!");
+            }
+        };
 
         if (!PublicVariables.CARDIO.equals(exercise.getExerciseType())) {
             ChestPOJO chest = (ChestPOJO) exercise;
@@ -222,11 +269,79 @@ public class ProgramPlayActivity extends AppCompatActivity {
             weightTextView.setText(chest.getAgirlik() + "kg");
             setTextView.setText(chest.getSetSayisi() + "");
             repeatTextView.setText(chest.getTekrarSayisi() + "");
+            //pauseButton.setVisibility(GONE);
 
         } else {
-            CardioPOJO notChest = (CardioPOJO) exercise;
+            final CardioPOJO notChest = (CardioPOJO) exercise;
             notChestLayout.setVisibility(View.VISIBLE);
             exerciseTime.setText(notChest.getExerciseTime() + "s");
+
+            remainingTimeLinearLayout.setVisibility(View.VISIBLE);
+            remainingTimeTextView.setText("Press start");
+
+
+            cdt = new CountDownTimer(notChest.getExerciseTime() * 1000, 1000) { //Sets 10 second remaining
+
+                public void onTick(long millisUntilFinished) {
+                    remainingTimeTextView.setText("Remaining Time: " + millisUntilFinished / 1000 + "s");
+                }
+
+                public void onFinish() {
+                    //todo sound
+                    try {
+                        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                        r.play();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    cdt2.start();
+
+
+                }
+            };
+            nextButton.setVisibility(GONE);
+            startButton.setVisibility(View.VISIBLE);
+            startButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    view.setVisibility(GONE);
+                    nextButton.setVisibility(View.VISIBLE);
+
+                    try {
+                        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                        r.play();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    cdt3 = new CountDownTimer(3000, 1000) {
+
+                        @Override
+                        public void onTick(long l) {
+                            remainingTimeTextView.setText("Starting in " + l / 1000 + "s");
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            try {
+                                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                                Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                                r.play();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+
+                            cdt.start();
+
+                        }
+                    }.start();
+                }
+            });
+
+
         }
 
 
@@ -242,14 +357,18 @@ public class ProgramPlayActivity extends AppCompatActivity {
                 }
             });
         }
-        nextButton.setOnClickListener(new View.OnClickListener() {
+
+        finishButton = (Button) findViewById(R.id.circleButtonFinish);
+        finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callExercise(true);
+                finish();
+                overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
             }
         });
-
-
+        if (isFinished) {
+            finishButton.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -276,6 +395,24 @@ public class ProgramPlayActivity extends AppCompatActivity {
         videoView.pause();
         super.onPause();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+        try {
+            cdt.cancel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            cdt2.cancel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            cdt3.cancel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private void callExercise(boolean isNext) {
@@ -291,4 +428,5 @@ public class ProgramPlayActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
 }

@@ -12,7 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.9"
+        android:layout_weight="1"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -21,7 +21,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+
             android:padding="10dp">
 
             <LinearLayout
@@ -176,6 +176,7 @@
             </LinearLayout>
         </ScrollView>
 
+
         <!--<ImageView-->
         <!--android:id="@+id/circlePhoto2"-->
         <!--android:layout_width="match_parent"-->
@@ -183,11 +184,29 @@
         <!--android:layout_margin="10dp"-->
         <!--android:layout_weight="1" />-->
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/remainingTimeLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
 
+
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:visibility="gone">
+        <TextView
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:id="@+id/remainingTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remaining Time: "/>
+
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="10dp"
+
 
         android:gravity="center">
         <ImageView
@@ -207,8 +226,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1.6"
+        android:layout_height="60dp"
+
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
@@ -227,7 +246,8 @@
             android:layout_weight="1"
             android:background="@color/colorPrimaryDark"
             android:text="Pause"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/circleButtonNext"
@@ -238,6 +258,26 @@
             android:background="@color/colorAccent"
             android:text="Next"
             android:textColor="#fff" />
+        <Button
+            android:id="@+id/circleButtonStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="3"
+            android:background="@color/colorGreen"
+            android:text="Start!"
+            android:textColor="#fff"
+            android:visibility="gone"/>
+        <Button
+            android:id="@+id/circleButtonFinish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="3"
+            android:background="@color/colorRedDark"
+            android:text="Finish"
+            android:textColor="#fff"
+            android:visibility="gone"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -171,6 +171,7 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(Object o) {
 
             super.onPostExecute(o);
+            progressDialog.cancel();
             if ("nointernet".equals(o.toString())) {
                 ((GlobalVariables) getApplicationContext()).setOnline(false);
                 UserDataPOJO user = ((GlobalVariables) getApplicationContext()).getUserDataPOJO();
@@ -188,7 +189,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 } else {
 
-                    progressDialog.cancel();
+
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                             loginActivity);
 
@@ -216,7 +217,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
             } else if ("wrongLogin".equals(o.toString())) {
-                progressDialog.cancel();
+
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         loginActivity);
 
